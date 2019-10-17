@@ -21,7 +21,8 @@ steps:
   displayName: 'npm install and build'
 
 - script: |
-    npm run test
+    npm run cover
+    npm run cover:cobertura
   displayName: 'Run tests'
 
 - task: PublishTestResults@2
@@ -29,3 +30,12 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'test-results.xml'
+
+
+
+- task: PublishCodeCoverageResults@1
+  displayName: "Publish code coverage"
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: 'coverage/cobertura-coverage.xml'
+    reportDirectory: 'coverage'

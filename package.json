@@ -11,6 +11,7 @@
     "test:watch": "npm test -- --watch",
     "cover": "nyc --check-coverage npm run test:only",
     "cover:html": "npx nyc report --reporter=html && \"%PROGRAMFILES(X86)%\\Google\\Chrome\\Application\\chrome\" coverage\\index.html",
+    "cover:cobertura": "npx nyc report --reporter=cobertura",
     "lint": "eslint src test",
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
