@@ -26,7 +26,10 @@ steps:
   - task: CopyFiles@2
     displayName: 'Copy files to artifacts'
     inputs:
-      Contents: '**'
+      Contents: |
+        **/*
+        !.git/**/*
+        !node_modules/**/*
       TargetFolder: '$(build.artifactstagingdirectory)'
 
   - task: PublishBuildArtifacts@1
