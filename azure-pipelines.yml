@@ -23,6 +23,12 @@ steps:
       npm run prepublish
     displayName: 'Prepublish'
 
+  - task: CopyFiles@2
+    displayName: 'Copy files to artifacts'
+    inputs:
+      Contents: '**'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifacts'
     inputs:
