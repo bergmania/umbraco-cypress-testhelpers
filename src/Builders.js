@@ -1,17 +1,5 @@
 import  * as Helpers from './Helpers'
 
-export class Builder{
-
-  Form = new FormBuilder();
-  Content = new ContentBuilder();
-  DocumentType = new DocumentTypeBuilder();
-}
-
-/**
- *
- * @namespace faker
- */
-
 /////////////////  DataType START  //////////////
 export class FormPickerDataTypeBuilder {
   action;

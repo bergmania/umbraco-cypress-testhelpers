@@ -1,10 +1,10 @@
 import { assert } from 'chai';
-import { FormBuilder} from "../../src/Builders";
 import faker from 'faker'
+import {Builder} from "../../src/index";
 
 describe('FormBuilder', () => {
   it('Default build', () => {
-    const actual = new FormBuilder()
+    const actual = Builder.Form()
       .build();
     assert(actual.id != null,  'The id must be set');
   });
@@ -17,7 +17,7 @@ describe('FormBuilder', () => {
     const fieldSetCaption = faker.lorem.sentence();
     const containerCaption = faker.lorem.sentence();
 
-    const actual = new FormBuilder()
+    const actual = Builder.Form()
       .addPage()
       .withCaption(pageCaption)
         .addFieldSet()

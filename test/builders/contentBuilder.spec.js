@@ -1,11 +1,11 @@
 import { assert } from 'chai';
-import {ContentBuilder} from "../../src/Builders";
-import faker from 'faker'
+import {Builder} from "../../src/index";
 
+import faker from 'faker'
 describe('ContentBuilder', () => {
   it('Default build', () => {
 
-    const actual = new ContentBuilder()
+    const actual = Builder.Content()
       .build();
     assert.equal(actual.id, 0);
     assert.equal(actual.parentId, -1);
@@ -21,7 +21,7 @@ describe('ContentBuilder', () => {
     var formPickerAlias = faker.hacker.adjective();
     var formId = faker.random.uuid();
 
-    var actual = new ContentBuilder()
+    var actual = Builder.Content()
       .withContentTypeAlias(contentTypeAlias)
       .addVariant()
         .withSave(save)

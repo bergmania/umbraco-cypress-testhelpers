@@ -1,10 +1,10 @@
 import { assert } from 'chai';
-import {FormBuilder, FormPickerDataTypeBuilder} from "../../src/Builders";
+import {Builder} from "../../src/index";
 import faker from 'faker'
 
 describe('DataType Builders', () => {
   it('FormPickerDataTypeBuilder Default', () => {
-    const actual = new FormPickerDataTypeBuilder()
+    const actual = Builder.DataTypes.FormPicker()
       .build();
 
     assert.equal(actual.selectedEditor ,"UmbracoForms.FormPicker");
@@ -17,7 +17,7 @@ describe('DataType Builders', () => {
     const id = faker.random.number();
     const formId = faker.random.uuid();
 
-    const actual = new FormPickerDataTypeBuilder()
+    const actual = Builder.DataTypes.FormPicker()
       .withAction(action)
       .withId(id)
       .withName(name)
@@ -38,7 +38,7 @@ describe('DataType Builders', () => {
     const formId1 = faker.random.uuid();
     const formId2 = faker.random.uuid();
 
-    const actual = new FormPickerDataTypeBuilder()
+    const actual = Builder.DataTypes.FormPicker()
       .withAllowedForms([formId1, formId2])
       .build();
 

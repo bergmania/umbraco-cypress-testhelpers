@@ -1,10 +1,10 @@
 import { assert } from 'chai';
-import { DocumentTypeBuilder} from "../../src/Builders";
+import {Builder} from "../../src/index";
 import faker from 'faker'
 
 describe('DocumentTypeBuilder', () => {
   it('Default build', () => {
-    const actual = new DocumentTypeBuilder()
+    const actual = Builder.DocumentType()
       .build();
     assert(actual.alias != null,  'The alias must be set');
   });
@@ -13,7 +13,7 @@ describe('DocumentTypeBuilder', () => {
     const dataTypeId = faker.random.uuid();
     const formPickerAlias = faker.hacker.adjective();
 
-    const actual = new DocumentTypeBuilder()
+    const actual = Builder.DocumentType()
       .withAllowAsRoot(true)
       .addGroup()
         .addFormPickerProperty()

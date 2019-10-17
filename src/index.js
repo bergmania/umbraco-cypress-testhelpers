@@ -10,10 +10,16 @@
 // export { awesomeFunction };
 
 
-const Builders = require('./Builders');
-const Helpers = require('./Helpers');
+import {ContentBuilder, DocumentTypeBuilder, FormBuilder, FormPickerDataTypeBuilder} from "./Builders";
 
-module.exports = {
-  Builders,
-  Helpers
+export default {
+  Builder: {
+    Content: () => new ContentBuilder(),
+    Form: () => new FormBuilder(),
+    DocumentType: () => new DocumentTypeBuilder(),
+    DataTypes: {
+      FormPicker: () => new FormPickerDataTypeBuilder(),
+    }
+
+  },
 };
