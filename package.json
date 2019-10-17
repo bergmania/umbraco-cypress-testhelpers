@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/umbraco/umbraco-cypress-testhelpers.git"
+    "url": "git+https://github.com/bergmania/umbraco-cypress-testhelpers.git"
   },
   "keywords": [
     "umbraco",
@@ -31,12 +31,12 @@
     "e2e",
     "test"
   ],
-  "author": "Umbraco HQ",
+  "author": "Bjarke Berg",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/umbraco/umbraco-cypress-testhelpers/issues"
+    "url": "https://github.com/bergmania/umbraco-cypress-testhelpers/issues"
   },
-  "homepage": "https://github.com/umbraco/umbraco-cypress-testhelpers",
+  "homepage": "https://github.com/bergmania/umbraco-cypress-testhelpers",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.3",
