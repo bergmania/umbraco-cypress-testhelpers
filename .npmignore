@@ -19,9 +19,12 @@ yarn.lock
 # project files
 src
 test
-CHANGELOG.md
+CHANGELOG.md,
+test-results.xml
 .editorconfig
 .eslintignore
 .eslintrc
 .babelrc
 .gitignore
+
+

@@ -43,3 +43,4 @@ yarn.lock
 
 others
 .DS_Store
+/test-results.xml

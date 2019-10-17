@@ -4,38 +4,28 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- dev
+  - master
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+  - script: |
+      npm install
+    displayName: 'npm install'
 
-- script: |
-    npm run cover
-    npm run cover:cobertura
-  displayName: 'Run tests'
+  - script: |
+      npm run prepublish
+    displayName: 'Prepublish'
 
-- task: PublishTestResults@2
-  displayName: "Publish test results"
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'test-results.xml'
-
-
-
-- task: PublishCodeCoverageResults@1
-  displayName: "Publish code coverage"
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: 'coverage/cobertura-coverage.xml'
-    reportDirectory: 'coverage'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'Content'
+      publishLocation: 'Container'
