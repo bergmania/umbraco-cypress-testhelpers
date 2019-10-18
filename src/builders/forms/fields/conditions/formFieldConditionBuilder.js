@@ -35,11 +35,6 @@ export default class FormFieldConditionBuilder {
 
 
   build() {
-
-    if(!this.enabled){
-      return null;
-    }
-
     return {
       enabled: this.enabled || false,
       actionType: this.actionType || null,
