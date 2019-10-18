@@ -20,16 +20,5 @@ export default {
     RegisterCypressCommands: () => {
       new UmbracoLogin(relativeBackOfficePath).registerCommand();
     },
-
-    RegisterCypressPlugin: (on, config) => {
-
-      console.log("on", on);
-
-
-      // setTimeout(function(){
-      //   new UmbracoLogin(relativeBackOfficePath).registerCommand();
-      //   },2000);
-      //
-    }
   }
 };
