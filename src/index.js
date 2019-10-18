@@ -1,16 +1,7 @@
-// const defaultAwesomeFunction = (name) => {
-//   const returnStr = `I am the Default Awesome Function, fellow comrade! - ${name}`;
-//   return returnStr;
-// };
-//
-// const awesomeFunction = () => 'I am just an Awesome Function';
-//
-// export default defaultAwesomeFunction;
-//
-// export { awesomeFunction };
-
-
-import {ContentBuilder, DocumentTypeBuilder, FormBuilder, FormPickerDataTypeBuilder} from "./Builders";
+import FormPickerDataTypeBuilder from "./builders/dataTypes/formPickerDataTypeBuilder";
+import FormBuilder from "./builders/forms/formBuilder";
+import DocumentTypeBuilder from "./builders/documentTypes/documentTypeBuilder";
+import ContentBuilder from "./builders/content/contentBuilder";
 
 export default {
   Builder: {
@@ -20,6 +11,5 @@ export default {
     DataTypes: {
       FormPicker: () => new FormPickerDataTypeBuilder(),
     }
-
   },
 };

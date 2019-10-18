@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import {Builder} from "../../src/index";
-
 import faker from 'faker'
+
 describe('ContentBuilder', () => {
   it('Default build', () => {
 

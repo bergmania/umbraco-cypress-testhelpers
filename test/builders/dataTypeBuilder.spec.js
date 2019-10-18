@@ -12,13 +12,13 @@ describe('DataType Builders', () => {
   });
 
   it('FormPickerDataTypeBuilder Custom single form', () => {
-    const action = faker.lorem.sentence();
+
     const name = faker.lorem.sentence();
     const id = faker.random.number();
     const formId = faker.random.uuid();
 
     const actual = Builder.DataTypes.FormPicker()
-      .withAction(action)
+      .withSaveAction()
       .withId(id)
       .withName(name)
       .withAllowedForm(formId)
@@ -26,7 +26,7 @@ describe('DataType Builders', () => {
 
     assert.equal(actual.id, id);
     assert.equal(actual.name, name);
-    assert.equal(actual.action, action);
+    assert.equal(actual.action, "save");
     assert.lengthOf(actual.preValues, 1);
     assert.equal(actual.preValues[0].key, "allowedForms");
     assert.lengthOf(actual.preValues[0].value,1);
@@ -39,9 +39,11 @@ describe('DataType Builders', () => {
     const formId2 = faker.random.uuid();
 
     const actual = Builder.DataTypes.FormPicker()
+      .withSaveNewAction()
       .withAllowedForms([formId1, formId2])
       .build();
 
+    assert.equal(actual.action, "saveNew");
     assert.lengthOf(actual.preValues, 1);
     assert.equal(actual.preValues[0].key, "allowedForms");
     assert.lengthOf(actual.preValues[0].value,2);
