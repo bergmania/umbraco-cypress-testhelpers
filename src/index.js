@@ -19,6 +19,6 @@ export default {
   Umbraco: {
     RegisterCypressCommands: () => {
       new UmbracoLogin(relativeBackOfficePath).registerCommand();
-    }
+    },
   }
 };
