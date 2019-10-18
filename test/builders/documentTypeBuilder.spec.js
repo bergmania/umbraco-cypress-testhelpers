@@ -12,6 +12,7 @@ describe('DocumentTypeBuilder', () => {
   it('Custom build', () => {
     const dataTypeId = faker.random.uuid();
     const formPickerAlias = faker.hacker.adjective();
+    const pickerLabel = faker.lorem.sentence();
 
     const actual = Builder.DocumentType()
       .withAllowAsRoot(true)
@@ -19,6 +20,9 @@ describe('DocumentTypeBuilder', () => {
         .addFormPickerProperty()
           .withDataTypeId(dataTypeId)
           .withAlias(formPickerAlias)
+        .done()
+        .addFormPickerProperty()
+          .withLabel(pickerLabel)
         .done()
       .done()
       .build();
