@@ -1,6 +1,11 @@
 import { assert } from 'chai';
 import faker from 'faker'
 import {Builder} from "../../src/index";
+import FormFieldConditionBuilder from "../../src/builders/forms/fields/conditions/formFieldConditionBuilder";
+import FormFieldConditionRuleBuilder from "../../src/builders/forms/fields/conditions/formFieldConditionRuleBuilder";
+import FormContainerBuilder from "../../src/builders/forms/formContainerBuilder";
+import FormFieldSetBuilder from "../../src/builders/forms/formFieldSetBuilder";
+import FormPageBuilder from "../../src/builders/forms/formPageBuilder";
 
 describe('FormBuilder', () => {
   it('Default build', () => {
@@ -11,6 +16,8 @@ describe('FormBuilder', () => {
 
   it('Custom build', () => {
     const shortAnswer1Id = faker.random.uuid();
+    const formId = faker.random.uuid();
+    const formName = faker.lorem.sentence();
     const textToInsert = faker.name.firstName();
     const shortAnswer1Caption = faker.lorem.sentence();
     const pageCaption = faker.lorem.sentence();
@@ -18,6 +25,8 @@ describe('FormBuilder', () => {
     const containerCaption = faker.lorem.sentence();
 
     const actual = Builder.Form()
+      .withId(formId)
+      .withName(formName)
       .addPage()
       .withCaption(pageCaption)
         .addFieldSet()
@@ -104,6 +113,44 @@ describe('FormBuilder', () => {
     assert.equal(actual.pages[0].fieldSets[0].containers[0].fields[4].condition.rules[0].operator,"Contains");
     assert.equal(actual.pages[0].fieldSets[0].containers[0].fields[4].condition.rules[0].value,textToInsert);
 
+  });
+
+  it('Empty FormFieldConditionBuilder', () => {
+    const actual = new FormFieldConditionBuilder().build();
+
+    assert.equal(actual.enabled, false);
+    assert.equal(actual.actionType , null);
+    assert.equal(actual.logicType , null);
+    assert.lengthOf(actual.rules , 0);
+  });
+
+  it('Empty FormFieldConditionRuleBuilder', () => {
+    const actual = new FormFieldConditionRuleBuilder ().build();
+
+    assert.equal(actual.field  , null);
+    assert.equal(actual.operator  , null);
+    assert.equal(actual.value  , null);
+  });
+
+  it('Empty FormContainerBuilder', () => {
+    const actual = new FormContainerBuilder().build();
+
+    assert.equal(actual.caption  , null);
+    assert.lengthOf(actual.fields  , 0);
+  });
+
+  it('Empty FormContainerBuilder', () => {
+    const actual = new FormFieldSetBuilder().build();
+
+    assert.equal(actual.caption  , null);
+    assert.lengthOf(actual.containers  , 0);
+  });
+
+  it('Empty FormPageBuilder', () => {
+    const actual = new FormPageBuilder().build();
+
+    assert.equal(actual.caption  , null);
+    assert.lengthOf(actual.fieldSets  , 0);
   });
 
 });
