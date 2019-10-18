@@ -44,7 +44,6 @@ describe('Commands', () => {
   it('registerCommand', () => {
     const actual = new UmbracoLogin(path, cyMock, cypressMock.object).registerCommand();
 
-    cyMock.verify();
     cypressMock.verify();
   });
 
