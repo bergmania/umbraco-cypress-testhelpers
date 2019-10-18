@@ -2,6 +2,10 @@ import FormPickerDataTypeBuilder from "./builders/dataTypes/formPickerDataTypeBu
 import FormBuilder from "./builders/forms/formBuilder";
 import DocumentTypeBuilder from "./builders/documentTypes/documentTypeBuilder";
 import ContentBuilder from "./builders/content/contentBuilder";
+import UmbracoLogin from "./cypress/commands/umbracoLogin";
+
+
+const relativeBackOfficePath = '/umbraco';
 
 export default {
   Builder: {
@@ -12,4 +16,9 @@ export default {
       FormPicker: () => new FormPickerDataTypeBuilder(),
     }
   },
+  Umbraco: {
+    RegisterCypressCommands: () => {
+      new UmbracoLogin(relativeBackOfficePath).registerCommand();
+    }
+  }
 };
