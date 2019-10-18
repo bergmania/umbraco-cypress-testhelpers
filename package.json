@@ -14,7 +14,8 @@
     "cover:cobertura": "npx nyc report --reporter=cobertura",
     "lint": "eslint src test",
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
+    "cypress": "npm run build && cypress run -P cypress"
   },
   "files": [
     "lib",
@@ -30,7 +31,8 @@
     "builder",
     "pattern",
     "e2e",
-    "test"
+    "test",
+    "cypress-plugin"
   ],
   "author": "Bjarke Berg",
   "license": "MIT",

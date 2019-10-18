@@ -44,3 +44,5 @@ yarn.lock
 others
 .DS_Store
 /test-results.xml
+/cypress/cypress/screenshots/
+/cypress/cypress/videos/
