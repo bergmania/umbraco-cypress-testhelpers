@@ -3,6 +3,7 @@ import FormBuilder from "./builders/forms/formBuilder";
 import DocumentTypeBuilder from "./builders/documentTypes/documentTypeBuilder";
 import ContentBuilder from "./builders/content/contentBuilder";
 import UmbracoLogin from "./cypress/commands/umbracoLogin";
+import AddTextToUsernameInput from "./cypress/commands/commandBase";
 
 
 const relativeBackOfficePath = '/umbraco';
