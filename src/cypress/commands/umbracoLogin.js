@@ -1,39 +1,36 @@
-export default class UmbracoLogin{
-  relativeBackOfficePath;
+import CommandBase from "./commandBase";
 
-  constructor(relativeBackOfficePath){
-    this.relativeBackOfficePath = relativeBackOfficePath;
-  }
+export default class UmbracoLogin extends CommandBase {
+  _commandName = 'umbracoLogin';
 
-  registerCommand(){
-    Cypress.Commands.add('umbracoLogin', (username, password) => {
+  method(username, password) {
+    const cy = this.cy;
+    cy.clearCookies();
+    cy.clearLocalStorage();
 
-      cy.clearCookies();
-      cy.clearLocalStorage();
+    cy.request({
+      method: 'POST',
+      url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Authentication/PostLogin',
+      followRedirect: false,
+      body: {
+        username: username,
+        password: password,
+      },
+      headers: {
+        contentType: "application/json"
+      }
+    }).then((response) => {
+      cy.visit(this.relativeBackOfficePath + 'umbraco/').then($page => {
+        cy.log("$page", $page);
+      });
 
-      cy.request({
-        method: 'POST',
-        url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Authentication/PostLogin',
-        followRedirect: false,
-        body: {
-          username: username,
-          password: password,
-        },
-        headers: {
-          contentType: "application/json"
+      cy.get('body').should($body => {
+        if ($body.hasClass('umb-tour-is-visible')) {
+          cy.get('.umb-tour-step__close').click();
         }
-      }).then((response) => {
-        cy.visit('/umbraco/').then($page => {
-          cy.log("$page", $page);
-        });
-
-        cy.get('body').should($body => {
-          if($body.hasClass('umb-tour-is-visible')){
-            cy.get('.umb-tour-step__close').click();
-          }
-        });
       });
     });
   }
 }
+
 
