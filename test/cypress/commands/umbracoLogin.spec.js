@@ -1,63 +1,31 @@
 import { assert } from 'chai';
 import UmbracoLogin from "../../../src/cypress/commands/umbracoLogin";
-import sinon from "sinon";
 import faker from "faker";
+import td from 'testdouble'
+import cypressTestDouble from "../testDoubles/cypressTestDouble";
+import cyTestDouble, {clearCookiesMock, clearLocalStorageMock, hasClassMock} from "../testDoubles/cyTestDouble";
 
-describe('Commands', () => {
-  const path = "/umbraco";
+describe('UmbracoLogin', () => {
+  const sut = new UmbracoLogin( "/umbraco", cyTestDouble, cypressTestDouble);
 
-  let reqestThenStub = sinon.stub({});
-  let cyMock = {
-    clearCookies: () => sinon.mock(),
-    clearLocalStorage: () => sinon.mock(),
-    log: () => sinon.mock(),
+  it('Happy path - Success, visit backoffice with tour', () => {
+    //Arrage
+    var captor = td.matchers.captor();
+    var username = faker.name.findName();
+    var password = faker.name.findName();
 
-    visit: (fn1) => {
-      return {
-        then: (fn) => fn(),
-      }
-    },
+    //Mock
+    td.when(cypressTestDouble.Commands.add("umbracoLogin", captor.capture())).thenDo(() => captor.value(username, password));
+    td.when(hasClassMock('umb-tour-is-visible')).thenReturn(false);
 
-    get: (fn1) => {
-      return {
-        should: (s) => s({
-          hasClass: () => sinon.mock(),
-        }),
-        click: (fn1) => {
-          return {
-            then: (fn) => fn(),
-          }
-        },
+    //Act
+    sut.method(username, password);
 
-      }
-    },
+    //Assert
 
-    request: (fn1) => {
-      return {
-        then: (fn) => fn(),
-      }
-    },
-  };
-  let cypressMock = sinon.mock({Commands: {add:() => {}}});
-
-
-  it('registerCommand', () => {
-    const actual = new UmbracoLogin(path, cyMock, cypressMock.object).registerCommand();
-
-    cypressMock.verify();
-  });
-
-  it('method', () => {
-    const username = faker.name.findName();
-    const password = faker.name.findName();
-
-    // cyMock.expects("clearCookies").exactly(1);
-    // cyMock.expects("clearLocalStorage").exactly(1);
-    // cyMock.expects("request").exactly(1);
-
-    const actual = new UmbracoLogin(path, cyMock, cypressMock.object).method(username, password);
-
-    // cyMock.verify();
-    // cypressMock.verify();
+    //Verify
+    td.verify(clearCookiesMock());
+    td.verify(clearLocalStorageMock());
+    td.verify(hasClassMock('umb-tour-is-visible'));
   });
 });

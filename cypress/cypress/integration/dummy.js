@@ -3,7 +3,7 @@ context('Dummy', () => {
 
     it('Test', () => {
 
-      //cy.umbracoLogin('test', 'test');
+      cy.umbracoLogin('test', 'test');
 
     });
 
