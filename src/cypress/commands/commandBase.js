@@ -28,7 +28,7 @@ export default class CommandBase{
     return Cypress;
   }
 
-  constructor(relativeBackOfficePath, cy, cypress){
+  constructor(relativeBackOfficePath, cy = null, cypress = null){
     this._relativeBackOfficePath = relativeBackOfficePath;
     this._cy = cy;
     this._cypress = cypress;
@@ -241,59 +241,7 @@ export default class CommandBase{
 //
 //       });
 //     });
-//
-//
-//
-//     Cypress.Commands.add('deleteFormByGuid', (guid) => {
-//
-//       cy.request({
-//         method: 'DELETE',
-//         url: 'https://cypress.s1.umbraco.io/umbraco/backoffice/UmbracoForms/Form/DeleteByGuid?guid=' + guid,
-//         timeout: 150000,
-//         failOnStatusCode: false,
-//         json:true,
-//       }).then((response) => {
-//
-//       });
-//
-//     });
-//
-//
-//
-//
-//     Cypress.Commands.add('saveForm', (obj) => {
-//
-//       if(obj == null){
-//         return;
-//       }
-//
-//       return cy.request({
-//         method: 'POST',
-//         url: '/umbraco/backoffice/UmbracoForms/Form/SaveForm',
-//         body: obj,
-//         json: true,
-//       }).then((response) => {
-//         return _getBody(response);
-//       });
-//
-//     });
-//
-//
-//     Cypress.Commands.add('saveDataType', (obj) => {
-//       if(obj == null){
-//         return;
-//       }
-//       cy.request({
-//         method: 'POST',
-//         url: '/umbraco/backoffice/UmbracoApi/DataType/PostSave',
-//         body: obj,
-//         timeout: 90000,
-//         json:true,
-//       }).then((response) => {
-//         return _getBody(response);
-//       });
-//     });
-//
+
 
 
 

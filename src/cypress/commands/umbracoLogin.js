@@ -1,14 +1,14 @@
 import CommandBase from "./commandBase";
 
 export default class UmbracoLogin extends CommandBase {
-  _commandName = 'umbracoLogin';
+  commandName = 'umbracoLogin';
 
   method(username, password) {
     const cy = this.cy;
     cy.clearCookies();
     cy.clearLocalStorage();
 
-    cy.request({
+    return cy.request({
       method: 'POST',
       url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Authentication/PostLogin',
       followRedirect: false,
