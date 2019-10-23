@@ -20,7 +20,7 @@ export default class UmbracoLogin extends CommandBase {
         contentType: "application/json"
       }
     }).then((response) => {
-      cy.visit(this.relativeBackOfficePath + 'umbraco/').then($page => {
+      cy.visit(this.relativeBackOfficePath + '/').then($page => {
         cy.log("$page", $page);
       });
 
