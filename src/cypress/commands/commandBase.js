@@ -7,6 +7,9 @@ export default class CommandBase{
   get commandName(){
    return this._commandName;
   }
+  get relativeBackOfficePath(){
+   return this._relativeBackOfficePath;
+  }
   set commandName(commandName){
     this._commandName = commandName;
   }
