@@ -28,7 +28,7 @@ export default class CommandBase{
     return Cypress;
   }
 
-  constructor(relativeBackOfficePath, cy = null, cypress = null){
+  constructor(relativeBackOfficePath, cy = undefined, cypress = undefined){
     this._relativeBackOfficePath = relativeBackOfficePath;
     this._cy = cy;
     this._cypress = cypress;
