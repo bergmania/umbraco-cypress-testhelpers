@@ -15,7 +15,8 @@
     "lint": "eslint src test",
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
-    "cypress": "npm run build && cypress run -P cypress"
+    "cypress": "npm run build && cypress run",
+    "cypress:ui": "npm run build && cypress open"
   },
   "files": [
     "lib",
@@ -51,7 +52,7 @@
     "babel-preset-minify": "^0.5.1",
     "chai": "^4.1.2",
     "cross-env": "^6.0.3",
-    "cypress": "^3.4.1",
+    "cypress": "^4.0.1",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.7.0",
@@ -69,6 +70,6 @@
     "faker": "^4.1.0"
   },
   "peerDependencies": {
-    "cypress": "^3.4.1"
+    "cypress": "^4.0.1"
   }
 }

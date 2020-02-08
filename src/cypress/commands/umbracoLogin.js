@@ -10,7 +10,7 @@ export default class UmbracoLogin extends CommandBase {
 
     cy.request({
       method: 'POST',
-      url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Authentication/PostLogin',
+      url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/Authentication/PostLogin',
       followRedirect: false,
       body: {
         username: username,
@@ -20,7 +20,7 @@ export default class UmbracoLogin extends CommandBase {
         contentType: "application/json"
       }
     }).then((response) => {
-      cy.visit(this.relativeBackOfficePath + 'umbraco/').then($page => {
+      cy.visit(this._relativeBackOfficePath + 'umbraco/').then($page => {
         cy.log("$page", $page);
       });
 
