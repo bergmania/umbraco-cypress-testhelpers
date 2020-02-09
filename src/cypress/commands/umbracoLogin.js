@@ -20,15 +20,17 @@ export default class UmbracoLogin extends CommandBase {
         contentType: "application/json"
       }
     }).then((response) => {
-      cy.visit(this._relativeBackOfficePath + 'umbraco/').then($page => {
+      cy.visit(this._relativeBackOfficePath).then($page => {
         cy.log("$page", $page);
+        cy.get('body').should($body => {
+          if ($body.hasClass('umb-tour-is-visible')) {
+            cy.get('.umb-tour-step__close').click();
+          }
+
+        });
       });
 
-      cy.get('body').should($body => {
-        if ($body.hasClass('umb-tour-is-visible')) {
-          cy.get('.umb-tour-step__close').click();
-        }
-      });
+
     });
   }
 }
