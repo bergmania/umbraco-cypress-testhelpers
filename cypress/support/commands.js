@@ -24,7 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-import {Umbraco} from '../../lib/index'
+import * as Lib from '../../src/index'
 
-debugger;
-Umbraco.RegisterCypressCommands(Cypress, cy);
+Lib.default.Umbraco.RegisterCypressCommands(Cypress, cy);
