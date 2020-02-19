@@ -7,7 +7,7 @@ export default class UmbracoEnsureUserEmailNotExists extends CommandBase {
   method(email) {
     const cy = this.cy;
 
-    cy.getCookie("UMB-XSRF-TOKEN").then(token => {
+    cy.getCookie("UMB-XSRF-TOKEN", {log:false}).then(token => {
       cy.request({
         method: 'GET',
         url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/Users/GetPagedUsers?pageNumber=1&pageSize=1&orderBy=Name&orderDirection=Ascending&filter=' + email,
@@ -15,7 +15,8 @@ export default class UmbracoEnsureUserEmailNotExists extends CommandBase {
         headers: {
           "Accept": "application/json",
           "X-UMB-XSRF-TOKEN":token.value
-        }
+        },
+        log:false
       }).then(response => {
 
 
