@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:9000",
+  "viewportHeight": 1024,
+  "viewportWidth": 1200,
+  "env": {
+    "username": "test@admin.com",
+    "password": "123456789012"
+  }
+}

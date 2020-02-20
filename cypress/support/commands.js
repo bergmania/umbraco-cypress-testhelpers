@@ -21,8 +21,9 @@
 // Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
 //
 //
-// -- This is will overwrite an existing command --
+// -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-import {Umbraco} from '../../../src/index'
 
-Umbraco.RegisterCypressCommands();
+import * as Lib from '../../src/index'
+
+Lib.default.Umbraco.RegisterCypressCommands(Cypress, cy);

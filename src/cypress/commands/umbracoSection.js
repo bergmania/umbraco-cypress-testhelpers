@@ -1,12 +1,17 @@
-import CommandBase from "./commandBase";
+﻿import CommandBase from "./commandBase";
 
 export default class UmbracoSection extends CommandBase {
-  commandName = 'umbracoSection';
+  _commandName = 'umbracoSection';
 
   method(sectionAlias) {
     const cy = this.cy;
+    const cypress = this.cypress;
 
-    return cy.get('[data-element="section-'+sectionAlias+'"]');
+    cy.get('[data-element="section-'+ sectionAlias +'"]',{log:false}).click({log:false});
+
+    cypress.log({
+      displayName: "Umbraco Section ",
+    });
   }
 }
 
