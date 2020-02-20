@@ -8,7 +8,6 @@ import DeleteFormByGuid from "./cypress/commands/deleteFormByGuid";
 import SaveForm from "./cypress/commands/saveForm";
 import DeleteAllForms from "./cypress/commands/deleteAllForms";
 import DeleteForm from "./cypress/commands/deleteForm";
-import UmbracoSection from "./cypress/commands/umbracoSection";
 import UmbracoGlobalHelp from "./cypress/commands/umbracoGlobalHelp";
 import UmbracoGlobalUser from "./cypress/commands/umbracoGlobalUser";
 import DeleteDocumentType from "./cypress/commands/deleteDocumentType";
@@ -25,26 +24,17 @@ import DeleteTemplateById from "./cypress/commands/deleteTemplateById";
 import TemplateBuilder from "./builders/templates/templateBuilder";
 import AddTextToUsernameInput from "./cypress/commands/commandBase";
 import UmbracoSection from "./cypress/commands/umbracoSection";
-import UmbracoButtonByLabel from "./cypress/commands/umbracoButtonByLabel";
+import UmbracoButtonByLabelKey from "./cypress/commands/umbracoButtonByLabelKey";
+import UmbracoEditorHeaderName from "./cypress/commands/umbracoEditorHeaderName";
 import UmbracoEnsureUserEmailNotExists from "./cypress/commands/umbracoEnsureUserEmailNotExists";
+import UmbracoEnsureUserGroupNameNotExists from "./cypress/commands/umbracoEnsureUserGroupNameNotExists";
 
 import CycleHackWorkaroundForPureLiveIssue from "./cypress/commands/cycleHackWorkaroundForPureLiveIssue";
 
 
 const defaultRelativeBackOfficePath = '/umbraco';
 
-Cypress.Server.defaults({
-  whitelist: (xhr) => {
 
-    if(new URL(xhr.url).pathname.startsWith(relativeBackOfficePath)){
-      return true;
-    }
-
-    // this function receives the xhr object in question and
-    // will whitelist if it's a GET that appears to be a static resource
-    return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
-  }
-});
 
 export default {
   Builder: {
@@ -59,6 +49,19 @@ export default {
   Umbraco: {
     RegisterCypressCommands: (customRelativeBackOfficePath) => {
       const relativeBackOfficePath = customRelativeBackOfficePath || defaultRelativeBackOfficePath;
+
+      Cypress.Server.defaults({
+        whitelist: (xhr) => {
+
+          if(new URL(xhr.url).pathname.startsWith(relativeBackOfficePath)){
+            return true;
+          }
+
+          // this function receives the xhr object in question and
+          // will whitelist if it's a GET that appears to be a static resource
+          return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        }
+      });
 
       new DeleteAllForms(relativeBackOfficePath).registerCommand();
       new DeleteDocumentType(relativeBackOfficePath).registerCommand();
@@ -82,9 +85,10 @@ export default {
       new UmbracoSection(relativeBackOfficePath).registerCommand();
 
       new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
-      new UmbracoSection(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
-      new UmbracoButtonByLabel(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
+      new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
       new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
     },
   }

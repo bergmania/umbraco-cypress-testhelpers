@@ -1,7 +1,7 @@
 ﻿import CommandBase from "./commandBase";
 
-export default class UmbracoButtonByLabel extends CommandBase {
-  _commandName = 'umbracoButtonByLabel';
+export default class UmbracoButtonByLabelKey extends CommandBase {
+  _commandName = 'umbracoButtonByLabelKey';
 
   method(label) {
     const cy = this.cy;
@@ -11,7 +11,7 @@ export default class UmbracoButtonByLabel extends CommandBase {
       displayName: "Umbraco Button",
     });
 
-    return cy.get('umb-button[label="'+label+'"] button:enabled', {log:false});
+    return cy.get('umb-button[label-key="'+label+'"] button:enabled', {log:false});
   }
 }
 

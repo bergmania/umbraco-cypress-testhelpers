@@ -38,10 +38,20 @@ export default class UmbracoLogin extends CommandBase {
             },
             log:false
           }).then((getToursResponse) => {
+
             const getToursBody = ResponseHelper.getResponseBody(getToursResponse);
             if (getToursBody.length > 0) {
-              cy.get('.umb-tour-step__close', {log:false}).click({log:false});
-              toursClosed = true;
+              for (let i = 0; i < getToursBody.length; i++) {
+                let tour = getToursBody[i];
+                if(tour.completed === false && tour.disabled === false){
+                  toursClosed = true;
+                }
+              }
+              if(toursClosed){
+                cy.get('.umb-tour-step__close', {log:false}).click({log:false});
+              }
+
+
             }
             });
 

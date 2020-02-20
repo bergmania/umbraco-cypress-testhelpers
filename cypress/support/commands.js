@@ -26,4 +26,4 @@
 
 import * as Lib from '../../src/index'
 
-Lib.default.Umbraco.RegisterCypressCommands(Cypress, cy);
+Lib.default.Umbraco.RegisterCypressCommands();
