@@ -33,8 +33,18 @@ export default {
   },
 
   request: (fn1) => {
+    let responseBody = ')]}\',\n{"test":"json"}';
     return {
-      then: (fn) => fn(),
+
+
+      then: (fn) => fn({body:responseBody}),
+    }
+  },
+
+  getCookie: (fn1) => {
+    return {
+
+      then: (fn) => fn({token:"test"}),
     }
   },
 };
