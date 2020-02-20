@@ -35,9 +35,15 @@ export default class FormFieldConditionBuilder {
 
 
   build() {
+    if(!this.enabled){
+      return {
+
+      };
+    }
+
     return {
       enabled: this.enabled || false,
-      actionType: this.actionType || null,
+      actionType: this.actionType || '',
       logicType: this.logicType || null,
       rules: this.formFieldConditionRuleBuilders.map(function(builder) { return builder.build()}),
     }

@@ -1,7 +1,7 @@
 import FormFieldBuilderBase from "./formFieldBuilderBase";
 
-export default class FormShortAnswerFieldBuilder extends FormFieldBuilderBase  {
-  fieldTypeId = '3f92e01b-29e2-4a30-bf33-9df5580ed52c';
+export default class FormLongAnswerFieldBuilder extends FormFieldBuilderBase  {
+  fieldTypeId = '023f09ac-1445-4bcb-b8fa-ab49f33bd046';
   removePrevalueEditor = true;
 
   withDefaultValue(defaultValue){

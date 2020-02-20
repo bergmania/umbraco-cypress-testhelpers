@@ -25,5 +25,4 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 import {Umbraco} from '../../../src/index'
 
-debugger;
-Umbraco.RegisterCypressCommands(Cypress, cy);
+Umbraco.RegisterCypressCommands();

@@ -20,6 +20,11 @@ export default class ContentBuilder {
     this.contentTypeAlias = contentTypeAlias;
     return this;
   }
+  withTemplateAlias(templateAlias){
+    this.templateAlias = templateAlias;
+    return this;
+  }
+
   addVariant(){
     var builder =  new ContentVariantBuilder(this);
 

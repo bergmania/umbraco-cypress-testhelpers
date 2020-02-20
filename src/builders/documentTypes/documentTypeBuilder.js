@@ -1,6 +1,7 @@
 import faker from "faker";
 import camelize from "camelize";
 import DocumentTypeGroupBuilder from "./documentTypeGroupBuilder";
+import AliasHelper from "../../helpers/aliasHelper";
 
 export default class DocumentTypeBuilder {
   compositeContentTypes;
@@ -34,6 +35,18 @@ export default class DocumentTypeBuilder {
     this.allowAsRoot = allowAsRoot;
     return this;
   }
+  withDefaultTemplate(defaultTemplate){
+    this.defaultTemplate = defaultTemplate;
+    return this;
+  }
+  withAlias(alias){
+    this.alias = alias;
+    return this;
+  }
+  withName(name){
+    this.name = name;
+    return this;
+  }
 
   addGroup(){
     var builder =  new DocumentTypeGroupBuilder(this);
@@ -46,7 +59,7 @@ export default class DocumentTypeBuilder {
   build() {
     var key = this.key || faker.random.uuid();
     var name = this.name || key;
-    var alias = this.alias || "a" + camelize(name);
+    var alias = this.alias || AliasHelper.toSafeAlias(name);
 
     return {
       compositeContentTypes : this.compositeContentTypes || [],

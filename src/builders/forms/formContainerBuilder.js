@@ -1,4 +1,8 @@
 import FormShortAnswerFieldBuilder from "./fields/formShortAnswerFieldBuilder";
+import FormLongAnswerFieldBuilder from "./fields/formLongAnswerFieldBuilder";
+import FormCheckboxFieldBuilder from "./fields/formCheckboxFieldBuilder";
+import FormDateFieldBuilder from "./fields/formDateFieldBuilder";
+import FormPasswordFieldBuilder from "./fields/formPasswordFieldBuilder";
 
 export default class FormContainerBuilder {
   parentBuilder;
@@ -18,7 +22,39 @@ export default class FormContainerBuilder {
   }
 
   addShortAnswerField(){
-    var builder =  new FormShortAnswerFieldBuilder(this);
+    const builder =  new FormShortAnswerFieldBuilder(this);
+
+    this.formFieldBuilders.push(builder);
+
+    return builder;
+  }
+
+  addLongAnswerField(){
+    const builder =  new FormLongAnswerFieldBuilder(this);
+
+    this.formFieldBuilders.push(builder);
+
+    return builder;
+  }
+
+  addDateField(){
+    const builder =  new FormDateFieldBuilder(this);
+
+    this.formFieldBuilders.push(builder);
+
+    return builder;
+  }
+
+  addCheckboxField(){
+    const builder =  new FormCheckboxFieldBuilder(this);
+
+    this.formFieldBuilders.push(builder);
+
+    return builder;
+  }
+
+  addPasswordField(){
+    const builder = new FormPasswordFieldBuilder(this);
 
     this.formFieldBuilders.push(builder);
 

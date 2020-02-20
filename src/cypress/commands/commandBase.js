@@ -40,6 +40,7 @@ export default class CommandBase{
 
   registerCommand() {
     this.cypress.Commands.add(this.commandName, (a,b,c,d,e,f,g) => {
+      this.cy.log(this.commandName);
       this.method(a,b,c,d,e,f,g)
     });
 

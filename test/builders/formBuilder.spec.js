@@ -118,10 +118,7 @@ describe('FormBuilder', () => {
   it('Empty FormFieldConditionBuilder', () => {
     const actual = new FormFieldConditionBuilder().build();
 
-    assert.equal(actual.enabled, false);
-    assert.equal(actual.actionType , null);
-    assert.equal(actual.logicType , null);
-    assert.lengthOf(actual.rules , 0);
+    assert.isEmpty(actual);
   });
 
   it('Empty FormFieldConditionRuleBuilder', () => {

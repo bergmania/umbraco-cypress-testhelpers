@@ -1,6 +1,16 @@
 export default class JsonHelper
 {
   static getBody(response) {
-    return JSON.parse(response.body.substr(6));
+    const junk = ')]}\',\n';
+    let json = response.body;
+
+    if(json.length === 0) {
+      return null;
+    }
+
+    if(json.startsWith(junk)){
+      json = json.substr(junk.length)
+    }
+    return JSON.parse(json);
   }
 }
