@@ -37,6 +37,7 @@ import UmbracoEnsureMemberTypeNameNotExists from "./cypress/commands/umbracoEnsu
 import UmbracoEnsureDataTypeNameNotExists from "./cypress/commands/umbracoEnsureDataTypeNameNotExists";
 import UmbracoSuccessNotification from "./cypress/commands/umbracoSuccessNotification";
 import UmbracoEnsureLanguageNameNotExists from "./cypress/commands/umbracoEnsureLanguageNameNotExists";
+import UmbracoEnsureMacroNameNotExists from "./cypress/commands/umbracoEnsureMacroNameNotExists";
 
 import CycleHackWorkaroundForPureLiveIssue from "./cypress/commands/cycleHackWorkaroundForPureLiveIssue";
 
@@ -105,6 +106,7 @@ export default {
       new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureDataTypeNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureLanguageNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureMacroNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
       new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
       new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
