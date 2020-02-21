@@ -1,28 +1,27 @@
 /// <reference types="Cypress" />
-context('Document Types', () => {
+context('Member Types', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  it('Create document type', () => {
-    const name = "Test document type";
+  it('Create member type', () => {
+    const name = "Test member type";
 
-    cy.umbracoEnsureDocumentTypeNameNotExists(name);
+    cy.umbracoEnsureMemberTypeNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-    cy.umbracoTreeItem("settings", ["Document Types"]).rightclick();
+    cy.umbracoTreeItem("settings", ["Member Types"]).rightclick();
 
     cy.umbracoContextMenuAction("action-create").click();
-    cy.umbracoContextMenuAction("action-documentType").click();
+
     //Type name
     cy.umbracoEditorHeaderName().type(name);
 
 
     cy.get('[data-element="group-add"]').click();
-
 
     cy.get('.umb-group-builder__group-title-input').type('Group name');
     cy.get('[data-element="property-add"]').click();
@@ -45,7 +44,7 @@ context('Document Types', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
-    cy.umbracoEnsureDocumentTypeNameNotExists(name);
+    cy.umbracoEnsureMemberTypeNameNotExists(name);
    });
 
 });

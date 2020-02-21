@@ -33,6 +33,9 @@ import UmbracoContextMenuAction from "./cypress/commands/umbracoContextMenuActio
 import UmbracoEnsureRelationTypeNameNotExists from "./cypress/commands/umbracoEnsureRelationTypeNameNotExists";
 import UmbracoEnsureDocumentTypeNameNotExists from "./cypress/commands/umbracoEnsureDocumentTypeNameNotExists";
 import UmbracoEnsureMediaTypeNameNotExists from "./cypress/commands/umbracoEnsureMediaTypeNameNotExists";
+import UmbracoEnsureMemberTypeNameNotExists from "./cypress/commands/umbracoEnsureMemberTypeNameNotExists";
+import UmbracoEnsureDataTypeNameNotExists from "./cypress/commands/umbracoEnsureDataTypeNameNotExists";
+import UmbracoSuccessNotification from "./cypress/commands/umbracoSuccessNotification";
 
 import CycleHackWorkaroundForPureLiveIssue from "./cypress/commands/cycleHackWorkaroundForPureLiveIssue";
 
@@ -90,6 +93,7 @@ export default {
       new UmbracoSection(relativeBackOfficePath).registerCommand();
       new UmbracoTreeItem(relativeBackOfficePath).registerCommand();
       new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();
+      new UmbracoSuccessNotification(relativeBackOfficePath).registerCommand();
 
       new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
@@ -97,6 +101,8 @@ export default {
       new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureDataTypeNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
       new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
       new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();

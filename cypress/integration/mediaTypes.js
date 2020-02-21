@@ -43,7 +43,7 @@ context('Media Types', () => {
     cy.get('.btn-success').click();
 
     //Assert
-    cy.get('.umb-notifications__notifications > .alert-success').should('be.visible'); //TODO create cy.umbracoSuccessNotification
+    cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
     cy.umbracoEnsureMediaTypeNameNotExists(name);
