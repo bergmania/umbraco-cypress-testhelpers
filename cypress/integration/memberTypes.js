@@ -18,7 +18,7 @@ context('Member Types', () => {
     cy.umbracoContextMenuAction("action-create").click();
 
     //Type name
-    cy.umbracoEditorHeaderName().type(name);
+    cy.umbracoEditorHeaderName(name);
 
 
     cy.get('[data-element="group-add"]').click();

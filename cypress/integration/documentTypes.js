@@ -18,7 +18,7 @@ context('Document Types', () => {
     cy.umbracoContextMenuAction("action-create").click();
     cy.umbracoContextMenuAction("action-documentType").click();
     //Type name
-    cy.umbracoEditorHeaderName().type(name);
+    cy.umbracoEditorHeaderName(name);
 
 
     cy.get('[data-element="group-add"]').click();

@@ -1,9 +1,10 @@
 ﻿import CommandBase from "./commandBase";
+import AliasHelper from "../../helpers/aliasHelper";
 
 export default class UmbracoEditorHeaderName extends CommandBase {
   _commandName = 'umbracoEditorHeaderName';
 
-  method(label) {
+  method(typedText) {
     const cy = this.cy;
     const cypress = this.cypress;
 
@@ -11,7 +12,10 @@ export default class UmbracoEditorHeaderName extends CommandBase {
       displayName: "Umbraco Editor Header Name",
     });
 
-    return cy.get('#headerName', {log:false});
+    cy.get('#headerName', {log:false}).type(typedText);
+
+    const alias = AliasHelper.toAlias(typedText);
+    cy.get('input[name="lockedField"]').should('have.value', alias);
   }
 }
 

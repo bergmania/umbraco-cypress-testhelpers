@@ -16,7 +16,7 @@ context('User Groups', () => {
     cy.umbracoButtonByLabelKey("actions_createGroup").click();
 
     //Type name
-    cy.umbracoEditorHeaderName().type(name);
+    cy.umbracoEditorHeaderName(name);
 
     // Assign sections
     cy.get('.umb-box:nth-child(1) .umb-property:nth-child(1) localize').click();

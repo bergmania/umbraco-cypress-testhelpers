@@ -20,7 +20,7 @@ context('Media Types', () => {
 
 
     //Type name
-    cy.umbracoEditorHeaderName().type(name);
+    cy.umbracoEditorHeaderName(name);
 
 
     cy.get('[data-element="group-add"]').click();
