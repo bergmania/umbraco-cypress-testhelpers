@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-context('Dummy', () => {
+context('Users', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
@@ -31,33 +31,5 @@ context('Dummy', () => {
     cy.umbracoEnsureUserEmailNotExists(email);
 
   });
-
-  it('Create user group', () => {
-    const name = "Test Group";
-
-    cy.umbracoEnsureUserGroupNameNotExists(name);
-
-    cy.umbracoSection('users');
-    cy.get('[data-element="sub-view-userGroups"]').click();
-
-    cy.umbracoButtonByLabelKey("actions_createGroup").click();
-
-    //Type name
-    cy.umbracoEditorHeaderName().type(name);
-
-    // Assign sections
-    cy.get('.umb-box:nth-child(1) .umb-property:nth-child(1) localize').click();
-    cy.get('.umb-tree-item span').click({multiple:true});
-    cy.get('.btn-success').last().click();
-
-    // Save
-    cy.get('.btn-success').click();
-
-    //Assert
-    cy.get('.umb-notifications__notifications > .alert-success').should('be.visible');
-
-    //Clean up
-    cy.umbracoEnsureUserGroupNameNotExists(name);
-   });
 
 });

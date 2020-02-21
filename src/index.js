@@ -28,6 +28,11 @@ import UmbracoButtonByLabelKey from "./cypress/commands/umbracoButtonByLabelKey"
 import UmbracoEditorHeaderName from "./cypress/commands/umbracoEditorHeaderName";
 import UmbracoEnsureUserEmailNotExists from "./cypress/commands/umbracoEnsureUserEmailNotExists";
 import UmbracoEnsureUserGroupNameNotExists from "./cypress/commands/umbracoEnsureUserGroupNameNotExists";
+import UmbracoTreeItem from "./cypress/commands/umbracoTreeItem";
+import UmbracoContextMenuAction from "./cypress/commands/umbracoContextMenuAction";
+import UmbracoEnsureRelationTypeNameNotExists from "./cypress/commands/umbracoEnsureRelationTypeNameNotExists";
+import UmbracoEnsureDocumentTypeNameNotExists from "./cypress/commands/umbracoEnsureDocumentTypeNameNotExists";
+import UmbracoEnsureMediaTypeNameNotExists from "./cypress/commands/umbracoEnsureMediaTypeNameNotExists";
 
 import CycleHackWorkaroundForPureLiveIssue from "./cypress/commands/cycleHackWorkaroundForPureLiveIssue";
 
@@ -83,10 +88,15 @@ export default {
       new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
       new UmbracoLogin(relativeBackOfficePath).registerCommand();
       new UmbracoSection(relativeBackOfficePath).registerCommand();
+      new UmbracoTreeItem(relativeBackOfficePath).registerCommand();
+      new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();
 
       new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
+      new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
       new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
       new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
       new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
