@@ -1,20 +1,21 @@
 /// <reference types="Cypress" />
-context('Partial Views', () => {
+context('Partial View Macro Files', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  it('Create new empty partial view', () => {
-    const name = "TestPartialView";
+  it('Create new partial view macro', () => {
+    const name = "TestPartialViewMacro";
     const fileName = name + ".cshtml";
 
-   cy.umbracoEnsurePartialViewNameNotExists(fileName);
+   cy.umbracoEnsurePartialViewMacroFileNameNotExists(fileName);
+   cy.umbracoEnsureMacroNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-    cy.umbracoTreeItem("settings", ["Partial Views"]).rightclick();
+    cy.umbracoTreeItem("settings", ["Partial View Macro Files"]).rightclick();
 
     cy.umbracoContextMenuAction("action-create").click();
     cy.get('.menu-label').first().click(); // TODO: Fucked we cant use something like cy.umbracoContextMenuAction("action-mediaType").click();
@@ -29,7 +30,8 @@ context('Partial Views', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
-    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+    cy.umbracoEnsurePartialViewMacroFileNameNotExists(fileName);
+    cy.umbracoEnsureMacroNameNotExists(name);
    });
 
 });
