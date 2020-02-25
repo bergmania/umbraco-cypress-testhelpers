@@ -43,7 +43,7 @@ export default class UmbracoLogin extends CommandBase {
             if (getToursBody.length > 0) {
               for (let i = 0; i < getToursBody.length; i++) {
                 let tour = getToursBody[i];
-                if(tour.completed === false && tour.disabled === false){
+                if(tour.completed !== true && tour.disabled !== true){
                   toursClosed = true;
                 }
               }
