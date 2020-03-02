@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-context('Styles', () => {
+context('Scripts', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));

@@ -39,6 +39,7 @@ export default class UmbracoLogin extends CommandBase {
             log:false
           }).then((getToursResponse) => {
 
+
             const getToursBody = ResponseHelper.getResponseBody(getToursResponse);
             if (getToursBody.length > 0) {
               for (let i = 0; i < getToursBody.length; i++) {
@@ -48,7 +49,8 @@ export default class UmbracoLogin extends CommandBase {
                 }
               }
               if(toursClosed){
-                cy.get('.umb-tour-step__close', {log:false}).click({log:false});
+                cy.get(".umb-tour-step").should("be.visible");
+                cy.get('.umb-tour-step__close').click();
               }
 
 
