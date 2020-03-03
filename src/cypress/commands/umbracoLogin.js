@@ -30,7 +30,7 @@ export default class UmbracoLogin extends CommandBase {
         cy.getCookie("UMB-XSRF-TOKEN", {log:false}).then(token => {
           cy.request({
             method: 'GET',
-            url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/Tour/GetTours',
+            url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/CurrentUser/GetUserTours',
             followRedirect: false,
             headers: {
               "ContentType": "application/json",
@@ -40,10 +40,11 @@ export default class UmbracoLogin extends CommandBase {
           }).then((getToursResponse) => {
 
 
-            const getToursBody = ResponseHelper.getResponseBody(getToursResponse);
-            if (getToursBody.length > 0) {
-              for (let i = 0; i < getToursBody.length; i++) {
-                let tour = getToursBody[i];
+            const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
+            if (getUserToursBody.length > 0) {
+              for (let i = 0; i < getUserToursBody.length; i++) {
+                let tour = getUserToursBody[i];
+
                 if(tour.completed !== true && tour.disabled !== true){
                   toursClosed = true;
                 }

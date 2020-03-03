@@ -18,7 +18,7 @@ context('Partial View Macro Files', () => {
     cy.umbracoTreeItem("settings", ["Partial View Macro Files"]).rightclick();
 
     cy.umbracoContextMenuAction("action-create").click();
-    cy.get('.menu-label').first().click(); // TODO: Fucked we cant use something like cy.umbracoContextMenuAction("action-mediaType").click();
+    cy.get('.menu-label').first().click(); // TODO: Fucked we cant use something like cy.umbracoContextMenuAction("action-label").click();
 
     //Type name
     cy.umbracoEditorHeaderName(name);
