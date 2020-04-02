@@ -11,14 +11,20 @@ export default class SaveDocumentType extends CommandBase {
       return;
     }
 
-    return cy.request({
-      method: 'POST',
-      url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave',
-      body: docType,
-      timeout: 90000,
-      json: true,
-    }).then((response) => {
-      return JsonHelper.getBody(response);
+    cy.getCookie("UMB-XSRF-TOKEN", {log:false}).then(token => {
+      cy.request({
+        method: 'POST',
+        url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave',
+        body: docType,
+        timeout: 90000,
+        json: true,
+        headers: {
+          "Accept": "application/json",
+          "X-UMB-XSRF-TOKEN": token.value
+        },
+      }).then((response) => {
+        return JsonHelper.getBody(response);
+      });
     });
   }
 }
