@@ -6,6 +6,7 @@ export default class DataTypeBuilderBase {
   name;
   parentId;
   preValues;
+  selectedEditor;
 
   constructor() {
 
@@ -15,7 +16,7 @@ export default class DataTypeBuilderBase {
     this.action = "save";
     return this;
   }
-  withSaveNewAction(action){
+  withSaveNewAction(){
     this.action = "saveNew";
     return this;
   }
@@ -36,8 +37,8 @@ export default class DataTypeBuilderBase {
       id : this.id || 0,
       name : name,
       parentId: this.parentId || -1,
-      preValues: this.preValues || [{key: "allowedForms", value: []}],
-      selectedEditor: "UmbracoForms.FormPicker"
+      preValues: this.preValues ,
+      selectedEditor: this.selectedEditor
     }
   }
 

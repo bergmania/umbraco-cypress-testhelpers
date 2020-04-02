@@ -10,17 +10,21 @@ export default class SaveDataType extends CommandBase {
       if(dataType == null){
         return;
       }
-
-      return cy.request({
+    cy.getCookie("UMB-XSRF-TOKEN", {log:false}).then(token => {
+      cy.request({
         method: 'POST',
         url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/DataType/PostSave',
         body: dataType,
         timeout: 90000,
-        json:true,
+        json: true,
+        headers: {
+          "Accept": "application/json",
+          "X-UMB-XSRF-TOKEN": token.value
+        },
       }).then((response) => {
         return JsonHelper.getBody(response);
       });
-
+    });
   }
 }
 

@@ -1,4 +1,5 @@
 import FormPickerDataTypeBuilder from "./builders/dataTypes/formPickerDataTypeBuilder";
+import LabelDataTypeBuilder from "./builders/dataTypes/labelDataTypeBuilder";
 import FormBuilder from "./builders/forms/formBuilder";
 import DocumentTypeBuilder from "./builders/documentTypes/documentTypeBuilder";
 import ContentBuilder from "./builders/content/contentBuilder";
@@ -47,6 +48,7 @@ import UmbracoEnsureScriptNameNotExists from "./cypress/commands/umbracoEnsureSc
 import CycleHackWorkaroundForPureLiveIssue from "./cypress/commands/cycleHackWorkaroundForPureLiveIssue";
 
 
+
 const defaultRelativeBackOfficePath = '/umbraco';
 
 
@@ -58,6 +60,7 @@ export default {
     DocumentType: () => new DocumentTypeBuilder(),
     DataTypes: {
       FormPicker: () => new FormPickerDataTypeBuilder(),
+      Label: () => new LabelDataTypeBuilder(),
     },
     Template: () => new TemplateBuilder(),
   },

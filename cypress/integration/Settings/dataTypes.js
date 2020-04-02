@@ -1,4 +1,6 @@
 /// <reference types="Cypress" />
+import {Builder} from "../../../src";
+
 context('Data Types', () => {
 
   beforeEach(() => {
@@ -8,7 +10,7 @@ context('Data Types', () => {
   it('Create data type', () => {
     const name = "Test data type";
 
-   cy.umbracoEnsureDataTypeNameNotExists(name);
+    cy.umbracoEnsureDataTypeNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
@@ -34,6 +36,34 @@ context('Data Types', () => {
 
     //Clean up
     cy.umbracoEnsureDataTypeNameNotExists(name);
-   });
+  });
+
+  it('Delete data type', () => {
+    const name = "Test data type";
+    cy.umbracoEnsureDataTypeNameNotExists(name);
+
+    const dataType = Builder.DataTypes.Label()
+      .withSaveNewAction()
+      .withName(name)
+      .build();
+
+    cy.saveDataType(dataType);
+
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+
+    cy.umbracoTreeItem("settings", ["Data Types", name]).rightclick();
+
+    cy.umbracoContextMenuAction("action-delete").click();
+
+    cy.umbracoButtonByLabelKey("general_delete").click();
+
+    cy.contains(name).should('not.exist');
+
+    cy.umbracoEnsureDataTypeNameNotExists(name);
+
+
+  });
+
 
 });

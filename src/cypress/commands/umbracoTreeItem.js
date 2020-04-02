@@ -18,7 +18,6 @@ export default class UmbracoTreeItem extends CommandBase {
   }
 
   findItem(parentElement, items, index) {
-
     const itemName = items[index];
 
     let menuItems = parentElement.find('li');
@@ -28,7 +27,7 @@ export default class UmbracoTreeItem extends CommandBase {
       let menuItem = cy.$$(menuItems[i]);
 
 
-      if(menuItem.find('.umb-tree-item__label').text() === itemName){
+      if(menuItem.find('> .umb-tree-item__inner > .umb-tree-item__label').text() === itemName){
         foundItem = menuItem;
         break;
       }
