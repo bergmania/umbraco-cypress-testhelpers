@@ -9,7 +9,7 @@ export default class UmbracoLogin extends CommandBase {
     const cypress = this.cypress;
 
     let toursClosed = false;
-    cy.clearCookies({log:false});
+    cy.clearCookies({log: false});
     cy.clearLocalStorage();
 
     cy.request({
@@ -21,47 +21,49 @@ export default class UmbracoLogin extends CommandBase {
         password: password,
       },
       headers: {
-        contentType: "application/json"
+        contentType: "application/json",
       },
-      log:false
+      log: false,
     }).then((postLoginResponse) => {
 
-      cy.visit(this._relativeBackOfficePath, {log:false}).then($page => {
-        cy.getCookie("UMB-XSRF-TOKEN", {log:false}).then(token => {
+      cy.visit(this._relativeBackOfficePath, {log: false}).then($page => {
+        cy.getCookie("UMB-XSRF-TOKEN", {log: false}).then(token => {
           cy.request({
             method: 'GET',
             url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/CurrentUser/GetUserTours',
             followRedirect: false,
             headers: {
               "ContentType": "application/json",
-              "X-UMB-XSRF-TOKEN": token.value
+              "X-UMB-XSRF-TOKEN": token.value,
             },
-            log:false
+            log: false,
           }).then((getToursResponse) => {
 
 
             const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
-            if (getUserToursBody.length > 0) {
+            if (getUserToursBody.length === 0) {
+              // If length == 0, then the user has not disabled any tours => Tours will be shown
+              toursClosed = true
+            } else {
+              // Else we need to explicit check all tours are disabled
               for (let i = 0; i < getUserToursBody.length; i++) {
                 let tour = getUserToursBody[i];
 
-                if(tour.completed !== true && tour.disabled !== true){
+                if (tour.disabled !== true && tour.completed !== true) {
                   toursClosed = true;
                 }
               }
-              if(toursClosed){
-                cy.get(".umb-tour-step").should("be.visible");
-                cy.get('.umb-tour-step__close').click();
-              }
-
-
             }
-            });
-
-
+            if (toursClosed) {
+              cy.get(".umb-tour-step").should("be.visible");
+              cy.get('.umb-tour-step__close').click();
+            }
           });
+
+
         });
-      }).then(_ => {
+      });
+    }).then(_ => {
       cypress.log({
         displayName: "Umbraco Login",
         message: "",
@@ -71,10 +73,10 @@ export default class UmbracoLogin extends CommandBase {
           // on click
           return {
             'Username': username,
-            'Tours closed': toursClosed
+            'Tours closed': toursClosed,
           }
-        }
-    });
+        },
+      });
     });
   }
 }
