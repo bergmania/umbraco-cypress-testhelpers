@@ -14,7 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
-
+import {Command, Chainable} from '../../src/cypress/commands';
+new Chainable();
+new Command().registerCypressCommands();
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

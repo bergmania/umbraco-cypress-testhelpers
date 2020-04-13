@@ -167,5 +167,4 @@ const documentType = Builder.DocumentType().build();
 const form = Builder.Form().build();
 
 const formPickerDataType = Builder.DataTypes.FormPicker().build();
-const labelDataType = Builder.DataTypes.Label().build();
 ```

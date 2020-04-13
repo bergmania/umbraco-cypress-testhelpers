@@ -1,0 +1,99 @@
+/// <reference types="Cypress" />
+import UmbracoLogin from './umbracoLogin';
+import DeleteAllForms from './deleteAllForms';
+import SaveDataType from './saveDataType';
+import DeleteFormByGuid from './deleteFormByGuid';
+import SaveForm from './saveForm';
+import DeleteForm from './deleteForm';
+import UmbracoGlobalHelp from './umbracoGlobalHelp';
+import UmbracoGlobalUser from './umbracoGlobalUser';
+import DeleteDocumentType from './deleteDocumentType';
+import DeleteDocumentTypeById from './deleteDocumentTypeById';
+import SaveDocumentType from './saveDocumentType';
+import SaveContent from './saveContent';
+import SaveTemplate from './saveTemplate';
+import DeleteDocumentTypesByNamePrefix from './deleteDocumentTypesByNamePrefix';
+import DeleteFormsByNamePrefix from './deleteFormsByNamePrefix';
+import DeleteTemplatesByNamePrefix from './deleteTemplatesByNamePrefix';
+import DeleteDataTypesByNamePrefix from './deleteDataTypesByNamePrefix';
+import DeleteDataTypeById from './deleteDataTypeById';
+import DeleteTemplateById from './deleteTemplateById';
+import AddTextToUsernameInput from './commandBase';
+import UmbracoSection from './umbracoSection';
+import UmbracoButtonByLabelKey from './umbracoButtonByLabelKey';
+import UmbracoEditorHeaderName from './umbracoEditorHeaderName';
+import UmbracoEnsureUserEmailNotExists from './umbracoEnsureUserEmailNotExists';
+import UmbracoEnsureUserGroupNameNotExists from './umbracoEnsureUserGroupNameNotExists';
+import UmbracoTreeItem from './umbracoTreeItem';
+import UmbracoContextMenuAction from './umbracoContextMenuAction';
+import UmbracoEnsureRelationTypeNameNotExists from './umbracoEnsureRelationTypeNameNotExists';
+import UmbracoEnsureDocumentTypeNameNotExists from './umbracoEnsureDocumentTypeNameNotExists';
+import UmbracoEnsureMediaTypeNameNotExists from './umbracoEnsureMediaTypeNameNotExists';
+import UmbracoEnsureMemberTypeNameNotExists from './umbracoEnsureMemberTypeNameNotExists';
+import UmbracoEnsureDataTypeNameNotExists from './umbracoEnsureDataTypeNameNotExists';
+import UmbracoSuccessNotification from './umbracoSuccessNotification';
+import UmbracoEnsureLanguageNameNotExists from './umbracoEnsureLanguageNameNotExists';
+import UmbracoEnsureMacroNameNotExists from './umbracoEnsureMacroNameNotExists';
+import UmbracoEnsureTemplateNameNotExists from './umbracoEnsureTemplateNameNotExists';
+import UmbracoEnsurePartialViewNameNotExists from './umbracoEnsurePartialViewNameNotExists';
+import UmbracoEnsurePartialViewMacroFileNameNotExists from './umbracoEnsurePartialViewMacroFileNameNotExists';
+import UmbracoEnsureStylesheetNameNotExists from './umbracoEnsureStylesheetNameNotExists';
+import UmbracoEnsureScriptNameNotExists from './umbracoEnsureScriptNameNotExists';
+import CycleHackWorkaroundForPureLiveIssue from './cycleHackWorkaroundForPureLiveIssue';
+
+export class Command {
+  public registerCypressCommands(customRelativeBackOfficePath?: string): void {
+    const relativeBackOfficePath = customRelativeBackOfficePath || '/umbraco';
+    Cypress.Server.defaults({
+      whitelist: (xhr) => {
+        if (new URL(xhr.url).pathname.startsWith(relativeBackOfficePath)) {
+          return true;
+        }
+        // this function receives the xhr object in question and
+        // will whitelist if it's a GET that appears to be a static resource
+        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
+      },
+    });
+    new DeleteAllForms(relativeBackOfficePath).registerCommand();
+    new UmbracoLogin(relativeBackOfficePath).registerCommand();
+    new DeleteDocumentType(relativeBackOfficePath).registerCommand();
+    new DeleteDocumentTypeById(relativeBackOfficePath).registerCommand();
+    new DeleteDocumentTypesByNamePrefix(relativeBackOfficePath).registerCommand();
+    new DeleteForm(relativeBackOfficePath).registerCommand();
+    new DeleteFormByGuid(relativeBackOfficePath).registerCommand();
+    new DeleteFormsByNamePrefix(relativeBackOfficePath).registerCommand();
+    new DeleteTemplateById(relativeBackOfficePath).registerCommand();
+    new DeleteTemplatesByNamePrefix(relativeBackOfficePath).registerCommand();
+    new DeleteDataTypesByNamePrefix(relativeBackOfficePath).registerCommand();
+    new DeleteDataTypeById(relativeBackOfficePath).registerCommand();
+    new SaveContent(relativeBackOfficePath).registerCommand();
+    new SaveDataType(relativeBackOfficePath).registerCommand();
+    new SaveDocumentType(relativeBackOfficePath).registerCommand();
+    new SaveForm(relativeBackOfficePath).registerCommand();
+    new SaveTemplate(relativeBackOfficePath).registerCommand();
+    new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
+    new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
+    new UmbracoSection(relativeBackOfficePath).registerCommand();
+    new UmbracoTreeItem(relativeBackOfficePath).registerCommand();
+    new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();
+    new UmbracoSuccessNotification(relativeBackOfficePath).registerCommand();
+    new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureDataTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureLanguageNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMacroNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureTemplateNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsurePartialViewNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsurePartialViewMacroFileNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureStylesheetNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureScriptNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
+    new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
+    new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
+  }
+}
