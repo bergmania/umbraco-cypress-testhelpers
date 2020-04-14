@@ -41,7 +41,7 @@ context('Data Types', () => {
     const name = "Test data type";	
     cy.umbracoEnsureDataTypeNameNotExists(name);	
 
-    const dataType = new Builder().LabelDataType()
+    const dataType = new Builder().Label()
       .withSaveNewAction()	
       .withName(name)	
       .build();	

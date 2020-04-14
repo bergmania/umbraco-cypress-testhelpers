@@ -33,7 +33,7 @@ export default class DataTypeBuilderBase {
       name,
       parentId: this.parentId || -1,
       preValues: this.preValues || [{ key: 'allowedForms', value: [] }],
-      selectedEditor: this.selectedEditor || ''
+      selectedEditor: this.selectedEditor || '',
     };
   }
 }

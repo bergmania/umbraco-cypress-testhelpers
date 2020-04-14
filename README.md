@@ -20,7 +20,7 @@ import {Builder} from 'umbraco-cypress-testhelpers'
 And in your tests you can do something like this for a minimal version filled with default/random values
 
 ```js
-const actual = Builder.Form().build();
+const actual = new Builder().Form().build();
 ```
 with the following output, when serialized to json:
 ```json
@@ -58,7 +58,7 @@ with the following output, when serialized to json:
 or you can build the type with the values you want, and the rest filled with default/random values
 
 ```js
-const actual = Builder.Form()
+const actual = new Builder().Form()
             .addPage()
                 .addFieldSet()
                     .addContainer()
@@ -160,11 +160,15 @@ with the following serialized data:
 # All builders available
 
 ```js
-const content = Builder.Content().build();
+const content = new Builder().Content().build();
 
-const documentType = Builder.DocumentType().build();
+const documentType = new Builder().DocumentType().build();
 
-const form = Builder.Form().build();
+const form = new Builder().Form().build();
 
-const formPickerDataType = Builder.DataTypes.FormPicker().build();
+const formPickerDataType = new Builder().FormPicker().build();
+
+const template = new Builder().LabeTemplatel().build();
+
+const label = new Builder().Label().build();
 ```

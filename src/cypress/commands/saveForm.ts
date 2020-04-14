@@ -19,7 +19,7 @@ export default class SaveForm extends CommandBase {
         headers: {
           Accept: 'application/json',
           'X-UMB-XSRF-TOKEN': token.value,
-        }
+        },
       }).then((response) => {
         return JsonHelper.getBody(response);
       });

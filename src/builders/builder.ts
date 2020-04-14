@@ -21,7 +21,7 @@ export class Builder {
   public Template(): TemplateBuilder {
     return new TemplateBuilder();
   }
-  public LabelDataType(): LabelDataTypeBuilder {
+  public Label(): LabelDataTypeBuilder {
     return new LabelDataTypeBuilder();
   }
 }

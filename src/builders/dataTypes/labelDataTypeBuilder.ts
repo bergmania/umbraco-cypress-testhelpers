@@ -1,45 +1,43 @@
-import faker from 'faker'	
-import DataTypeBuilderBase from "./dataTypeBuilderBase";	
+import faker from 'faker';
+import DataTypeBuilderBase from './dataTypeBuilderBase';
 
-export default class LabelDataTypeBuilder extends DataTypeBuilderBase{	
+export default class LabelDataTypeBuilder extends DataTypeBuilderBase {
+  constructor() {
+    super();
+    this.withStringValueType();
+    this.selectedEditor = 'Umbraco.Label';
+  }
 
+  withStringValueType() {
+    return this.withValueType('STRING');
+  }
 
-  constructor() {	
-    super();	
-    this.withStringValueType();	
-    this.selectedEditor = "Umbraco.Label";	
-  }	
+  withDecimalValueType() {
+    return this.withValueType('DECIMAL');
+  }
 
-  withStringValueType(){	
-    return this.withValueType('STRING');	
-  }	
+  withDateTimeValueType() {
+    return this.withValueType('DATETIME');
+  }
 
-  withDecimalValueType(){	
-    return this.withValueType('DECIMAL');	
-  }	
+  withTimeValueType() {
+    return this.withValueType('TIME');
+  }
 
-  withDateTimeValueType(){	
-    return this.withValueType('DATETIME');	
-  }	
+  withIntegerValueType() {
+    return this.withValueType('INT');
+  }
 
-  withTimeValueType(){	
-    return this.withValueType('TIME');	
-  }	
+  withBigIntegerValueType() {
+    return this.withValueType('BIGINT');
+  }
 
-  withIntegerValueType(){	
-    return this.withValueType('INT');	
-  }	
+  withLongStringValueType() {
+    return this.withValueType('TEXT');
+  }
 
-  withBigIntegerValueType(){	
-    return this.withValueType('BIGINT');	
-  }	
-
-  withLongStringValueType(){	
-    return this.withValueType('TEXT');	
-  }	
-
-  withValueType(type){	
-    this.preValues = [{key: 'umbracoDataValueType', value: type}];	
-    return this;	
-  }	
+  withValueType(type) {
+    this.preValues = [{ key: 'umbracoDataValueType', value: type }];
+    return this;
+  }
 }
