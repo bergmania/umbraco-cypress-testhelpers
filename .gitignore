@@ -47,3 +47,5 @@ others
 /cypress/screenshots/
 /cypress/videos/
 *.tgz
+test-results.trx
+/coverage

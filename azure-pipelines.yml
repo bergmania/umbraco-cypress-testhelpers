@@ -16,21 +16,14 @@ steps:
     displayName: 'Install Node.js'
 
   - script: |     
-      npm install
-      npm pack
-    displayName: 'npm install, build and pack'
-
-  - script: |
-      npm run test      
-    displayName: 'Run tests'
+      npm install      
+    displayName: 'npm install' 
 
   - task: PublishTestResults@2
     displayName: "Publish test results"
     inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: 'test-results.xml'
-
-
+      testResultsFormat: 'VSTest'
+      testResultsFiles: 'test-results.trx'
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage"
@@ -40,8 +33,8 @@ steps:
       reportDirectory: 'coverage'
 
   - script: |
-      npm run prepublish
-    displayName: 'Prepublish'
+      npm run pack
+    displayName: 'Prepare and generate package'
 
   - task: CopyFiles@2
     displayName: 'Copy files to artifacts'

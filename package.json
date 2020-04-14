@@ -8,7 +8,7 @@
     "clean": "rimraf lib",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint --project ./tsconfig.json",
-    "test:jest": "jest",
+    "test:jest": "jest --clearCache && jest --reporters=jest-trx-results-processor --coverage --coverageReporters=cobertura ",
     "test": "npm run test:jest",
     "build": "tsc",
     "prepare": "npm run clean && npm run lint && npm run format && npm run test && npm run build",
@@ -55,7 +55,8 @@
     "cross-env": "^7.0.2",
     "cypress": "^4.0.2",
     "faker": "^4.1.0",
-    "jest": "^25.2.7",
+    "jest": "^25.3.0",
+    "jest-trx-results-processor": "^2.0.0",
     "ncp": "^2.0.0",
     "path": "^0.12.7",
     "prettier": "^2.0.4",
@@ -73,7 +74,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "cypress": "^4.0.2",    
+    "cypress": "^4.0.2",
     "cross-env": "^7.0.2",
     "rxjs": "^6.5.5",
     "ncp": "^2.0.0"

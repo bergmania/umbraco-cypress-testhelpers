@@ -3,6 +3,7 @@ import FormBuilder from './forms/formBuilder';
 import DocumentTypeBuilder from './documentTypes/documentTypeBuilder';
 import ContentBuilder from './content/contentBuilder';
 import TemplateBuilder from './templates/templateBuilder';
+import LabelDataTypeBuilder from './dataTypes/labelDataTypeBuilder';
 
 export class Builder {
   public Content(): ContentBuilder {
@@ -19,5 +20,8 @@ export class Builder {
   }
   public Template(): TemplateBuilder {
     return new TemplateBuilder();
+  }
+  public LabelDataType(): LabelDataTypeBuilder {
+    return new LabelDataTypeBuilder();
   }
 }
