@@ -17,7 +17,7 @@
     "cypress:ci": "start-server-and-test ci:serve http://localhost:9000 cypress:run",
     "cypress:open": "cypress open  --config integrationFolder=cypress/integration",
     "cypress:run": "cypress run  --config integrationFolder=cypress/integration",
-    "ci:serve": "node iis-express.js",
+    "ci:serve": "node iis-express.js '..\\Umbraco.Forms.TestSite'",
     "postinstall": "cross-env-shell node postinstall.js $INIT_CWD"
   },
   "files": [

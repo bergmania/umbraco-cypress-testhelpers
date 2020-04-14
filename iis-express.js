@@ -1,7 +1,8 @@
 var path=require('path');
 var execFile = require('child_process').execFile;
 var iisExpressExe = 'c:\\Program Files\\IIS Express\\iisexpress.exe';
-var sitePath = path.join(__dirname, '..\\Umbraco.Forms.TestSite');
+const website = process.argv.slice(2)[0];
+var sitePath = path.join(__dirname, website);
 var args = [
     '/port:9000',
     '/path:' +sitePath 
