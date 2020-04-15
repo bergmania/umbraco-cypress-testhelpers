@@ -70,7 +70,7 @@
     "ts-loader": "^6.2.2",
     "tslint": "^6.1.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~3.5.3",
+    "typescript": "~3.8.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.11"
   },
@@ -78,7 +78,6 @@
   "peerDependencies": {
     "cypress": "^4.0.2",
     "cross-env": "^7.0.2",
-    "rxjs": "^6.5.5",
     "ncp": "^2.0.0"
   }
 }
