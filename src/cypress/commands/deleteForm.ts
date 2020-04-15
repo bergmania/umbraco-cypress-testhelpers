@@ -12,19 +12,25 @@ export default class DeleteForm extends CommandBase {
     }
 
     if (typeof id === 'string' || id instanceof String) {
-      cy.request({
-        method: 'GET',
-        url:
-          this.relativeBackOfficePath +
-          '/backoffice/UmbracoForms/FormTree/GetNodes?id=-1&application=forms&tree=&use=main&culture=',
-      }).then((response) => {
-        const forms = JsonHelper.getBody(response);
-        for (const form of forms) {
-          if (form.name === id || form.key === id) {
-            cy.deleteFormByGuid(forms.id);
-            break;
+      return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
+        cy.request({
+          method: 'GET',
+          url:
+            this.relativeBackOfficePath +
+            '/backoffice/UmbracoForms/FormTree/GetNodes?id=-1&application=forms&tree=&use=main&culture=',
+          headers: {
+            Accept: 'application/json',
+            'X-UMB-XSRF-TOKEN': token.value,
+          },
+        }).then((response) => {
+          const forms = JsonHelper.getBody(response);
+          for (const form of forms) {
+            if (form.name === id || form.key === id) {
+              cy.deleteFormByGuid(forms.id);
+              break;
+            }
           }
-        }
+        });
       });
     } else {
       // assume guid

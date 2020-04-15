@@ -6,18 +6,24 @@ export default class DeleteAllForms extends CommandBase {
 
   method() {
     const cy = this.cy;
+    return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
+      return cy
+        .request({
+          method: 'GET',
+          url:
+            this.relativeBackOfficePath +
+            '/backoffice/UmbracoForms/FormTree/GetNodes?id=-1&application=forms&tree=&use=main&culture=',
+          headers: {
+            'X-UMB-XSRF-TOKEN': token.value,
+          },
+        })
+        .then((response) => {
+          const forms = JsonHelper.getBody(response);
 
-    cy.request({
-      method: 'GET',
-      url:
-        this.relativeBackOfficePath +
-        '/backoffice/UmbracoForms/FormTree/GetNodes?id=-1&application=forms&tree=&use=main&culture=',
-    }).then((response) => {
-      const forms = JsonHelper.getBody(response);
-
-      for (const form of forms) {
-        cy.deleteFormByGuid(form.id);
-      }
+          for (const form of forms) {
+            cy.deleteFormByGuid(form.id);
+          }
+        });
     });
   }
 }

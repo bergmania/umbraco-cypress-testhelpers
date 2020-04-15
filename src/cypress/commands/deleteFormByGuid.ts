@@ -10,15 +10,20 @@ export default class DeleteFormByGuid extends CommandBase {
       return;
     }
 
-    return cy
-      .request({
-        method: 'DELETE',
-        url: this.relativeBackOfficePath + '/backoffice/UmbracoForms/Form/DeleteByGuid?guid=' + guid,
-        timeout: 150000,
-        json: true,
-      })
-      .then((resp) => {
-        return;
-      });
+    return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
+      return cy
+        .request({
+          method: 'DELETE',
+          url: this.relativeBackOfficePath + '/backoffice/UmbracoForms/Form/DeleteByGuid?guid=' + guid,          
+          json: true,
+          headers: {
+            Accept: 'application/json',
+            'X-UMB-XSRF-TOKEN': token.value,
+          },
+        })
+        .then((resp) => {
+          return resp;
+        });
+    });
   }
 }

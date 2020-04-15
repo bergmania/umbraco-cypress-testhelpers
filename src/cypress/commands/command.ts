@@ -46,7 +46,7 @@ export class Command {
     const relativeBackOfficePath = customRelativeBackOfficePath || '/umbraco';
     Cypress.Server.defaults({
       whitelist: (xhr) => {
-        if (new URL(xhr.url).pathname.startsWith(relativeBackOfficePath)) {
+        if (new URL(xhr.url).pathname?.startsWith(relativeBackOfficePath)) {
           return true;
         }
         // this function receives the xhr object in question and

@@ -10,18 +10,19 @@ export default class DeleteTemplateById extends CommandBase {
     if (id == null) {
       return;
     }
-
-    return cy
-      .request({
-        method: 'POST',
-        url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Template/DeleteById?id=' + id,
-        timeout: 150000,
-        headers: {
-          contentType: 'application/json',
-        },
-      })
-      .then((response) => {
-        return JsonHelper.getBody(response);
-      });
+    return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
+      return cy
+        .request({
+          method: 'POST',
+          url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Template/DeleteById?id=' + id,          
+          headers: {
+            contentType: 'application/json',
+            'X-UMB-XSRF-TOKEN': token.value,
+          },
+        })
+        .then((response) => {
+          return response;
+        });
+    });
   }
 }
