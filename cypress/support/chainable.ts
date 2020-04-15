@@ -14,7 +14,7 @@ declare global {
       deleteTemplatesByNamePrefix: (name: string) => Chainable<void>;
       deleteDataTypesByNamePrefix: (name: string) => Chainable<void>;
       deleteDataTypeById: (name: string) => Chainable<void>;
-      saveContent: (param: any) => Chainable<any>;
+      saveContent: (param: any, response: any) => Chainable<any>;
       saveDataType: (param: any) => Chainable<any>;
       saveDocumentType: (nparam: any) => Chainable<any>;
       saveForm: (param: any) => Chainable<any>;

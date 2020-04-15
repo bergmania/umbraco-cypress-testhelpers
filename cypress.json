@@ -3,8 +3,8 @@
   "viewportHeight": 1024,
   "viewportWidth": 1200,
   "env": {
-    "username": "tha@umbraco.dk",
-    "password": "La1txSw0DQXluw8En4xg1yPnzNIKtU"
+    "username": "bmb@umbraco.dk",
+    "password": "123456789012"
   },
   "ignoreTestFiles": ["**/cypress/integration/examples/*.js", "**/projects/*.js"],
   "chromeWebSecurity": false,
