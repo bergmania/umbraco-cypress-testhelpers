@@ -48,4 +48,31 @@ context('Document Types', () => {
     cy.umbracoEnsureDocumentTypeNameNotExists(name);
    });
 
+  it('Delete document type', () => {	
+    const name = "Test document type";	
+    cy.umbracoEnsureDocumentTypeNameNotExists(name);	
+
+    const dataType = new Builder().DocumentType()	
+      .withName(name)	
+      .build();	
+
+    cy.saveDocumentType(dataType);	
+
+
+    cy.umbracoSection('settings');	
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");	
+
+    cy.umbracoTreeItem("settings", ["Document Types", name]).rightclick();	
+
+    cy.umbracoContextMenuAction("action-delete").click();	
+
+    cy.get('label.checkbox').click();	
+    cy.umbracoButtonByLabelKey("general_ok").click();	
+
+    cy.contains(name).should('not.exist');	
+
+    cy.umbracoEnsureDocumentTypeNameNotExists(name);	
+
+
+  });
 });
