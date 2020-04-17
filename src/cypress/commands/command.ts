@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+import DataUmb from './dataUmb';
 import UmbracoLogin from './umbracoLogin';
 import DeleteAllForms from './deleteAllForms';
 import SaveDataType from './saveDataType';
@@ -54,6 +55,7 @@ export class Command {
         return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
       },
     });
+    new DataUmb(relativeBackOfficePath).registerCommand();
     new DeleteAllForms(relativeBackOfficePath).registerCommand();
     new UmbracoLogin(relativeBackOfficePath).registerCommand();
     new DeleteDocumentType(relativeBackOfficePath).registerCommand();

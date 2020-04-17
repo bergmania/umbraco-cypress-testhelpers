@@ -4,7 +4,7 @@ import { JsonHelper } from '../../helpers/jsonHelper';
 export default class SaveContent extends CommandBase {
   commandName = 'saveContent';
 
-  method(content, done) {
+  method(content) {
     const cy = this.cy;
 
     if (content == null) {
@@ -16,18 +16,25 @@ export default class SaveContent extends CommandBase {
 
     const formData = new FormData();
     formData.append('contentItem', JSON.stringify(content));
-    return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
-      const xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-      xhr.open(method, url);
-      xhr.setRequestHeader('X-UMB-XSRF-TOKEN', token.value);
-      xhr.onload = () => {
-        done(JsonHelper.getBody(xhr.response));
-      };
-      xhr.onerror = () => {
-        done(xhr.response);
-      };
-      xhr.send(formData);
+    return cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
+      cy.server({
+        whitelist: request => {          
+        }
+      });
+      cy.route(
+        method,
+        url
+      ).as('postLogin')
+      cy.window()
+        .then((win) => {
+          const xhr = new win.XMLHttpRequest();
+          xhr.open(method, url);
+          xhr.setRequestHeader('X-UMB-XSRF-TOKEN', token.value);
+          xhr.send(formData);
+        })
+        .wait('@postLogin').then((res) => {
+          return JsonHelper.getBody(res.response);
+        });
     });
   }
 }
