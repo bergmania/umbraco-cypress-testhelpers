@@ -1,24 +1,21 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import {Builder} from 'umbraco-cypress-testhelpers';
+import { Builder } from 'umbraco-cypress-testhelpers';
 import { AliasHelper } from 'umbraco-cypress-testhelpers';
+import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from 'constants';
 context('Forms', () => {
   const formPrefix = "formTest";
   const docTypePrefix = "docTypeTest";
   const dataTypePrefix = "dataTypeTest";
   const templatePrefix = "templateTest";
-
+  const formName = formPrefix + faker.random.uuid();
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-
-    //Cleanup - just to be sure
-    //cleanUp();
+    cleanUp();
   });
 
   afterEach(() => {
-    //Cleanup
-    //cleanUp();
-  });
+  }); 
   it('Test form submitting', () => {
     const shortAnswerId = faker.random.uuid();
     const shortAnswerValue = faker.lorem.sentence();
@@ -35,51 +32,51 @@ context('Forms', () => {
 
 
     const form = new Builder().Form()
-      .withName(formPrefix + faker.random.uuid())
+      .withName(formName)
       .addPage()
-        .addFieldSet()
-          .addContainer()
-            .addShortAnswerField()
-              .withId(shortAnswerId)
-            .done()
-            .addLongAnswerField()
-              .withId(longAnswerId)
-            .done()
-            .addPasswordField()
-              .withId(passwordId)
-            .done()
-            .addCheckboxField()
-              .withId(checkboxId)
-            .done()
-            .addDateField()
-              .withId(dateId)
-            .done()
-          .done()
-        .done()
+      .addFieldSet()
+      .addContainer()
+      .addShortAnswerField()
+      .withId(shortAnswerId)
+      .done()
+      .addLongAnswerField()
+      .withId(longAnswerId)
+      .done()
+      .addPasswordField()
+      .withId(passwordId)
+      .done()
+      .addCheckboxField()
+      .withId(checkboxId)
+      .done()
+      .addDateField()
+      .withId(dateId)
+      .done()
+      .done()
+      .done()
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, (formbody)=>{
-      cy.get("input[name='" + shortAnswerId + "']").should('be.visible');
-      cy.get("textarea[name='" + longAnswerId + "']").should('be.visible');
-      cy.get("input[name='" + passwordId + "']").should('be.visible');
-      cy.get("input[name='" + checkboxId + "']").should('be.visible');
-      cy.get("input[name='" + dateId + "']").should('be.visible');
+    insertFormOnPageAndExecuteAction(form, (formbody) => {      
+      cy.dataUmb(shortAnswerId).should('be.visible');
+      cy.dataUmb(longAnswerId).should('be.visible');
+      cy.dataUmb(passwordId).should('be.visible');
+      cy.dataUmb(checkboxId).should('be.visible');
+      cy.dataUmb(dateId).should('not.be.visible');
 
       // Short answer
-      cy.get("input[name='" + shortAnswerId + "']").type(shortAnswerValue).blur();
+      cy.dataUmb(shortAnswerId ).type(shortAnswerValue).blur();
 
       // Long answer
-      cy.get("textarea[name='" + longAnswerId + "']").type(longAnswerValue).blur();
+      cy.dataUmb(longAnswerId).type(longAnswerValue).blur();
 
       // Password
-      cy.get("input[name='" + passwordId + "']").type(passwordValue).blur();
+      cy.dataUmb(passwordId).type(passwordValue).blur();
 
       // Checkbox
-      cy.get("input[name='" + checkboxId + "']:visible").check();
+      cy.dataUmb(`${checkboxId}`).check();
 
       // Date
-      cy.get("input[name='" + dateId + "']:visible").focus();
+      cy.dataUmb(`${dateId}_1`).focus();
       cy.get("div.pika-lendar").should('be.visible');
       cy.get(".pika-button.pika-day").first().click();
       cy.get("div.pika-lendar").should('not.be.visible');
@@ -97,21 +94,22 @@ context('Forms', () => {
       cy.get('.umb-table-body__link').first().click();
 
       // Verify field values
-      cy.get('.umb-forms-entry-main > :nth-child(1) > .control-label').should('have.text', shortAnswerId);
-      cy.get(':nth-child(1) > [field="detail.value"] > div').should('have.text', shortAnswerValue + '\n');
+      cy.dataUmb(shortAnswerId).should('have.text', shortAnswerId);
+      cy.dataUmb('sub'+shortAnswerId).should('contain.text', shortAnswerValue);
+      
+      cy.dataUmb(longAnswerId).should('have.text', longAnswerId);
+      cy.dataUmb('sub'+longAnswerId).should('contain.text', longAnswerValue);
 
-      cy.get('.umb-forms-entry-main > :nth-child(2) > .control-label').should('have.text', longAnswerId);
-      cy.get(':nth-child(2) > [field="detail.value"] > div').should('have.text', longAnswerValue + '\n');
+      cy.dataUmb(checkboxId).should('have.text', checkboxId);
+      cy.dataUmb('sub'+checkboxId).should('contain.text', "True");     
 
-      // Passwords are now shown
+      cy.dataUmb(checkboxId).should('have.text', checkboxId);
+      cy.dataUmb('sub'+checkboxId).should('contain.text', "True");   
 
-      cy.get('.umb-forms-entry-main > :nth-child(3) > .control-label').should('have.text', checkboxId);
-      cy.get(':nth-child(3) > [field="detail.value"] > div').should('have.text', 'True' + '\n');
-
-      cy.get('.umb-forms-entry-main > :nth-child(4) > .control-label').should('have.text', dateId);
+      cy.dataUmb(dateId).should('have.text', dateId);      
       const d = new Date();
-      const datestring = (d.getMonth()+1)  + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
-      cy.get(':nth-child(4) > [field="detail.value"] > div').should('have.text', datestring + '\n');
+      const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
+      cy.dataUmb('sub'+dateId).should('contain.text',  datestring + '\n');
 
     });
   });
@@ -148,7 +146,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, ()=>{
+    insertFormOnPageAndExecuteAction(form, () => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
@@ -189,7 +187,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, ()=> {
+    insertFormOnPageAndExecuteAction(form, () => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
@@ -208,29 +206,29 @@ context('Forms', () => {
     const form = new Builder().Form()
       .withName(formPrefix + faker.random.uuid())
       .addPage()
-        .addFieldSet()
-          .addContainer()
-              .addShortAnswerField()
-                .withId(shortAnswer1Id)
-              .done()
-              .addShortAnswerField()
-                .withId(shortAnswer2Id)
-              .done()
-              .addShortAnswerField()
-                .withId(shortAnswer3Id)
-              .addShowAllConditions()
-                .addRule()
-                  .withContainsRule(shortAnswer1Id, text1ToInsert)
-                  .withContainsRule(shortAnswer2Id, text2ToInsert)
-                .done()
-              .done()
-            .done()
-          .done()
-        .done()
+      .addFieldSet()
+      .addContainer()
+      .addShortAnswerField()
+      .withId(shortAnswer1Id)
+      .done()
+      .addShortAnswerField()
+      .withId(shortAnswer2Id)
+      .done()
+      .addShortAnswerField()
+      .withId(shortAnswer3Id)
+      .addShowAllConditions()
+      .addRule()
+      .withContainsRule(shortAnswer1Id, text1ToInsert)
+      .withContainsRule(shortAnswer2Id, text2ToInsert)
+      .done()
+      .done()
+      .done()
+      .done()
+      .done()
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, ()=>{
+    insertFormOnPageAndExecuteAction(form, () => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
@@ -271,7 +269,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, ()=>{
+    insertFormOnPageAndExecuteAction(form, () => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
@@ -289,34 +287,34 @@ context('Forms', () => {
     const form = new Builder().Form()
       .withName(formPrefix + faker.random.uuid())
       .addPage()
-        .addFieldSet()
-          .addContainer()
-            .addShortAnswerField()
-              .withId(shortAnswer1Id)
-            .done()
-          .done()
-        .done()
+      .addFieldSet()
+      .addContainer()
+      .addShortAnswerField()
+      .withId(shortAnswer1Id)
+      .done()
+      .done()
+      .done()
       .done()
       .addPage()
-        .addFieldSet()
-          .addContainer()
-            .addShortAnswerField()
-              .withId(shortAnswer2Id)
-            .done()
-            .addShortAnswerField()
-              .withId(shortAnswer3Id)
-              .addShowAllConditions()
-                .addRule()
-                  .withContainsRule(shortAnswer1Id, textToInsert)
-                .done()
-              .done()
-            .done()
-          .done()
-        .done()
+      .addFieldSet()
+      .addContainer()
+      .addShortAnswerField()
+      .withId(shortAnswer2Id)
+      .done()
+      .addShortAnswerField()
+      .withId(shortAnswer3Id)
+      .addShowAllConditions()
+      .addRule()
+      .withContainsRule(shortAnswer1Id, textToInsert)
+      .done()
+      .done()
+      .done()
+      .done()
+      .done()
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, ()=>{
+    insertFormOnPageAndExecuteAction(form, () => {
       cy.get("input[name='" + shortAnswer1Id + "']").type("not the expected text").blur();
       cy.get("input[value='Next']").click();
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
@@ -327,14 +325,14 @@ context('Forms', () => {
     });
   });
 
-  function cleanUp(){
+  function cleanUp() {
     cy.deleteFormsByNamePrefix(formPrefix);
     cy.deleteDocumentTypesByNamePrefix(docTypePrefix);
     cy.deleteDataTypesByNamePrefix(dataTypePrefix);
     cy.deleteTemplatesByNamePrefix(templatePrefix);
   }
 
-  function insertFormOnPageAndExecuteAction(form, action) {     
+  function insertFormOnPageAndExecuteAction(form, action) {
     cy.saveForm(form).then(formBody => {
 
       const dataType = new Builder().FormPicker()
@@ -348,7 +346,7 @@ context('Forms', () => {
 
         const template = new Builder().Template()
           .withName(templatePrefix + faker.random.uuid())
-          .withContent("@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels." + AliasHelper.capitalize(docTypeAlias) + ">\n" +
+          .withContent("@inherits Umbraco.Web.Mvc.UmbracoViewPage<" + AliasHelper.capitalize(docTypeAlias) + ">\n" +
             "@using ContentModels = Umbraco.Web.PublishedModels;\n" +
             "@{\n" +
             "\tLayout = null;\n" +
@@ -369,14 +367,14 @@ context('Forms', () => {
           const docType = new Builder().DocumentType()
             .withName(docTypePrefix + faker.random.uuid())
             .withAlias(docTypeAlias)
-            
+
             .withDefaultTemplate(decodeURI(templateBody))
-            .withAllowAsRoot(true)              
+            .withAllowAsRoot(true)
             .addGroup()
-              .addFormPickerProperty()
-                .withDataTypeId(dataTypeBody.id)
-                .withAlias(formPickerAlias)
-              .done()
+            .addFormPickerProperty()
+            .withDataTypeId(dataTypeBody.id)
+            .withAlias(formPickerAlias)
+            .done()
             .done()
             .build();
 
@@ -385,21 +383,19 @@ context('Forms', () => {
               .withTemplateAlias(templateBody.alias)
               .withContentTypeAlias(docTypeBody.alias)
               .addVariant()
-                .withSave(true)
-                .withPublish(true)
-                .addProperty()
-                  .withAlias(formPickerAlias)
-                  .withValue(formBody.id)
-                  .done()
+              .withSave(true)
+              .withPublish(true)
+              .addProperty()
+              .withAlias(formPickerAlias)
+              .withValue(formBody.id)
+              .done()
               .done()
               .build();
 
-            cy.saveContent(content,response => {
-            //  cy.cycleHackWorkaroundForPureLiveIssue().then(_ => {
-                cy.visit(response.urls[0].text).then(page => {
-                  action(formBody)
-                });
-            //  });
+            cy.saveContent(content).then((response)=> {              
+              cy.visit(response.urls[0].text).then(page => {
+                action(formBody)
+              });
             });
           });
         });
