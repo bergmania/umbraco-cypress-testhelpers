@@ -1,6 +1,13 @@
 import FormPageBuilder from './formPageBuilder';
+import { IBuilder } from './iBuilder';
+import { WorkflowTypeSetting } from './workflows/WorkflowTypeSetting';
+import { FormWorkflowBuilder } from './workflows/formWorkflowBuilder';
 
-export default class FormBuilder {
+enum ExecuteOn {
+  onSubmit = 0,
+  onAprrove = 1,
+}
+export default class FormBuilder implements IBuilder {
   created;
   cssClass;
   datasource;
@@ -22,34 +29,40 @@ export default class FormBuilder {
   storeRecordsLocally;
   submitLabel;
   useClientDependency;
-  workflows;
   xPathOnSubmit;
 
   formPageBuilders;
 
+  private onSubmit: IBuilder[];
+  private onApprove: IBuilder[];
+
   constructor() {
     this.useClientDependency = false;
     this.formPageBuilders = [];
+    this.onApprove = [];
+    this.onSubmit = [];
   }
   withId(id) {
     this.id = id;
-
     return this;
   }
   withName(name) {
     this.name = name;
-
     return this;
   }
-
   addPage() {
     const builder = new FormPageBuilder(this);
-
     this.formPageBuilders.push(builder);
-
     return builder;
   }
-
+  addFormWorkflowType(executeOn: ExecuteOn): FormWorkflowBuilder {
+    const builder = new FormWorkflowBuilder(this);
+    executeOn === ExecuteOn.onAprrove ? this.onApprove.push(builder) : this.onSubmit.push(builder);
+    return builder;
+  }
+  done() {
+    throw new Error('Not implemented');
+  }
   build() {
     return {
       created: this.created || new Date(),
@@ -57,7 +70,14 @@ export default class FormBuilder {
       datasource: this.datasource || null,
       disableDefaultStylesheet: this.disableDefaultStylesheet || false,
       fieldIndicationType: this.fieldIndicationType || 'MarkMandatoryFields',
-      formWorkflows: this.formWorkflows || { onApprove: [], onSubmit: [] },
+      formWorkflows: {
+        onApprove: this.onApprove.map((builder) => {
+          return builder.build();
+        }),
+        onSubmit: this.onSubmit.map((builder) => {
+          return builder.build();
+        }),
+      },
       goToPageOnSubmit: this.goToPageOnSubmit || 0,
       hideFieldValidation: this.hideFieldValidation || false,
       id: this.id || '00000000-0000-0000-0000-000000000000',
@@ -76,7 +96,6 @@ export default class FormBuilder {
       storeRecordsLocally: this.storeRecordsLocally || true,
       submitLabel: this.submitLabel || 'Submit',
       useClientDependency: this.useClientDependency || false,
-      workflows: this.workflows || [],
       xPathOnSubmit: this.xPathOnSubmit || null,
     };
   }

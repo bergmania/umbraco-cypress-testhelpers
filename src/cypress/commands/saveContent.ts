@@ -18,13 +18,11 @@ export default class SaveContent extends CommandBase {
     formData.append('contentItem', JSON.stringify(content));
     return cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
       cy.server({
-        whitelist: request => {          
-        }
+        whitelist: (request) => {
+          return;
+        },
       });
-      cy.route(
-        method,
-        url
-      ).as('postLogin')
+      cy.route(method, url).as('postLogin');
       cy.window()
         .then((win) => {
           const xhr = new win.XMLHttpRequest();
@@ -32,7 +30,8 @@ export default class SaveContent extends CommandBase {
           xhr.setRequestHeader('X-UMB-XSRF-TOKEN', token.value);
           xhr.send(formData);
         })
-        .wait('@postLogin').then((res) => {
+        .wait('@postLogin')
+        .then((res) => {
           return JsonHelper.getBody(res.response);
         });
     });

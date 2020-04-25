@@ -14,7 +14,7 @@ export default class DeleteTemplateById extends CommandBase {
       return cy
         .request({
           method: 'POST',
-          url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Template/DeleteById?id=' + id,          
+          url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/Template/DeleteById?id=' + id,
           headers: {
             contentType: 'application/json',
             'X-UMB-XSRF-TOKEN': token.value,

@@ -2,7 +2,7 @@
 import faker from 'faker';
 import { Builder } from 'umbraco-cypress-testhelpers';
 import { AliasHelper } from 'umbraco-cypress-testhelpers';
-import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from 'constants';
+
 context('Forms', () => {
   const formPrefix = "formTest";
   const docTypePrefix = "docTypeTest";
@@ -11,10 +11,11 @@ context('Forms', () => {
   const formName = formPrefix + faker.random.uuid();
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-    cleanUp();
+    //cleanUp();
   });
 
   afterEach(() => {
+    //cleanUp();
   }); 
   it('Test form submitting', () => {
     const shortAnswerId = faker.random.uuid();
@@ -30,32 +31,44 @@ context('Forms', () => {
 
     const dateId = faker.random.uuid();
 
-
-    const form = new Builder().Form()
-      .withName(formName)
-      .addPage()
-      .addFieldSet()
-      .addContainer()
-      .addShortAnswerField()
-      .withId(shortAnswerId)
-      .done()
-      .addLongAnswerField()
-      .withId(longAnswerId)
-      .done()
-      .addPasswordField()
-      .withId(passwordId)
-      .done()
-      .addCheckboxField()
-      .withId(checkboxId)
-      .done()
-      .addDateField()
-      .withId(dateId)
-      .done()
-      .done()
-      .done()
-      .done()
+    const workflowName = faker.random.word();
+    
+    const form = new Builder().Form()    
+      .withName(formName) 
+      // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows      
+      .addFormWorkflowType(0)                
+        .addSetting({name:'Email',value:faker.internet.email()})             
+        .addSetting({name:'SenderEmail',value:faker.internet.email()})        
+        .addSetting({name:'Subject',value:faker.random.word()})        
+        .addSetting({name:'RazorViewFilePath',value:'Forms/Emails/Example-Template.cshtml'})        
+        .addSetting({name:'Attachment',value:''})        
+        .withWorkflowTypeId('17c61629-d984-4e86-b43b-a8407b3efea9')  
+        .withIncludeSensitiveData(false)
+        .withName(workflowName)
+      .done()      
+      .addPage()      
+        .addFieldSet()
+          .addContainer()
+            .addShortAnswerField()
+              .withId(shortAnswerId)
+            .done()
+            .addLongAnswerField()
+              .withId(longAnswerId)
+            .done()
+            .addPasswordField()
+              .withId(passwordId)
+            .done()
+            .addCheckboxField()
+              .withId(checkboxId)
+            .done()
+            .addDateField()
+              .withId(dateId)
+            .done()
+          .done()
+        .done()
+      .done()      
       .build();
-
+    
     insertFormOnPageAndExecuteAction(form, (formbody) => {      
       cy.dataUmb(shortAnswerId).should('be.visible');
       cy.dataUmb(longAnswerId).should('be.visible');
@@ -73,7 +86,7 @@ context('Forms', () => {
       cy.dataUmb(passwordId).type(passwordValue).blur();
 
       // Checkbox
-      cy.dataUmb(`${checkboxId}`).check();
+      cy.dataUmb(checkboxId).check();
 
       // Date
       cy.dataUmb(`${dateId}_1`).focus();
@@ -94,22 +107,24 @@ context('Forms', () => {
       cy.get('.umb-table-body__link').first().click();
 
       // Verify field values
-      cy.dataUmb(shortAnswerId).should('have.text', shortAnswerId);
-      cy.dataUmb('sub'+shortAnswerId).should('contain.text', shortAnswerValue);
+      cy.dataUmb('label_'+shortAnswerId).should('have.text', shortAnswerId);
+      cy.dataUmb(shortAnswerId).should('contain.text', shortAnswerValue);
       
-      cy.dataUmb(longAnswerId).should('have.text', longAnswerId);
-      cy.dataUmb('sub'+longAnswerId).should('contain.text', longAnswerValue);
+      cy.dataUmb('label_'+longAnswerId).should('have.text', longAnswerId);
+      cy.dataUmb(longAnswerId).should('contain.text', longAnswerValue);
 
-      cy.dataUmb(checkboxId).should('have.text', checkboxId);
-      cy.dataUmb('sub'+checkboxId).should('contain.text', "True");     
+      cy.dataUmb('label_'+checkboxId).should('have.text', checkboxId);
+      cy.dataUmb(checkboxId).should('contain.text', "True");     
 
-      cy.dataUmb(checkboxId).should('have.text', checkboxId);
-      cy.dataUmb('sub'+checkboxId).should('contain.text', "True");   
-
-      cy.dataUmb(dateId).should('have.text', dateId);      
+      cy.dataUmb('label_'+dateId).should('have.text', dateId);      
       const d = new Date();
       const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
-      cy.dataUmb('sub'+dateId).should('contain.text',  datestring + '\n');
+      cy.dataUmb(dateId).should('contain.text',  datestring + '\n');
+
+
+      cy.visit('/umbraco/#/forms/form/edit/' + formbody.id);
+      // Verify that the workflow is attached
+      cy.dataUmb(workflowName).should('have.text',workflowName);
 
     });
   });
@@ -346,28 +361,28 @@ context('Forms', () => {
 
         const template = new Builder().Template()
           .withName(templatePrefix + faker.random.uuid())
-          .withContent("@inherits Umbraco.Web.Mvc.UmbracoViewPage<" + AliasHelper.capitalize(docTypeAlias) + ">\n" +
-            "@using ContentModels = Umbraco.Web.PublishedModels;\n" +
-            "@{\n" +
-            "\tLayout = null;\n" +
-            "}\n" +
-            "<html>\n" +
-            "<head>\n" +
-            "<script src=\"https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js\"></script>\n" +
-            "<script src=\"https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js\"></script>\n" +
-            "<script src=\"https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js\"></script>\n" +
-            "</head>\n" +
-            "</body>\n" +
-            "@Umbraco.RenderMacro(\"renderUmbracoForm\", new {FormGuid=Model.MyFormPicker.ToString(), FormTheme=\"\", ExcludeScripts=\"0\"})" +
-            "</body>\n" +
-            "</html>\n")
+          .withContent(`@inherits Umbraco.Web.Mvc.UmbracoViewPage<${AliasHelper.capitalize(docTypeAlias)}>\n
+                        @using ContentModels = Umbraco.Web.PublishedModels;\n
+                        @{\n
+                        \tLayout = null;\n
+                        }\n
+                        <html>\n
+                          \t<head>\n
+                          \t\t<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>\n
+                          \t\t<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>\n
+                          \t\t<script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>\n
+                          \t</head>\n
+                          \t<body>\n
+                          \t\t@Umbraco.RenderMacro("renderUmbracoForm", new {FormGuid=Model.MyFormPicker.ToString(), FormTheme="", ExcludeScripts="0"})
+                          \t</body>\n
+                        </html>\n`
+                      )
           .build();
 
         cy.saveTemplate(template).then(templateBody => {
           const docType = new Builder().DocumentType()
             .withName(docTypePrefix + faker.random.uuid())
             .withAlias(docTypeAlias)
-
             .withDefaultTemplate(decodeURI(templateBody))
             .withAllowAsRoot(true)
             .addGroup()
@@ -402,5 +417,4 @@ context('Forms', () => {
       });
     });
   }
-
 });

@@ -14,7 +14,7 @@ export default class DeleteFormByGuid extends CommandBase {
       return cy
         .request({
           method: 'DELETE',
-          url: this.relativeBackOfficePath + '/backoffice/UmbracoForms/Form/DeleteByGuid?guid=' + guid,          
+          url: this.relativeBackOfficePath + '/backoffice/UmbracoForms/Form/DeleteByGuid?guid=' + guid,
           json: true,
           headers: {
             Accept: 'application/json',
