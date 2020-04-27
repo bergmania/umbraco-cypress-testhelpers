@@ -39,7 +39,7 @@ describe('DataType Builders', () => {
     const formId2 = faker.random.uuid();
 
     const actual = new Builder().FormPicker()
-      .withSaveNewAction({})
+      .withSaveNewAction()
       .withAllowedForms([formId1, formId2])
       .build();
 

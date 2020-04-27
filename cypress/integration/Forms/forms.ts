@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import { Builder } from 'umbraco-cypress-testhelpers';
-import { AliasHelper } from 'umbraco-cypress-testhelpers';
+import { Builder } from '../../../src';
+import { AliasHelper } from '../../../src';
 
 context('Forms', () => {
   const formPrefix = "formTest";
@@ -17,7 +17,12 @@ context('Forms', () => {
   afterEach(() => {
     //cleanUp();
   }); 
-  it('Test form submitting', () => {
+  it('Test adding text prevalue source', ()=>{
+    insertTextPrevalueSourceAndExecuteAction({});
+
+  });
+  
+  it.skip('Test form submitting', () => {
     const shortAnswerId = faker.random.uuid();
     const shortAnswerValue = faker.lorem.sentence();
 
@@ -347,12 +352,16 @@ context('Forms', () => {
     cy.deleteTemplatesByNamePrefix(templatePrefix);
   }
 
+  function insertTextPrevalueSourceAndExecuteAction(action) {
+    cy.saveFilePrevalueSource().then(p=>console.log(p));
+
+  }
   function insertFormOnPageAndExecuteAction(form, action) {
     cy.saveForm(form).then(formBody => {
 
       const dataType = new Builder().FormPicker()
         .withName(dataTypePrefix + faker.random.uuid())
-        .withSaveNewAction({})
+        .withSaveNewAction()
         .build();
 
       cy.saveDataType(dataType).then(dataTypeBody => {

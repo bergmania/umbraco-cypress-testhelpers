@@ -46,8 +46,6 @@
   },
   "homepage": "https://github.com/bergmania/umbraco-cypress-testhelpers",
   "devDependencies": {
-    "@bahmutov/add-typescript-to-cypress": "^2.1.2",
-    "@cypress/webpack-preprocessor": "^4.1.0",
     "@types/chai": "^4.2.11",
     "@types/faker": "^4.1.11",
     "@types/jest": "^25.2.1",
@@ -70,11 +68,8 @@
     "ts-loader": "^6.2.2",
     "tslint": "^6.1.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~3.8.3",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.11"
+    "typescript": "~3.8.3"
   },
-  "dependencies": {},
   "peerDependencies": {
     "cypress": "^4.0.2",
     "cross-env": "^7.0.2",

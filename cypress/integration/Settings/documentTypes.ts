@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+import { Builder } from '../../../src';
 context('Document Types', () => {
 
   beforeEach(() => {

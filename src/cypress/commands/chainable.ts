@@ -17,7 +17,8 @@ declare global {
       deleteDataTypeById: (name: string) => Chainable<void>;
       saveContent: (param: any) => Chainable<any>;
       saveDataType: (param: any) => Chainable<any>;
-      saveDocumentType: (nparam: any) => Chainable<any>;
+      saveDocumentType: (param: any) => Chainable<any>;
+      saveFilePrevalueSource: () => Chainable<any>;
       saveForm: (param: any) => Chainable<any>;
       saveTemplate: (param: any) => Chainable<any>;
       umbracoContextMenuAction: (name: string) => Chainable<void>;

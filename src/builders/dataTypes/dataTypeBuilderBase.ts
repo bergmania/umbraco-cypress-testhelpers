@@ -11,7 +11,7 @@ export default class DataTypeBuilderBase {
     this.action = 'save';
     return this;
   }
-  withSaveNewAction(action) {
+  withSaveNewAction() {
     this.action = 'saveNew';
     return this;
   }
