@@ -41,6 +41,10 @@ import UmbracoEnsurePartialViewMacroFileNameNotExists from './umbracoEnsureParti
 import UmbracoEnsureStylesheetNameNotExists from './umbracoEnsureStylesheetNameNotExists';
 import UmbracoEnsureScriptNameNotExists from './umbracoEnsureScriptNameNotExists';
 import CycleHackWorkaroundForPureLiveIssue from './cycleHackWorkaroundForPureLiveIssue';
+import PostFile from './postFile';
+import PostRequest from './postRequest';
+import deletePreValueSourceByGuid from './deletePreValueSourceByGuid';
+import DeleteAllPreValues from './deleteAllPreValues';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -57,6 +61,7 @@ export class Command {
     });
     new DataUmb(relativeBackOfficePath).registerCommand();
     new DeleteAllForms(relativeBackOfficePath).registerCommand();
+    new DeleteAllPreValues(relativeBackOfficePath).registerCommand();
     new UmbracoLogin(relativeBackOfficePath).registerCommand();
     new DeleteDocumentType(relativeBackOfficePath).registerCommand();
     new DeleteDocumentTypeById(relativeBackOfficePath).registerCommand();
@@ -64,13 +69,16 @@ export class Command {
     new DeleteForm(relativeBackOfficePath).registerCommand();
     new DeleteFormByGuid(relativeBackOfficePath).registerCommand();
     new DeleteFormsByNamePrefix(relativeBackOfficePath).registerCommand();
+    new deletePreValueSourceByGuid(relativeBackOfficePath).registerCommand();
     new DeleteTemplateById(relativeBackOfficePath).registerCommand();
     new DeleteTemplatesByNamePrefix(relativeBackOfficePath).registerCommand();
     new DeleteDataTypesByNamePrefix(relativeBackOfficePath).registerCommand();
+    new PostFile(relativeBackOfficePath).registerCommand();
+    new PostRequest(relativeBackOfficePath).registerCommand();
     new DeleteDataTypeById(relativeBackOfficePath).registerCommand();
     new SaveContent(relativeBackOfficePath).registerCommand();
     new SaveDataType(relativeBackOfficePath).registerCommand();
-    new SaveDocumentType(relativeBackOfficePath).registerCommand();
+    new SaveDocumentType(relativeBackOfficePath).registerCommand();    
     new SaveForm(relativeBackOfficePath).registerCommand();
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();

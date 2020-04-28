@@ -9,20 +9,31 @@ context('Forms', () => {
   const dataTypePrefix = "dataTypeTest";
   const templatePrefix = "templateTest";
   const formName = formPrefix + faker.random.uuid();
+  const fieldPreValueSourceTypeId='35c2053e-cbf7-4793-b27c-6e97b7671a2d';
+
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-    //cleanUp();
+    cleanUp();
   });
 
   afterEach(() => {
-    //cleanUp();
+    cleanUp();
   }); 
   it('Test adding text prevalue source', ()=>{
-    insertTextPrevalueSourceAndExecuteAction({});
+    const prevalueName = faker.random.word();
+    
+    insertPrevalueAndExecuteAction({prevalueName,fieldPreValueSourceTypeId},action =>{      
+      cy.visit('/umbraco#/forms/prevaluesource/edit/'+action);      
+      cy.get('.controls > select option:selected').should('have.text','Get values from textfile');
 
+      for(let i=0;i<5;i++){
+        cy.dataUmb(`prevalueId_${i}`).should('have.text',`${i}`);
+        cy.dataUmb(`prevalue_${i}`).should('have.text',`Prevalue${i+1}`);
+      }      
+    });        
   });
   
-  it.skip('Test form submitting', () => {
+  it('Test form submitting', () => {
     const shortAnswerId = faker.random.uuid();
     const shortAnswerValue = faker.lorem.sentence();
 
@@ -350,12 +361,25 @@ context('Forms', () => {
     cy.deleteDocumentTypesByNamePrefix(docTypePrefix);
     cy.deleteDataTypesByNamePrefix(dataTypePrefix);
     cy.deleteTemplatesByNamePrefix(templatePrefix);
-  }
 
-  function insertTextPrevalueSourceAndExecuteAction(action) {
-    cy.saveFilePrevalueSource().then(p=>console.log(p));
-
+    cy.deleteAllPreValues();
   }
+  function insertPrevalueAndExecuteAction({prevalueName, fieldPreValueSourceTypeId}:{prevalueName:string, fieldPreValueSourceTypeId:string}, action) {
+    
+    cy.postFile('prevalueSourceFile.txt','/backoffice/UmbracoForms/PreValueFile/PostAddFile').then(
+      settings=>{   
+        const request={
+          fieldPreValueSourceTypeId: fieldPreValueSourceTypeId,
+          name: prevalueName,
+          settings: {TextFile: settings.FilePath}
+        }  
+        cy.postRequest('/backoffice/UmbracoForms/PreValueSource/ValidateSettings',request).then(()=>
+          cy.postRequest('/backoffice/UmbracoForms/PreValueSource/PostSave',request)).then(postsave=>
+            cy.postRequest('/backoffice/UmbracoForms/PreValueSource/GetPreValues',request).then(()=>action(postsave.id))
+          )                      
+      }
+    )
+  };
   function insertFormOnPageAndExecuteAction(form, action) {
     cy.saveForm(form).then(formBody => {
 
