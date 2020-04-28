@@ -23,7 +23,7 @@ context('Forms', () => {
     const prevalueName = faker.random.word();
     
     insertPrevalueAndExecuteAction({prevalueName,fieldPreValueSourceTypeId},action =>{      
-      cy.visit('/umbraco#/forms/prevaluesource/edit/'+action);      
+      cy.visit(`/umbraco#/forms/prevaluesource/edit/${action}`);      
       cy.get('.controls > select option:selected').should('have.text','Get values from textfile');
 
       for(let i=0;i<5;i++){

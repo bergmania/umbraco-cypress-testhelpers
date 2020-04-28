@@ -10,7 +10,7 @@ export default class DeleteAllPreValues extends CommandBase {
       return cy
         .request({
           method: 'GET',
-          url:`${this.relativeBackOfficePath}/backoffice/UmbracoForms/PreValueSourceTree/GetNodes?id=-1&application=forms&tree=&use=main&culture=`,
+          url: `${this.relativeBackOfficePath}/backoffice/UmbracoForms/PreValueSourceTree/GetNodes?id=-1&application=forms&tree=&use=main&culture=`,
           headers: {
             'X-UMB-XSRF-TOKEN': token.value,
           },

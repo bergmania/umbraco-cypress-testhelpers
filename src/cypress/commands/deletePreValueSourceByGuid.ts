@@ -1,6 +1,6 @@
 import CommandBase from './commandBase';
 
-export default class deletePreValueSourceByGuid extends CommandBase {
+export default class DeletePreValueSourceByGuid extends CommandBase {
   commandName = 'deletePreValueSourceByGuId';
 
   method(guid) {

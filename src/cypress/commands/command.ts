@@ -43,7 +43,7 @@ import UmbracoEnsureScriptNameNotExists from './umbracoEnsureScriptNameNotExists
 import CycleHackWorkaroundForPureLiveIssue from './cycleHackWorkaroundForPureLiveIssue';
 import PostFile from './postFile';
 import PostRequest from './postRequest';
-import deletePreValueSourceByGuid from './deletePreValueSourceByGuid';
+import DeletePreValueSourceByGuid from './deletePreValueSourceByGuid';
 import DeleteAllPreValues from './deleteAllPreValues';
 
 export class Command {
@@ -69,7 +69,7 @@ export class Command {
     new DeleteForm(relativeBackOfficePath).registerCommand();
     new DeleteFormByGuid(relativeBackOfficePath).registerCommand();
     new DeleteFormsByNamePrefix(relativeBackOfficePath).registerCommand();
-    new deletePreValueSourceByGuid(relativeBackOfficePath).registerCommand();
+    new DeletePreValueSourceByGuid(relativeBackOfficePath).registerCommand();
     new DeleteTemplateById(relativeBackOfficePath).registerCommand();
     new DeleteTemplatesByNamePrefix(relativeBackOfficePath).registerCommand();
     new DeleteDataTypesByNamePrefix(relativeBackOfficePath).registerCommand();
@@ -78,7 +78,7 @@ export class Command {
     new DeleteDataTypeById(relativeBackOfficePath).registerCommand();
     new SaveContent(relativeBackOfficePath).registerCommand();
     new SaveDataType(relativeBackOfficePath).registerCommand();
-    new SaveDocumentType(relativeBackOfficePath).registerCommand();    
+    new SaveDocumentType(relativeBackOfficePath).registerCommand();
     new SaveForm(relativeBackOfficePath).registerCommand();
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
