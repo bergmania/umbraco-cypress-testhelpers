@@ -4,6 +4,7 @@ declare global {
       addTextToUsernameInput: (name: string) => Chainable<void>;
       cycleHackWorkaroundForPureLiveIssue: (name: string) => Chainable<void>;
       dataUmb(value: string): Chainable<Element>;
+      dataUmbScope(value: string): Chainable<Element>;
       deleteAllForms: (name: string) => Chainable<void>;
       deleteAllPreValues: () => Chainable<void>;
       deleteDocumentType: (name: string) => Chainable<void>;
@@ -17,6 +18,7 @@ declare global {
       deleteTemplatesByNamePrefix: (name: string) => Chainable<void>;
       deleteDataTypesByNamePrefix: (name: string) => Chainable<void>;
       deleteDataTypeById: (name: string) => Chainable<void>;
+      getAngular: () => Chainable<any>;
       postFile: (fileName: string, url: string) => Chainable<any>;
       postRequest: (url: string, payload: any) => Chainable<any>;
       saveContent: (param: any) => Chainable<any>;

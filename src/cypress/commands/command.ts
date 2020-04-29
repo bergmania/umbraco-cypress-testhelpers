@@ -45,6 +45,8 @@ import PostFile from './postFile';
 import PostRequest from './postRequest';
 import DeletePreValueSourceByGuid from './deletePreValueSourceByGuid';
 import DeleteAllPreValues from './deleteAllPreValues';
+import DataUmbScope from './dataUmbScope';
+import GetAngular from './getAngular';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -60,6 +62,7 @@ export class Command {
       },
     });
     new DataUmb(relativeBackOfficePath).registerCommand();
+    new DataUmbScope(relativeBackOfficePath).registerCommand();
     new DeleteAllForms(relativeBackOfficePath).registerCommand();
     new DeleteAllPreValues(relativeBackOfficePath).registerCommand();
     new UmbracoLogin(relativeBackOfficePath).registerCommand();
@@ -73,9 +76,10 @@ export class Command {
     new DeleteTemplateById(relativeBackOfficePath).registerCommand();
     new DeleteTemplatesByNamePrefix(relativeBackOfficePath).registerCommand();
     new DeleteDataTypesByNamePrefix(relativeBackOfficePath).registerCommand();
+    new DeleteDataTypeById(relativeBackOfficePath).registerCommand();
+    new GetAngular(relativeBackOfficePath).registerCommand();
     new PostFile(relativeBackOfficePath).registerCommand();
     new PostRequest(relativeBackOfficePath).registerCommand();
-    new DeleteDataTypeById(relativeBackOfficePath).registerCommand();
     new SaveContent(relativeBackOfficePath).registerCommand();
     new SaveDataType(relativeBackOfficePath).registerCommand();
     new SaveDocumentType(relativeBackOfficePath).registerCommand();

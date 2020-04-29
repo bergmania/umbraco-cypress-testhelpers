@@ -1,38 +1,24 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
 import { Builder } from '../../../src';
-import { AliasHelper } from '../../../src';
+import { Form } from '../Shared/form';
 
 context('Forms', () => {
   const formPrefix = "formTest";
-  const docTypePrefix = "docTypeTest";
-  const dataTypePrefix = "dataTypeTest";
-  const templatePrefix = "templateTest";
+
   const formName = formPrefix + faker.random.uuid();
-  const fieldPreValueSourceTypeId='35c2053e-cbf7-4793-b27c-6e97b7671a2d';
+
+  const form: Form = new Form();
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-    cleanUp();
+    form.cleanUp({});
   });
 
   afterEach(() => {
-    cleanUp();
-  }); 
-  it('Test adding text prevalue source', ()=>{
-    const prevalueName = faker.random.word();
-    
-    insertPrevalueAndExecuteAction({prevalueName,fieldPreValueSourceTypeId},action =>{      
-      cy.visit(`/umbraco#/forms/prevaluesource/edit/${action}`);      
-      cy.get('.controls > select option:selected').should('have.text','Get values from textfile');
-
-      for(let i=0;i<5;i++){
-        cy.dataUmb(`prevalueId_${i}`).should('have.text',`${i}`);
-        cy.dataUmb(`prevalue_${i}`).should('have.text',`Prevalue${i+1}`);
-      }      
-    });        
+    form.cleanUp({});
   });
-  
+
   it('Test form submitting', () => {
     const shortAnswerId = faker.random.uuid();
     const shortAnswerValue = faker.lorem.sentence();
@@ -48,44 +34,44 @@ context('Forms', () => {
     const dateId = faker.random.uuid();
 
     const workflowName = faker.random.word();
-    
-    const form = new Builder().Form()    
-      .withName(formName) 
+
+    const form = new Builder().Form()
+      .withName(formName)
       // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows      
-      .addFormWorkflowType(0)                
-        .addSetting({name:'Email',value:faker.internet.email()})             
-        .addSetting({name:'SenderEmail',value:faker.internet.email()})        
-        .addSetting({name:'Subject',value:faker.random.word()})        
-        .addSetting({name:'RazorViewFilePath',value:'Forms/Emails/Example-Template.cshtml'})        
-        .addSetting({name:'Attachment',value:''})        
-        .withWorkflowTypeId('17c61629-d984-4e86-b43b-a8407b3efea9')  
-        .withIncludeSensitiveData(false)
-        .withName(workflowName)
-      .done()      
-      .addPage()      
-        .addFieldSet()
-          .addContainer()
-            .addShortAnswerField()
-              .withId(shortAnswerId)
-            .done()
-            .addLongAnswerField()
-              .withId(longAnswerId)
-            .done()
-            .addPasswordField()
-              .withId(passwordId)
-            .done()
-            .addCheckboxField()
-              .withId(checkboxId)
-            .done()
-            .addDateField()
-              .withId(dateId)
-            .done()
-          .done()
-        .done()
-      .done()      
+      .addFormWorkflowType(0)
+      .addSetting({ name: 'Email', value: faker.internet.email() })
+      .addSetting({ name: 'SenderEmail', value: faker.internet.email() })
+      .addSetting({ name: 'Subject', value: faker.random.word() })
+      .addSetting({ name: 'RazorViewFilePath', value: 'Forms/Emails/Example-Template.cshtml' })
+      .addSetting({ name: 'Attachment', value: '' })
+      .withWorkflowTypeId('17c61629-d984-4e86-b43b-a8407b3efea9')
+      .withIncludeSensitiveData(false)
+      .withName(workflowName)
+      .done()
+      .addPage()
+      .addFieldSet()
+      .addContainer()
+      .addShortAnswerField()
+      .withId(shortAnswerId)
+      .done()
+      .addLongAnswerField()
+      .withId(longAnswerId)
+      .done()
+      .addPasswordField()
+      .withId(passwordId)
+      .done()
+      .addCheckboxField()
+      .withId(checkboxId)
+      .done()
+      .addDateField()
+      .withId(dateId)
+      .done()
+      .done()
+      .done()
+      .done()
       .build();
-    
-    insertFormOnPageAndExecuteAction(form, (formbody) => {      
+
+      form.insertFormOnPage({form}).then((formbody) => {
       cy.dataUmb(shortAnswerId).should('be.visible');
       cy.dataUmb(longAnswerId).should('be.visible');
       cy.dataUmb(passwordId).should('be.visible');
@@ -93,7 +79,7 @@ context('Forms', () => {
       cy.dataUmb(dateId).should('not.be.visible');
 
       // Short answer
-      cy.dataUmb(shortAnswerId ).type(shortAnswerValue).blur();
+      cy.dataUmb(shortAnswerId).type(shortAnswerValue).blur();
 
       // Long answer
       cy.dataUmb(longAnswerId).type(longAnswerValue).blur();
@@ -123,24 +109,24 @@ context('Forms', () => {
       cy.get('.umb-table-body__link').first().click();
 
       // Verify field values
-      cy.dataUmb('label_'+shortAnswerId).should('have.text', shortAnswerId);
+      cy.dataUmb('label_' + shortAnswerId).should('have.text', shortAnswerId);
       cy.dataUmb(shortAnswerId).should('contain.text', shortAnswerValue);
-      
-      cy.dataUmb('label_'+longAnswerId).should('have.text', longAnswerId);
+
+      cy.dataUmb('label_' + longAnswerId).should('have.text', longAnswerId);
       cy.dataUmb(longAnswerId).should('contain.text', longAnswerValue);
 
-      cy.dataUmb('label_'+checkboxId).should('have.text', checkboxId);
-      cy.dataUmb(checkboxId).should('contain.text', "True");     
+      cy.dataUmb('label_' + checkboxId).should('have.text', checkboxId);
+      cy.dataUmb(checkboxId).should('contain.text', "True");
 
-      cy.dataUmb('label_'+dateId).should('have.text', dateId);      
+      cy.dataUmb('label_' + dateId).should('have.text', dateId);
       const d = new Date();
       const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
-      cy.dataUmb(dateId).should('contain.text',  datestring + '\n');
+      cy.dataUmb(dateId).should('contain.text', datestring + '\n');
 
 
       cy.visit('/umbraco/#/forms/form/edit/' + formbody.id);
       // Verify that the workflow is attached
-      cy.dataUmb(workflowName).should('have.text',workflowName);
+      cy.dataUmb(workflowName).should('have.text', workflowName);
 
     });
   });
@@ -177,7 +163,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, () => {
+      form.insertFormOnPage({form}).then(() => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
@@ -218,7 +204,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, () => {
+      form.insertFormOnPage(form).then(() => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
@@ -259,7 +245,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, () => {
+      form.insertFormOnPage({form}).then(() => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
@@ -300,7 +286,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, () => {
+      form.insertFormOnPage({form}).then(() => {
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
       cy.get("input[name='" + shortAnswer1Id + "']").type(text1ToInsert + faker.random.uuid()).blur();
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
@@ -345,7 +331,7 @@ context('Forms', () => {
       .done()
       .build();
 
-    insertFormOnPageAndExecuteAction(form, () => {
+      form.insertFormOnPage({form}).then(() => {
       cy.get("input[name='" + shortAnswer1Id + "']").type("not the expected text").blur();
       cy.get("input[value='Next']").click();
       cy.get("input[name='" + shortAnswer3Id + "']").should('not.be.visible');
@@ -354,100 +340,5 @@ context('Forms', () => {
       cy.get("input[value='Next']").click();
       cy.get("input[name='" + shortAnswer3Id + "']").should('be.visible');
     });
-  });
-
-  function cleanUp() {
-    cy.deleteFormsByNamePrefix(formPrefix);
-    cy.deleteDocumentTypesByNamePrefix(docTypePrefix);
-    cy.deleteDataTypesByNamePrefix(dataTypePrefix);
-    cy.deleteTemplatesByNamePrefix(templatePrefix);
-
-    cy.deleteAllPreValues();
-  }
-  function insertPrevalueAndExecuteAction({prevalueName, fieldPreValueSourceTypeId}:{prevalueName:string, fieldPreValueSourceTypeId:string}, action) {
-    
-    cy.postFile('prevalueSourceFile.txt','/backoffice/UmbracoForms/PreValueFile/PostAddFile').then(
-      settings=>{   
-        const request={
-          fieldPreValueSourceTypeId: fieldPreValueSourceTypeId,
-          name: prevalueName,
-          settings: {TextFile: settings.FilePath}
-        }  
-        cy.postRequest('/backoffice/UmbracoForms/PreValueSource/ValidateSettings',request).then(()=>
-          cy.postRequest('/backoffice/UmbracoForms/PreValueSource/PostSave',request)).then(postsave=>
-            cy.postRequest('/backoffice/UmbracoForms/PreValueSource/GetPreValues',request).then(()=>action(postsave.id))
-          )                      
-      }
-    )
-  };
-  function insertFormOnPageAndExecuteAction(form, action) {
-    cy.saveForm(form).then(formBody => {
-
-      const dataType = new Builder().FormPicker()
-        .withName(dataTypePrefix + faker.random.uuid())
-        .withSaveNewAction()
-        .build();
-
-      cy.saveDataType(dataType).then(dataTypeBody => {
-        const formPickerAlias = 'myFormPicker';
-        const docTypeAlias = AliasHelper.toSafeAlias(faker.random.uuid());
-
-        const template = new Builder().Template()
-          .withName(templatePrefix + faker.random.uuid())
-          .withContent(`@inherits Umbraco.Web.Mvc.UmbracoViewPage<${AliasHelper.capitalize(docTypeAlias)}>\n
-                        @using ContentModels = Umbraco.Web.PublishedModels;\n
-                        @{\n
-                        \tLayout = null;\n
-                        }\n
-                        <html>\n
-                          \t<head>\n
-                          \t\t<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>\n
-                          \t\t<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>\n
-                          \t\t<script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>\n
-                          \t</head>\n
-                          \t<body>\n
-                          \t\t@Umbraco.RenderMacro("renderUmbracoForm", new {FormGuid=Model.MyFormPicker.ToString(), FormTheme="", ExcludeScripts="0"})
-                          \t</body>\n
-                        </html>\n`
-                      )
-          .build();
-
-        cy.saveTemplate(template).then(templateBody => {
-          const docType = new Builder().DocumentType()
-            .withName(docTypePrefix + faker.random.uuid())
-            .withAlias(docTypeAlias)
-            .withDefaultTemplate(decodeURI(templateBody))
-            .withAllowAsRoot(true)
-            .addGroup()
-            .addFormPickerProperty()
-            .withDataTypeId(dataTypeBody.id)
-            .withAlias(formPickerAlias)
-            .done()
-            .done()
-            .build();
-
-          cy.saveDocumentType(docType).then((docTypeBody) => {
-            const content = new Builder().Content()
-              .withTemplateAlias(templateBody.alias)
-              .withContentTypeAlias(docTypeBody.alias)
-              .addVariant()
-              .withSave(true)
-              .withPublish(true)
-              .addProperty()
-              .withAlias(formPickerAlias)
-              .withValue(formBody.id)
-              .done()
-              .done()
-              .build();
-
-            cy.saveContent(content).then((response)=> {              
-              cy.visit(response.urls[0].text).then(page => {
-                action(formBody)
-              });
-            });
-          });
-        });
-      });
-    });
-  }
+  })
 });
