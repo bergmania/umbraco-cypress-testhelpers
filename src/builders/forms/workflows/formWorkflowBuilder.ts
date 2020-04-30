@@ -96,7 +96,7 @@ export class FormWorkflowBuilder  {
     this.workflowTypeName = workflowTypeName;
     return this;
   }
-  addSetting(setting: { name: string; value: string }): IFormWorkflowBuilder {
+  addSetting(setting: { name: string; value: string }): FormWorkflowBuilder {
     const builder = new WorkflowTypeSetting(this);
     builder.name = setting.name;
     builder.value = setting.value;
