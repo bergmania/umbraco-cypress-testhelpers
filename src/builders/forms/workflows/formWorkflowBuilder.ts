@@ -1,7 +1,7 @@
 import faker from 'faker';
 import { IBuilder } from '../iBuilder';
-import { WorkflowTypeSetting } from './WorkflowTypeSetting';
-import { IFormWorkflowBuilder } from './IformWorkflowBuilder';
+import { IFormWorkflowBuilder } from './iformWorkflowBuilder';
+import { WorkflowTypeSetting } from './workflowTypeSetting';
 
 export class FormWorkflowBuilder implements IFormWorkflowBuilder {
   parentBuilder;

@@ -1,6 +1,5 @@
 import FormPageBuilder from './formPageBuilder';
 import { IBuilder } from './iBuilder';
-import { WorkflowTypeSetting } from './workflows/WorkflowTypeSetting';
 import { FormWorkflowBuilder } from './workflows/formWorkflowBuilder';
 
 enum ExecuteOn {
