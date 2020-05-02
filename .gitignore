@@ -49,3 +49,4 @@ others
 *.tgz
 test-results.trx
 /coverage
+*.trx

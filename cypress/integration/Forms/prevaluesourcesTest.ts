@@ -11,7 +11,7 @@ context('Forms Prevalue sources', () => {
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
         prevalueSources.cleanUp();
-        form.cleanUp({});
+        
     });
 
     afterEach(() => {

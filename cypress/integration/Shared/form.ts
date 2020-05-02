@@ -40,7 +40,7 @@ export class Form {
                 .done()            
             .build();            
     }
-    public createDocType(templateBody, docTypePrefix: string, docTypeAlias: string, dataTypeBody, formPickerAlias: string) {
+    public createContentType(templateBody, docTypePrefix: string, docTypeAlias: string, dataTypeBody, formPickerAlias: string) {
         return new Builder().DocumentType()
             .withName(docTypePrefix + faker.random.uuid())
             .withAlias(docTypeAlias)
@@ -95,18 +95,17 @@ export class Form {
         formPickerAlias?: string;
         visit?:boolean;
     }) {
-
-        return cy.saveForm(form).then(formBody => {
-
+        
+        return cy.saveForm(form).then(formBody => {           
             const dataType = this.createDataType(dataTypePrefix);
             cy.saveDataType(dataType).then(dataTypeBody => {
-
+                
                 const template = this.createTemplate(templatePrefix);
                 cy.saveTemplate(template).then(templateBody => {
 
-                    const docType = this.createDocType(templateBody, docTypePrefix, this.docTypeAlias, dataTypeBody, formPickerAlias);
+                    const docType = this.createContentType(templateBody, docTypePrefix, this.docTypeAlias, dataTypeBody, formPickerAlias);
                     cy.saveDocumentType(docType).then((docTypeBody) => {
-
+                        
                         const content = this.createContent(templateBody, docTypeBody, formPickerAlias, formBody);
                         cy.saveContent(content).then((response) => {
                             return visit === true ? 
@@ -137,5 +136,6 @@ export class Form {
         cy.deleteDocumentTypesByNamePrefix(docTypePrefix);
         cy.deleteDataTypesByNamePrefix(dataTypePrefix);
         cy.deleteTemplatesByNamePrefix(templatePrefix);
+        cy.deleteAllContent();
       }
 }

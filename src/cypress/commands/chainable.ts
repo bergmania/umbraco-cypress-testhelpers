@@ -3,10 +3,13 @@ declare global {
     interface Chainable<Subject> {
       addTextToUsernameInput: (name: string) => Chainable<void>;
       cycleHackWorkaroundForPureLiveIssue: (name: string) => Chainable<void>;
-      dataUmb(value: string): Chainable<Element>;
-      dataUmbScope(value: string): Chainable<Element>;
+      dataUmb(value: string, child?: string): Chainable<Element>;
+      dataUmbScope(value: string, child?: string): Chainable<Element>;
+      deleteAllContent: () => Chainable<void>;
       deleteAllForms: (name: string) => Chainable<void>;
+      deleteAllDataSources: () => Chainable<void>;
       deleteAllPreValues: () => Chainable<void>;
+      deleteContentById: (name: string) => Chainable<void>;
       deleteDocumentType: (name: string) => Chainable<void>;
       deleteDocumentTypeById: (name: string) => Chainable<void>;
       deleteDocumentTypesByNamePrefix: (name: string) => Chainable<void>;

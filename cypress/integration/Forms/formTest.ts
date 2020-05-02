@@ -11,7 +11,7 @@ context('Forms', () => {
   const form: Form = new Form();
 
   beforeEach(() => {
-    cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
+    cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));    
     form.cleanUp({});
   });
 
@@ -33,9 +33,9 @@ context('Forms', () => {
 
     const dateId = faker.random.uuid();
 
-    const workflowName = faker.random.word();
+    const workflowName = faker.random.uuid();
 
-    const form = new Builder().Form()
+    var formBuilder=new Builder().Form()
       .withName(formName)
       // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows      
       .addFormWorkflowType(0)
@@ -70,65 +70,65 @@ context('Forms', () => {
       .done()
       .done()
       .build();
+    
+      form.insertFormOnPage({form:formBuilder}).then((formbody) => {
+        cy.dataUmb(shortAnswerId).should('be.visible');
+        cy.dataUmb(longAnswerId).should('be.visible');
+        cy.dataUmb(passwordId).should('be.visible');
+        cy.dataUmb(checkboxId).should('be.visible');
+        cy.dataUmb(dateId).should('not.be.visible');
 
-      form.insertFormOnPage({form}).then((formbody) => {
-      cy.dataUmb(shortAnswerId).should('be.visible');
-      cy.dataUmb(longAnswerId).should('be.visible');
-      cy.dataUmb(passwordId).should('be.visible');
-      cy.dataUmb(checkboxId).should('be.visible');
-      cy.dataUmb(dateId).should('not.be.visible');
+        // Short answer
+        cy.dataUmb(shortAnswerId).type(shortAnswerValue).blur();
 
-      // Short answer
-      cy.dataUmb(shortAnswerId).type(shortAnswerValue).blur();
+        // Long answer
+        cy.dataUmb(longAnswerId).type(longAnswerValue).blur();
 
-      // Long answer
-      cy.dataUmb(longAnswerId).type(longAnswerValue).blur();
+        // Password
+        cy.dataUmb(passwordId).type(passwordValue).blur();
 
-      // Password
-      cy.dataUmb(passwordId).type(passwordValue).blur();
+        // Checkbox
+        cy.dataUmb(checkboxId).check();
 
-      // Checkbox
-      cy.dataUmb(checkboxId).check();
+        // Date
+        cy.dataUmb(`${dateId}_1`).focus();
+        cy.get("div.pika-lendar").should('be.visible');
+        cy.get(".pika-button.pika-day").first().click();
+        cy.get("div.pika-lendar").should('not.be.visible');
 
-      // Date
-      cy.dataUmb(`${dateId}_1`).focus();
-      cy.get("div.pika-lendar").should('be.visible');
-      cy.get(".pika-button.pika-day").first().click();
-      cy.get("div.pika-lendar").should('not.be.visible');
+        // Submit
+        cy.get('form').submit();
 
-      // Submit
-      cy.get('form').submit();
+        // Thank you message
+        cy.get('.umbraco-forms-submitmessage').should('be.visible');
 
-      // Thank you message
-      cy.get('.umbraco-forms-submitmessage').should('be.visible');
+        // Visit entries
+        cy.visit('/umbraco/#/forms/form/entries/' + formbody.id);
 
-      // Visit entries
-      cy.visit('/umbraco/#/forms/form/entries/' + formbody.id);
+        // Click first (newest)
+        cy.get('.umb-table-body__link').first().click();
 
-      // Click first (newest)
-      cy.get('.umb-table-body__link').first().click();
+        // Verify field values
+        cy.dataUmb('label_' + shortAnswerId).should('have.text', shortAnswerId);
+        cy.dataUmb(shortAnswerId).should('contain.text', shortAnswerValue);
 
-      // Verify field values
-      cy.dataUmb('label_' + shortAnswerId).should('have.text', shortAnswerId);
-      cy.dataUmb(shortAnswerId).should('contain.text', shortAnswerValue);
+        cy.dataUmb('label_' + longAnswerId).should('have.text', longAnswerId);
+        cy.dataUmb(longAnswerId).should('contain.text', longAnswerValue);
 
-      cy.dataUmb('label_' + longAnswerId).should('have.text', longAnswerId);
-      cy.dataUmb(longAnswerId).should('contain.text', longAnswerValue);
+        cy.dataUmb('label_' + checkboxId).should('have.text', checkboxId);
+        cy.dataUmb(checkboxId).should('contain.text', "True");
 
-      cy.dataUmb('label_' + checkboxId).should('have.text', checkboxId);
-      cy.dataUmb(checkboxId).should('contain.text', "True");
-
-      cy.dataUmb('label_' + dateId).should('have.text', dateId);
-      const d = new Date();
-      const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
-      cy.dataUmb(dateId).should('contain.text', datestring + '\n');
+        cy.dataUmb('label_' + dateId).should('have.text', dateId);
+        const d = new Date();
+        const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
+        cy.dataUmb(dateId).should('contain.text', datestring + '\n');
 
 
-      cy.visit('/umbraco/#/forms/form/edit/' + formbody.id);
-      // Verify that the workflow is attached
-      cy.dataUmb(workflowName).should('have.text', workflowName);
+        cy.visit('/umbraco/#/forms/form/edit/' + formbody.id);
+        // Verify that the workflow is attached
+        cy.dataUmb(workflowName).should('have.text', workflowName);
 
-    });
+      });
   });
 
   it.skip('Test HideAll Contains conditions', () => {

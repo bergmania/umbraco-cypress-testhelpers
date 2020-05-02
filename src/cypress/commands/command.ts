@@ -47,6 +47,10 @@ import DeletePreValueSourceByGuid from './deletePreValueSourceByGuid';
 import DeleteAllPreValues from './deleteAllPreValues';
 import DataUmbScope from './dataUmbScope';
 import GetAngular from './getAngular';
+import DeleteDataSourceByGuid from './deleteDataSourceByGuid';
+import DeleteAllDataSources from './deleteAllDataSources';
+import DeleteAllContent from './deleteAllContent';
+import DeleteContentById from './deleteContentById';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -63,9 +67,13 @@ export class Command {
     });
     new DataUmb(relativeBackOfficePath).registerCommand();
     new DataUmbScope(relativeBackOfficePath).registerCommand();
+    new DeleteAllContent(relativeBackOfficePath).registerCommand();
     new DeleteAllForms(relativeBackOfficePath).registerCommand();
+    new DeleteAllDataSources(relativeBackOfficePath).registerCommand();
     new DeleteAllPreValues(relativeBackOfficePath).registerCommand();
     new UmbracoLogin(relativeBackOfficePath).registerCommand();
+    new DeleteDataSourceByGuid(relativeBackOfficePath).registerCommand();
+    new DeleteContentById(relativeBackOfficePath).registerCommand();
     new DeleteDocumentType(relativeBackOfficePath).registerCommand();
     new DeleteDocumentTypeById(relativeBackOfficePath).registerCommand();
     new DeleteDocumentTypesByNamePrefix(relativeBackOfficePath).registerCommand();

@@ -8,7 +8,7 @@
     "clean": "rimraf lib",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint --project ./tsconfig.json",
-    "jest:report": "jest --clearCache && jest",
+    "jest:report": "jest --clearCache && jest --reporters=jest-trx-results-processor --coverage --coverageReporters=cobertura ",
     "jest": "jest --clearCache && jest",
     "test": "npm run jest",
     "build": "tsc",

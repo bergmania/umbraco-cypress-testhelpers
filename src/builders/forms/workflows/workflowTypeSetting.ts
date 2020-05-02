@@ -1,12 +1,11 @@
 import faker from 'faker';
 import { IBuilder } from '../iBuilder';
-// skipping 
+// skipping
 // import { WorkflowTypeSetting } from './iWorkflowTypeSetting';
 // implements IWorkflowTypeSetting
 // as this fails on the build server
 
-
-export class WorkflowTypeSetting  {
+export class WorkflowTypeSetting {
   parentBuilder: IBuilder;
 
   description: string;
