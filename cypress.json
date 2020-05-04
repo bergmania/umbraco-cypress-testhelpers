@@ -6,7 +6,7 @@
     "username": "tha@umbraco.dk",
     "password": "1234567890"
   },
-  "ignoreTestFiles": ["**/cypress/integration/examples/*.js", "**/projects/*.js"],
+  "ignoreTestFiles": ["**/cypress/integration/examples/*.js", "**/projects/*.js","**/cypress/integration/Shared/*"],
   "chromeWebSecurity": false,
   "supportFile": "cypress/support/index.js"
 }
