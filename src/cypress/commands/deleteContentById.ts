@@ -14,7 +14,7 @@ export default class DeleteContentByIid extends CommandBase {
       return cy
         .request({
           method: 'DELETE',
-          url: `${this.relativeBackOfficePath}/backoffice/UmbracoApi/Content/DeleteByGuid?id=${id}`,
+          url: `${this.relativeBackOfficePath}/backoffice/UmbracoApi/Content/DeleteById?id=${id}`,
           json: true,
           headers: {
             Accept: 'application/json',
