@@ -9,11 +9,11 @@ context('Forms Data sources', () => {
 
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-        dataSources.cleanUp();        
+        //dataSources.cleanUp();        
     });
 
     afterEach(() => {
-        dataSources.cleanUp();        
+        //dataSources.cleanUp();        
     });
 
 

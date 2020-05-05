@@ -17,12 +17,12 @@ export class PrevalueSources {
         )
     };
 
-    public insertDocument(name: string, rootNode: number, doctype: string) {        
+    public insertDocument(name: string,  doctype: string) {        
         const payload = {
             fieldPreValueSourceTypeId: this.fieldPreValueSourceDocumentTypeId,
             name: name,
-            settings: {RootNode: rootNode, DocType: doctype}
-        }        
+            settings: {DocType: doctype}
+        }               
         return this.insert(payload);
     }    
     public insertDataTypePrevalue(name: string,dataTypeId: number){        
@@ -41,10 +41,6 @@ export class PrevalueSources {
                     });
                 });
     }
-
-
-  
-    
 
     public cleanUp() {
         return cy.deleteAllPreValues();

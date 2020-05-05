@@ -2,6 +2,13 @@
 import { Builder } from '../../../src';
 import { AliasHelper } from '../../../src';
 import faker from 'faker';
+import { FormModel } from './Models/formModel';
+import { ShortAnswerField } from './Models/shortAnswerField';
+import { LongAnswerField } from './Models/longAnswerField';
+import { PasswordField } from './Models/passwordField';
+import { CheckboxField } from './Models/checkboxField';
+import { DateField } from './Models/dateField';
+import { Workflow } from './Models/workflow';
 
 export class Form {
     private readonly docTypeAlias = AliasHelper.toSafeAlias(faker.random.uuid());
@@ -20,27 +27,75 @@ export class Form {
       \t\t@Umbraco.RenderMacro("renderUmbracoForm", new {FormGuid=Model.MyFormPicker.ToString(), FormTheme="", ExcludeScripts="0"})
       \t</body>\n
     </html>\n`
-    private readonly formPrefix = 'formTest';       
-    private readonly dataTypePrefix= 'dataTypeTest';
-    private readonly templatePrefix= 'templateTest';
-    private readonly docTypePrefix = 'docTypeTest'; 
-    private readonly formPickerAlias = 'myFormPicker';
-
-    public createMinimalForm() {
-        return new Builder().Form()
-            .withName(faker.random.uuid())
-                .addPage()
-                    .addFieldSet()
-                        .addContainer()
-                            .addShortAnswerField()
-                                .withId(faker.random.uuid())
-                            .done()
-                        .done()            
-                    .done()
-                .done()            
-            .build();            
+    public readonly formPrefix = 'formTest';       
+    public readonly dataTypePrefix= 'dataTypeTest';
+    public readonly templatePrefix= 'templateTest';
+    public readonly docTypePrefix = 'docTypeTest'; 
+    public readonly formPickerAlias = 'myFormPicker';
+   
+    public buildForm(       
+        model:
+        {   formModel: FormModel,   
+            workflows?: Workflow[],     
+            shortAnswerFields?: ShortAnswerField[],
+            longAnswerFields?: LongAnswerField[],
+            passwordFields?: PasswordField[],
+            checkboxFields?: CheckboxField[],
+            dateFields?: DateField[]
+        }
+        ){
+        let f=new Builder().Form().withName(model.formModel.name);                
+        if(model.workflows){
+            model.workflows?.forEach(workflow=>{
+                let wf=f.addFormWorkflowType(workflow.executeOn)
+                .withWorkflowTypeId(workflow.workflowTypeId)
+                .withIncludeSensitiveData(workflow.includeSensitiveData)
+                .withName(workflow.name);
+                workflow.settings.forEach(setting=>{
+                    wf.addSetting(setting);                                        
+                }); 
+                wf.done();                                                      
+            });               
+        }              
+        let container = 
+            f.addPage()
+                .addFieldSet()
+                    .addContainer();
+                        model.shortAnswerFields?.forEach(shortAnswerField => {
+                            container.addShortAnswerField()
+                            .withId(shortAnswerField.id)                           
+                            .withAlias(shortAnswerField?.alias)
+                            .withCaption(shortAnswerField?.caption)
+                            .done();
+                        });
+                        model.longAnswerFields?.forEach(longAnswerField => {
+                            container.addLongAnswerField()
+                            .withId(longAnswerField.id)
+                            .done();
+                        });
+                        model.passwordFields?.forEach(passwordField => {
+                            container.addPasswordField()
+                            .withId(passwordField.id)
+                            .done();
+                        }); 
+                        model.checkboxFields?.forEach(checkboxField => {
+                            container.addCheckboxField()
+                            .withId(checkboxField.id)
+                            .done();
+                        }); 
+                        model.dateFields?.forEach(dateField => {
+                            container.addDateField()
+                            .withId(dateField.id)
+                            .done();
+                        });
+                                                    
+            container.done()
+                .done()
+            .done()                    
+        return f.build();;
     }
-    public createContentType(templateBody, docTypePrefix: string, docTypeAlias: string, dataTypeBody, formPickerAlias: string) {
+  
+    public buildContentType(templateBody, docTypePrefix: string, docTypeAlias: string, dataTypeBody, formPickerAlias: string) {
         return new Builder().DocumentType()
             .withName(docTypePrefix + faker.random.uuid())
             .withAlias(docTypeAlias)
@@ -54,7 +109,7 @@ export class Form {
             .done()
             .build();
     }
-    public createContent(templateBody, docTypeBody, formPickerAlias: string, formBody) {
+    public buildContent(templateBody, docTypeBody, formPickerAlias: string, formBody) {
         return new Builder().Content()
             .withTemplateAlias(templateBody.alias)
             .withContentTypeAlias(docTypeBody.alias)
@@ -68,27 +123,31 @@ export class Form {
             .done()
             .build();
     }
-    public createTemplate(templatePrefix: string) {
+    public buildTemplate(templatePrefix: string) {
         return new Builder().Template()
             .withName(templatePrefix + faker.random.uuid())
             .withContent(this.content)
             .build();
     }
-    public createDataType(dataTypePrefix) {
+    public buildDataType(dataTypePrefix) {
         return new Builder().FormPicker()
             .withName(dataTypePrefix + faker.random.uuid())
             .withSaveNewAction()
             .build();
     }
+    public insertForm(form){        
+        return cy.saveForm(form).then(formBody =>formBody);
+
+    }
     public insertFormOnPage({
-        form,
+        formBuild,
         dataTypePrefix= this.dataTypePrefix,
         templatePrefix= this.templatePrefix,
         docTypePrefix = this.docTypePrefix,
         formPickerAlias = this.formPickerAlias,
         visit=true
     }:{
-        form;
+        formBuild;
         dataTypePrefix?: string; 
         templatePrefix?: string;
         docTypePrefix?: string;
@@ -96,22 +155,22 @@ export class Form {
         visit?:boolean;
     }) {
         
-        return cy.saveForm(form).then(formBody => {           
-            const dataType = this.createDataType(dataTypePrefix);
+        return cy.saveForm(formBuild).then(formBody => {           
+            const dataType = this.buildDataType(dataTypePrefix);
             cy.saveDataType(dataType).then(dataTypeBody => {
                 
-                const template = this.createTemplate(templatePrefix);
+                const template = this.buildTemplate(templatePrefix);
                 cy.saveTemplate(template).then(templateBody => {
 
-                    const docType = this.createContentType(templateBody, docTypePrefix, this.docTypeAlias, dataTypeBody, formPickerAlias);
+                    const docType = this.buildContentType(templateBody, docTypePrefix, this.docTypeAlias, dataTypeBody, formPickerAlias);
                     cy.saveDocumentType(docType).then((docTypeBody) => {
                         
-                        const content = this.createContent(templateBody, docTypeBody, formPickerAlias, formBody);
-                        cy.saveContent(content).then((response) => {
+                        const content = this.buildContent(templateBody, docTypeBody, formPickerAlias, formBody);
+                        cy.saveContent(content).then((content) => {
                             return visit === true ? 
-                                cy.visit(response.urls[0].text).then(() => formBody)
+                                cy.visit(content.urls[0].text).then(() => {return {formBody: formBody, dataType: dataTypeBody,templateBody: templateBody, docTypeBody: docTypeBody, content: content}})
                                 :
-                                response;
+                                {formBody: formBody, dataType: dataTypeBody,templateBody: templateBody, docTypeBody: docTypeBody, content: content};
                         });
                     });
                 });
