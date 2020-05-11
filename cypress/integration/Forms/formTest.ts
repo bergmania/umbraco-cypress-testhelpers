@@ -20,7 +20,8 @@ import {  FormBuilder,
           AliasHelper,
           CmsDocumentType,
           TextBoxProperty,
-          FormPickerProperty          
+          FormPickerProperty,          
+          DropDownProperty
         } from '../../../src';
 import faker from 'faker';
 
@@ -70,7 +71,7 @@ context('Forms', () => {
     form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((p)=>console.log(p));              
     
   });
-  it.skip('Insert simple contentpage', ()=>{
+  it('Insert simple contentpage', ()=>{
     const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
     const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
     
@@ -79,14 +80,18 @@ context('Forms', () => {
     const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
     const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
     let textBoxProperties=[textBoxProperty1,textBoxProperty2];
-    
+
+    const dropDownPropertyName1 =`${form.dataTypePrefix}${faker.random.uuid()}`;
+    const dropDownProperty1 = new DropDownProperty(dropDownPropertyName1, AliasHelper.uuidToAlias(dropDownPropertyName1),true,['value1','value2','value3','value4','value5']);    
+    let dropDownProperties=[dropDownProperty1];
+
     const minimalTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;
     const minimalTemplate = form.buildMinimalTemplate(minimalTemplateName, AliasHelper.uuidToAlias(minimalTemplateName),documentType.alias,textBoxProperties);    
     // Without form
-    form.insertContentOnPage(documentType, minimalTemplate, textBoxProperties ).then((p)=>console.log(p));      
+    form.insertContentOnPage(documentType, minimalTemplate, textBoxProperties,dropDownProperties ).then((p)=>console.log(p));      
 
   });
-  it('Test form submitting and run workflow send email with template (Razor)', () => {
+  it.skip('Test form submitting and run workflow send email with template (Razor)', () => {
          
     const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
     const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
@@ -95,6 +100,7 @@ context('Forms', () => {
     const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
     const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
     const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
+
     let textBoxProperties=[textBoxProperty1,textBoxProperty2];
 
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};    

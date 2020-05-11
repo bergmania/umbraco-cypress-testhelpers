@@ -12,7 +12,8 @@ import {
     FormPickerTemplate,
     DataType,
     Template,
-    TextBoxProperty
+    TextBoxProperty,
+    DropDownDataTypeBuilder
 } from '../';
 
 
@@ -24,6 +25,8 @@ import { CheckboxField } from './models/checkboxField';
 import { DateField } from './models/dateField';
 import { Workflow } from './Models/workflow';
 import { Chainable } from 'src/cypress/commands/chainable';
+import { DropDownProperty } from 'src/cms/models';
+
 
 export class Form {
     private readonly docTypeAlias = AliasHelper.toSafeAlias(faker.random.uuid());
@@ -140,6 +143,13 @@ export class Form {
             .withMaxChars(maxChars)
             .build();
     }
+    public buildDropDownDataType(name: string, values: string[], multiselect?: boolean) {
+        return new DropDownDataTypeBuilder()
+            .withName(name)
+            .withSaveNewAction()
+            .withPrevalues(values, multiselect)
+            .build();
+    }
     /*************/
     /* Templates */
     /*************/
@@ -229,6 +239,7 @@ export class Form {
         documentType: { name: string, alias: string },
         template: Template,
         textBoxProperties?: TextBoxProperty[],
+        dropDownProperties?: DropDownProperty[],
         formPickerProperty?: { name: string, alias: string, allowedFormIds: string[], formBuild },
     ): any {
         return cy.saveTemplate(template).then(templateBody => {
@@ -239,9 +250,10 @@ export class Form {
                 .withDefaultTemplate(template.alias)
                 .withAllowAsRoot(true)
                 .addGroup();
-            let promises = (textBoxProperties?.map(textBoxProperty => {
+            let promises=[];
+            textBoxProperties?.map(textBoxProperty => {
                 let dataType = this.buildTextBoxDataType(textBoxProperty.name, textBoxProperty.maxChars);
-                return new Cypress.Promise(resolve => {
+                promises.push(new Cypress.Promise(resolve => {
                     cy.saveDataType(dataType).then(dataTypeBody => {
                         documentTypeBuilder.addTextBoxProperty()
                             .withDataTypeId(dataTypeBody.id)
@@ -249,8 +261,21 @@ export class Form {
                             .done();
                         resolve(textBoxProperty);
                     })
-                })
-            }));
+                }));
+            });
+            dropDownProperties?.map(dropDownProperty => {
+                let dataType = this.buildDropDownDataType(dropDownProperty.name, dropDownProperty.values, dropDownProperty.multiSelect);                
+                promises.push(new Cypress.Promise(resolve => {
+                    cy.saveDataType(dataType).then(dataTypeBody => {
+                        console.log(dataType);
+                        documentTypeBuilder.addDropDownProperty()
+                            .withDataTypeId(dataTypeBody.id)
+                            .withAlias(dropDownProperty.alias)                            
+                            .done();                            
+                        resolve(dropDownProperty);
+                    })
+                }));
+            });
             let formPromises = [];
             if (formPickerProperty) {
                 formPromises.push(new Cypress.Promise(formResolv => {
@@ -273,9 +298,10 @@ export class Form {
             }
             Cypress.Promise.all(formPromises).then(formBody => {
                 Cypress.Promise.all(promises).then(properties => {
+                    console.log(properties);
                     cy.saveDocumentType(documentTypeBuilder.done().build()).then(documentTypeBody => {
                         var content = this.buildContent(template.alias, documentTypeBody.alias, properties);
-                        cy.saveContent(content).then((contentBody) => {
+                        cy.saveContent(content).then((contentBody) => {                            
                             return { contentBody, formBody: formBody[0] };
                         });
                     });

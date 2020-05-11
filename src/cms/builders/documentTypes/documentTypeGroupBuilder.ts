@@ -2,6 +2,7 @@ import faker from 'faker';
 
 import {FormPickerDocumentTypePropertyBuilder} from './properties/formPickerDocumentTypePropertyBuilder';
 import { TextBoxDocumentTypePropertyBuilder } from './properties/textBoxDocumentTypePropertyBuilder';
+import { DropDownDocumentTypePropertyBuilder } from './properties/dropDownDocumentTypePropertyBuilder';
 
 export default class DocumentTypeGroupBuilder {
   parentBuilder;
@@ -28,6 +29,13 @@ export default class DocumentTypeGroupBuilder {
 
   addTextBoxProperty() {
     const builder = new TextBoxDocumentTypePropertyBuilder(this);
+
+    this.documentTypeGroupPropertyBuilders.push(builder);
+
+    return builder;
+  }
+  addDropDownProperty() {
+    const builder = new DropDownDocumentTypePropertyBuilder(this);
 
     this.documentTypeGroupPropertyBuilders.push(builder);
 

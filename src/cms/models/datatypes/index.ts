@@ -3,3 +3,4 @@ export {DataTypePrevalue} from './dataTypePrevalue';
 export {FormPickerDataType} from './formPickerDataType';
 export {LabelDataType} from './labelDataType';
 export {TextBoxDataType} from './textBoxDataType';
+export {DropDownDataType} from './dropDownDataType';

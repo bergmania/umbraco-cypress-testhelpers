@@ -10,12 +10,15 @@
         export { FormPickerDataTypeBuilder } from './cms/builders/dataTypes/formPickerDataTypeBuilder';
         export { LabelDataTypeBuilder } from './cms/builders/dataTypes/labelDataTypeBuilder';
         export { TextBoxDataTypeBuilder } from './cms/builders/dataTypes/textBoxDataTypeBuilder';
+        export { DropDownDataTypeBuilder } from './cms/builders/dataTypes/dropDownDataTypeBuilder';
+        
         /* DocumentTypes  builders */
         // export * from './cms/builders/documentTypes/';
         export { DocumentTypeBuilder } from './cms/builders/documentTypes/documentTypeBuilder';
         /* DocumentType Properties builders */
         export { FormPickerDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/formPickerDocumentTypePropertyBuilder';
         export { TextBoxDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/textBoxDocumentTypePropertyBuilder';
+        export { DropDownDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/dropDownDocumentTypePropertyBuilder';
 
         /* Template  builders */
         // export * from './cms/builders/templates/'
@@ -38,10 +41,11 @@
         export {LabelDataType} from './cms/models/datatypes/labelDataType';
         export {Template} from './cms/models/template';
         export {TextBoxDataType} from './cms/models/datatypes/textBoxDataType';
-
+        export {DropDownDataType} from './cms/models/datatypes/dropDownDataType';
         /*Properties*/
         export {TextBoxProperty} from './cms/models/properties/textboxProperty';
         export { FormPickerProperty} from './cms/models/properties/formPickerProperty';
+        export { DropDownProperty} from './cms/models/properties/dropDownProperty';
         
 /* Cypress */
     /* Commands */
