@@ -13,6 +13,7 @@ export class FormFieldBuilderBase {
   preValues = [];
   settings: { DefaultValue: string };
   invalidErrorMessage;
+  containsSensitiveData;
   regex;
   mandatory;
   requiredErrorMessage;
@@ -60,6 +61,11 @@ export class FormFieldBuilderBase {
     this.alias = alias;
 
     return this;
+  }
+  withSensitiveData(containsSensitiveData){
+    this.containsSensitiveData=containsSensitiveData;
+    return this;
+
   }
 
   constructor(parentBuilder) {
@@ -111,6 +117,7 @@ export class FormFieldBuilderBase {
       preValues: this.preValues,
       removePrevalueEditor: this.removePrevalueEditor || false,
       mandatory: this.mandatory || false,
+      containsSensitiveData: this.containsSensitiveData || false,
       settings: this.settings,
       condition: this.formFieldConditionBuilder.build(),
     };

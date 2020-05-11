@@ -37,7 +37,7 @@ context('Forms', () => {
   });
 
 
-  it('Insert simple form page', ()=>{    
+  it.skip('Insert simple form page', ()=>{    
     
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
     const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
@@ -70,7 +70,7 @@ context('Forms', () => {
     form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((p)=>console.log(p));              
     
   });
-  it('Insert simple contentpage', ()=>{
+  it.skip('Insert simple contentpage', ()=>{
     const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
     const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
     
@@ -103,6 +103,9 @@ context('Forms', () => {
       { id: faker.random.uuid(), alias: 'email', caption: 'Email' },
       { id: faker.random.uuid(), caption:'Email address', alias:'emailAddress' },
       { id:  faker.random.uuid(), caption:'phone', alias:'phoneNumber' },
+      //https://github.com/umbraco/Umbraco.Forms.Issues/issues/52
+      //Fields marked as sensitive is included in emails 
+      { id:  faker.random.uuid(), caption:'Sensitive', alias:'sensitiveData', containsSensitiveData: true },
     ];    
 
     const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
@@ -156,6 +159,7 @@ context('Forms', () => {
       cy.dataUmb(shortAnswerFields[1].id).type(faker.internet.email());
       cy.dataUmb(shortAnswerFields[2].id).type(faker.internet.email());
       cy.dataUmb(shortAnswerFields[3].id).type(`${faker.phone.phoneNumber()}`);
+      cy.dataUmb(shortAnswerFields[4].id).type(`Sensitive word: ${faker.random.word()}`);
 
       // Submit
       cy.get('form').submit();
@@ -202,7 +206,7 @@ context('Forms', () => {
       // Cancel
       cy.dataUmb('delete_0_0_0').click();
       cy.dataUmb('confirm_0_0_0').children().last().click();
-      cy.dataUmbScope('field_name_0_0_0').its('field.caption').should('');
+      cy.dataUmb('field_name_0_0_0').should('exist');
       // Delete
       cy.dataUmb('delete_0_0_0').click();
       cy.dataUmb('confirm_0_0_0').children().first().click();

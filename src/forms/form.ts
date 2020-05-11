@@ -84,12 +84,16 @@ export class Form {
             container.addShortAnswerField()
                 .withId(shortAnswerField.id)
                 .withAlias(shortAnswerField?.alias)
-                .withCaption(shortAnswerField?.caption)
+                .withCaption(shortAnswerField?.caption)  
+                .withSensitiveData(shortAnswerField?.containsSensitiveData)              
                 .done();
         });
         model.longAnswerFields?.forEach(longAnswerField => {
             container.addLongAnswerField()
                 .withId(longAnswerField.id)
+                .withAlias(longAnswerField?.alias)
+                .withCaption(longAnswerField?.caption)  
+                .withSensitiveData(longAnswerField?.containsSensitiveData)      
                 .done();
         });
         model.passwordFields?.forEach(passwordField => {
