@@ -1,7 +1,6 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import { DataSources } from '../Shared/datasources';
-
+import { DataSources } from '../../../src/forms/datasources';
 
 context('Forms Data sources', () => {
 

@@ -23,6 +23,7 @@ export default class DeleteAllForms extends CommandBase {
           for (const form of forms) {
             cy.deleteFormByGuid(form.id);
           }
+          return;
         });
     });
   }

@@ -1,14 +1,11 @@
 import { assert } from 'chai';
 import faker from 'faker';
-import ContentVariantPropertyBuilder from '../../src/builders/content/contentVariantPropertyBuilder';
-import ContentVariantBuilder from '../../src/builders/content/contentVariantBuilder';
-import { Builder } from '../../src/builders/builder';
-
+import {ContentBuilder,ContentVariantBuilder,ContentVariantPropertyBuilder} from '../../src';
 
 describe('ContentBuilder', () => {
   it('Default build', () => {
 
-    const actual = new Builder().Content()
+    const actual = new ContentBuilder()
       .build();
     assert.equal(actual.id, 0);
     assert.equal(actual.parentId, -1);
@@ -26,7 +23,7 @@ describe('ContentBuilder', () => {
     const formPickerAlias = faker.hacker.adjective();
     const formId = faker.random.uuid();
 
-    const actual =  new Builder().Content()
+    const actual =  new ContentBuilder()
       .withContentTypeAlias(contentTypeAlias)
       .addVariant()
         .withName(variantName)

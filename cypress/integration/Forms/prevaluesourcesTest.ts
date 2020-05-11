@@ -1,9 +1,9 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import { PrevalueSources } from '../Shared/prevaluesources';
-import { Form } from '../Shared/form';
-import { FormModel } from '../Shared/Models/formModel';
-import { ShortAnswerField } from '../Shared/Models/shortAnswerField';
+import { PrevalueSources } from '../../../src/forms/prevaluesources';
+import { Form } from '../../../src/forms/form';
+import { FormModel } from '../../../src/forms/models/formModel';
+import { ShortAnswerField } from '../../../src/forms/models/shortAnswerField';
 
 context('Forms Prevalue sources', () => {
 

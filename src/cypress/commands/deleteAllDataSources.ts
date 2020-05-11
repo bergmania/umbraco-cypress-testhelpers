@@ -21,6 +21,7 @@ export default class DeleteAllDataSources extends CommandBase {
           for (const datasource of dataSources) {
             cy.deleteDataSourceByGuId(datasource.id);
           }
+          return;
         });
     });
   }

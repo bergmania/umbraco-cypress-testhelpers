@@ -5,7 +5,7 @@ module.exports = {
     [
       "jest-trx-results-processor",
       {
-        "outputFile": "text-results.trx"
+        "outputFile": "test-results.trx"
       }
     ]
   ]

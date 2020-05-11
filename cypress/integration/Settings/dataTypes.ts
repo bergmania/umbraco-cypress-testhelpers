@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-import {Builder} from "../../../src";
+import {LabelDataTypeBuilder} from "../../../src";
 context('Data Types', () => {
 
   beforeEach(() => {
@@ -41,7 +41,7 @@ context('Data Types', () => {
     const name = "Test data type";	
     cy.umbracoEnsureDataTypeNameNotExists(name);	
 
-    const dataType = new Builder().Label()
+    const dataType = new LabelDataTypeBuilder()
       .withSaveNewAction()	
       .withName(name)	
       .build();	

@@ -23,6 +23,7 @@ export default class DeleteDocumentTypesByNamePrefix extends CommandBase {
           for (const item of items) {
             if (item.name?.startsWith(prefix)) cy.deleteDocumentTypeById(item.id);
           }
+          return;
         });
     });
   }

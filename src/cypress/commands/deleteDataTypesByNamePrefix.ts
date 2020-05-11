@@ -4,9 +4,10 @@ import { JsonHelper } from '../../helpers/jsonHelper';
 export default class DeleteDataTypesByNamePrefix extends CommandBase {
   commandName = 'deleteDataTypesByNamePrefix';
 
-  method(prefix) {
+  method(prefix: string) {
     const cy = this.cy;
     return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
+      
       return cy
         .request({
           method: 'GET',
@@ -18,12 +19,15 @@ export default class DeleteDataTypesByNamePrefix extends CommandBase {
           },
         })
         .then((response) => {
+
           const items = JsonHelper.getBody(response);
-          for (const item of items) {
-            if (item.name?.startsWith(prefix)) {
+          
+          for (const item of items) {            
+            if (item.name.startsWith(prefix) ||item.name.startsWith(prefix.toLowerCase()) ) {              
               cy.deleteDataTypeById(item.id);
             }
           }
+          return;
         });
     });
   }

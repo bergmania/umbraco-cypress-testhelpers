@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-import { Builder } from '../../../src';
+import { DocumentTypeBuilder } from '../../../src';
 context('Document Types', () => {
 
   beforeEach(() => {
@@ -53,7 +53,7 @@ context('Document Types', () => {
     const name = "Test document type";	
     cy.umbracoEnsureDocumentTypeNameNotExists(name);	
 
-    const dataType = new Builder().DocumentType()	
+    const dataType = new DocumentTypeBuilder()	
       .withName(name)	
       .build();	
 

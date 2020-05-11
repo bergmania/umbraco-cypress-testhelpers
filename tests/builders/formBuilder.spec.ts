@@ -1,17 +1,13 @@
 import { assert } from 'chai';
 import faker from 'faker'
 
-import { Builder } from '../../src/builders/builder';
-import FormFieldConditionBuilder from '../../src/builders/forms/fields/conditions/formFieldConditionBuilder';
-import FormFieldConditionRuleBuilder from '../../src/builders/forms/fields/conditions/formFieldConditionRuleBuilder';
-import FormContainerBuilder from '../../src/builders/forms/formContainerBuilder';
-import FormFieldSetBuilder from '../../src/builders/forms/formFieldSetBuilder';
-import FormPageBuilder from '../../src/builders/forms/formPageBuilder';
+import { FormBuilder,FormFieldConditionBuilder,FormFieldConditionRuleBuilder,FormContainerBuilder,FormFieldSetBuilder,FormPageBuilder } from '../../src';
+
 
 
 describe('FormBuilder', () => {
   it('Default build', () => {
-    const actual = new Builder().Form()
+    const actual = new FormBuilder()
       .build();
     assert(actual.id != null,  'The id must be set');
   });
@@ -26,7 +22,7 @@ describe('FormBuilder', () => {
     const fieldSetCaption = faker.lorem.sentence();
     const containerCaption = faker.lorem.sentence();
 
-    const actual = new Builder().Form()
+    const actual = new FormBuilder()
       .withId(formId)
       .withName(formName)
       .addPage()

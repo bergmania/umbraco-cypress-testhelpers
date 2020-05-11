@@ -20,6 +20,7 @@ export default class DeleteAllContent extends CommandBase {
             cy.deleteContentById(child.id);
           }
         }
+        return;
       });
     });
   }

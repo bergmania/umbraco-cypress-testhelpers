@@ -1,48 +1,124 @@
 /// <reference types="Cypress" />
+import camelize from 'camelize';
+import {  FormBuilder, 
+          Form, 
+          FormModel,
+          SendEmailRazorWorkflow,
+          CheckboxField,
+          ShortAnswerField,
+          LongAnswerField,
+          PasswordField,
+          DateField,
+          Workflow,
+          SaveAsUmbracoContentNodeWorkflow,
+          SendEmailWorkflow,
+          ChangeRecordStateWorkflow,
+          PostAsXMLWorkflow,
+          SendFormToUrl,
+          SendXsltTransformedEmail,
+          SendEmailRazorModel,         
+          AliasHelper,
+          CmsDocumentType,
+          TextBoxProperty,
+          FormPickerProperty          
+        } from '../../../src';
 import faker from 'faker';
-import { Builder } from '../../../src';
-import { Form } from '../Shared/form';
-import { FormModel } from '../Shared/Models/formModel';
-import { SendEmailRazorWorkflow } from '../Shared/Workflows/sendEmailRazorWorkflow';
-import { CheckboxField } from '../Shared/Models/checkboxField';
-import { ShortAnswerField } from '../Shared/Models/shortAnswerField';
-import { LongAnswerField } from '../Shared/Models/longAnswerField';
-import { PasswordField } from '../Shared/Models/passwordField';
-import { DateField } from '../Shared/Models/dateField';
-import { Workflow } from '../Shared/Models/workflow';
-import { SaveAsUmbracoContentNodeWorkflow } from '../Shared/Workflows/saveAsUmbracoContentNodeWorkflow';
-import { SendEmailWorkflow } from '../Shared/Workflows/sendEmailWorkflow';
-import { ChangeRecordStateWorkflow } from '../Shared/Workflows/changeRecordStateWorkflow';
-import { PostAsXMLWorkflow } from '../Shared/Workflows/postAsXMLWorkflow';
-import { SendFormToUrl } from '../Shared/Workflows/sendFormToUrl';
-import { SendXsltTransformedEmail } from '../Shared/Workflows/sendXsltTransformedEmail';
-import { SendEmailRazorModel } from '../Shared/Models/sendEmailRazorModel';
 
 context('Forms', () => {
-   
-  const form: Form = new Form();
-
+  
+  const form: Form = new Form();  
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
     form.cleanUp({});
   });
 
   afterEach(() => {
-    form.cleanUp({});
+    //form.cleanUp({});
   });
 
-  it.skip('Test form submitting', () => {
+
+  it('Insert simple form page', ()=>{    
+    
+    const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
+    const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
+    const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
+    const passwordFields: PasswordField[] = [ { id: faker.random.uuid(), value: faker.random.alphaNumeric(12) }];
+    const checkboxFields: CheckboxField[] = [ { id: faker.random.uuid() }];
+    const dateFields: DateField[] = [ { id: faker.random.uuid() }];   
+    const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
+
+    const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
+      razorSendEmailRazorModel      
+    )];
+    const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields});
+      
+    const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
+    const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
+    
+    const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
+    const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
+    const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
+    const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
+    let textBoxProperties=[textBoxProperty1,textBoxProperty2];
+
+    const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker', [], formBuild);            
+     
+    const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
+    const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);              
+    
+    // With form
+    form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((p)=>console.log(p));              
+    
+  });
+  it('Insert simple contentpage', ()=>{
+    const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
+    const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
+    
+    const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
+    const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
+    const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
+    const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
+    let textBoxProperties=[textBoxProperty1,textBoxProperty2];
+    
+    const minimalTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;
+    const minimalTemplate = form.buildMinimalTemplate(minimalTemplateName, AliasHelper.uuidToAlias(minimalTemplateName),documentType.alias,textBoxProperties);    
+    // Without form
+    form.insertContentOnPage(documentType, minimalTemplate, textBoxProperties ).then((p)=>console.log(p));      
+
+  });
+  it('Test form submitting', () => {
 
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
     const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
     const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
     const passwordFields: PasswordField[] = [ { id: faker.random.uuid(), value: faker.random.alphaNumeric(12) }];
     const checkboxFields: CheckboxField[] = [ { id: faker.random.uuid() }];
-    const dateFields: DateField[] = [ { id: faker.random.uuid() }];
+    const dateFields: DateField[] = [ { id: faker.random.uuid() }];   
+    const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
 
-    const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow({workflowName: formModel.name})];
+    const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
+      razorSendEmailRazorModel      
+    )];
+    const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields});
+      
+    const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
+    const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
     
-    form.insertFormOnPage({ formBuild: form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields}) }).then((p) => {      
+    const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
+    const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
+    const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
+    const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
+    let textBoxProperties=[textBoxProperty1,textBoxProperty2];
+
+    const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker', [], formBuild);            
+     
+    const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
+    const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);              
+    
+    // With form
+    form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((response: {contentBody,formBody})=> {  
+      console.log(response);
+      cy.visit(response.contentBody.urls[0].text).then(p=>{
       cy.dataUmb(shortAnswerFields[0].id).should('be.visible');
       cy.dataUmb(longAnswerFields[0].id).should('be.visible');
       cy.dataUmb(passwordFields[0].id).should('be.visible');
@@ -74,7 +150,7 @@ context('Forms', () => {
       cy.get('.umbraco-forms-submitmessage').should('be.visible');
 
       // Visit entries
-      cy.visit('/umbraco/#/forms/form/entries/' + p.formBody.id);
+      cy.visit('/umbraco/#/forms/form/entries/' + response.formBody.id);
 
       // Click first (newest)
       cy.get('.umb-table-body__link').first().click();
@@ -95,36 +171,41 @@ context('Forms', () => {
       cy.dataUmb(dateFields[0].id).should('contain.text', datestring + '\n');
 
 
-      cy.visit('/umbraco/#/forms/form/edit/' + p.formBody.id);
+      cy.visit('/umbraco/#/forms/form/edit/' + response.formBody.id);
       // Verify that the workflow is attached
       cy.dataUmb(formModel.name).should('have.text', formModel.name);
-
+    });     
     });
   });
-
-  it('Test Send email with template (Razor)',()=>{
+  
+  it.skip('Test Send email with template (Razor)',()=>{
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
     const shortAnswerId1 =faker.random.uuid();
     const shortAnswerId2 =faker.random.uuid();
-    
+    const shortAnswerId3 =faker.random.uuid();
+
     const shortAnswerFields: ShortAnswerField[] = [
-      { id: shortAnswerId1, caption:'Sender Email', alias:'senderEmail' },
-      { id: shortAnswerId2, caption:'Receiver Email', alias:'ReceiverEmail' }
+      { id: shortAnswerId1, caption:'Email', alias:'email' },
+      { id: shortAnswerId2, caption:'Email address', alias:'emailAddress' },
+      { id: shortAnswerId3, caption:'phone', alias:'phoneNumber' },
     ];
 
     const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
-    razorSendEmailRazorModel.email ='{ReceiverEmail}';
-    razorSendEmailRazorModel.senderEmail='{senderEmail}';
+    razorSendEmailRazorModel.email ='{email}';
+    razorSendEmailRazorModel.senderEmail='{emailAddress}';
+    razorSendEmailRazorModel.subject = `Test {phone} {phonenumber} {eMAILAddREss} {EMail} {emailAddress} [#pageTitle] [@Url] [$pageTitle] [%dismissAvatar]`;
     const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
       razorSendEmailRazorModel      
-    )];
+    )];    
 
-    form.insertFormOnPage({ formBuild: form.buildForm({formModel,workflows,shortAnswerFields})}).then(p=>{
+    form.insertFormOnPage({ formBuild: form.buildForm({formModel,workflows,shortAnswerFields})}).then(p=>{      
       cy.dataUmb(shortAnswerId1).type(faker.internet.email());
       cy.dataUmb(shortAnswerId2).type(faker.internet.email());
+      cy.dataUmb(shortAnswerId3).type(`${faker.phone.phoneNumber()}`);
       cy.dataUmb('submit-forms-form').click();
     });
   });
+
   it.skip('Field actions can cancel and delete', () => {
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
     const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
@@ -170,7 +251,7 @@ context('Forms', () => {
       const shortAnswer2Id = faker.random.uuid();
       const shortAnswer3Id = faker.random.uuid();
       const formModel: FormModel = { name: `${this.form.formPrefix}${faker.random.uuid()}`};     
-      const form = new Builder().Form()
+      const form = new FormBuilder()
         .withName(formModel.name)
         .addPage()
         .addFieldSet()
@@ -211,7 +292,7 @@ context('Forms', () => {
       const shortAnswer2Id = faker.random.uuid();
       const shortAnswer3Id = faker.random.uuid();
       const formModel: FormModel = { name: `${this.form.formPrefix}${faker.random.uuid()}`};     
-      const form = new Builder().Form()
+      const form = new FormBuilder()
       .withName(formModel.name)
         .addPage()
         .addFieldSet()
@@ -252,7 +333,7 @@ context('Forms', () => {
       const shortAnswer2Id = faker.random.uuid();
       const shortAnswer3Id = faker.random.uuid();
       const formModel: FormModel = { name: `${this.form.formPrefix}${faker.random.uuid()}`}; 
-      const form = new Builder().Form()
+      const form = new FormBuilder()
       .withName(formModel.name)
         .addPage()
         .addFieldSet()
@@ -293,7 +374,7 @@ context('Forms', () => {
       const shortAnswer2Id = faker.random.uuid();
       const shortAnswer3Id = faker.random.uuid();
       const formModel: FormModel = { name: `${this.form.formPrefix}${faker.random.uuid()}`}; 
-      const form = new Builder().Form()
+      const form = new FormBuilder()
       .withName(formModel.name)
         .addPage()
         .addFieldSet()
@@ -333,7 +414,7 @@ context('Forms', () => {
       const shortAnswer2Id = faker.random.uuid();
       const shortAnswer3Id = faker.random.uuid();
       const formModel: FormModel = { name: `${this.form.formPrefix}${faker.random.uuid()}`};
-      const form = new Builder().Form()
+      const form = new FormBuilder()
       .withName(formModel.name)
         .addPage()
         .addFieldSet()

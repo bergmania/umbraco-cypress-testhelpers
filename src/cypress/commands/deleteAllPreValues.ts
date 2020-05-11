@@ -21,6 +21,7 @@ export default class DeleteAllPreValues extends CommandBase {
           for (const preValueSource of preValueSources) {
             cy.deletePreValueSourceByGuId(preValueSource.id);
           }
+          return;
         });
     });
   }
