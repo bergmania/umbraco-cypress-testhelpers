@@ -2,7 +2,7 @@ import { DataType } from './dataType';
 
 export class LabelDataType extends DataType {
   constructor() {
-    super();    
+    super();
     this.selectedEditor = 'Umbraco.Label';
     this.addPrevalues('');
   }

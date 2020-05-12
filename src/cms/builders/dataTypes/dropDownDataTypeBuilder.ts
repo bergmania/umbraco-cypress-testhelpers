@@ -3,10 +3,10 @@ import { DropDownDataType } from '../../models/datatypes/dropDownDataType';
 
 export class DropDownDataTypeBuilder extends DataTypeBuilder {
   constructor(private dropDownDataType: DropDownDataType = new DropDownDataType()) {
-    super(dropDownDataType);    
+    super(dropDownDataType);
   }
-  withPrevalues(value: string[],multiSelect: boolean = false) {
-    this.dropDownDataType.addPrevalues(value,multiSelect);
+  withPrevalues(value: string[], multiSelect: boolean = false) {
+    this.dropDownDataType.addPrevalues(value, multiSelect);
     return this;
   }
 }

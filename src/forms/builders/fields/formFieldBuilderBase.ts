@@ -18,7 +18,6 @@ export class FormFieldBuilderBase {
   mandatory;
   requiredErrorMessage;
   removePrevalueEditor;
-  
 
   formFieldConditionBuilder;
 
@@ -63,10 +62,9 @@ export class FormFieldBuilderBase {
 
     return this;
   }
-  withSensitiveData(containsSensitiveData){
-    this.containsSensitiveData=containsSensitiveData;
+  withSensitiveData(containsSensitiveData) {
+    this.containsSensitiveData = containsSensitiveData;
     return this;
-
   }
 
   constructor(parentBuilder) {

@@ -1,8 +1,7 @@
 import { Template } from '../../models/template';
 
 export class TemplateBuilder {
-  
-  constructor(private template: Template=new Template()) {}
+  constructor(private template: Template = new Template()) {}
 
   withId(id) {
     this.template.id = id;
@@ -47,5 +46,5 @@ export class TemplateBuilder {
 
   public build(): Template {
     return this.template;
-  }  
+  }
 }

@@ -23,9 +23,8 @@ export class AliasHelper {
     return out;
   }
 
-  static uuidToAlias(uuid: string){
-    uuid=uuid.replace(/-/g, '');    
+  static uuidToAlias(uuid: string) {
+    uuid = uuid.replace(/-/g, '');
     return this.toAlias(uuid);
   }
-  
 }

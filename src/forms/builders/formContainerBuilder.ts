@@ -1,8 +1,8 @@
-import {FormShortAnswerFieldBuilder} from './fields/formShortAnswerFieldBuilder';
-import {FormLongAnswerFieldBuilder} from './fields/formLongAnswerFieldBuilder';
-import {FormCheckboxFieldBuilder} from './fields/formCheckboxFieldBuilder';
-import {FormDateFieldBuilder} from './fields/formDateFieldBuilder';
-import {FormPasswordFieldBuilder} from './fields/formPasswordFieldBuilder';
+import { FormShortAnswerFieldBuilder } from './fields/formShortAnswerFieldBuilder';
+import { FormLongAnswerFieldBuilder } from './fields/formLongAnswerFieldBuilder';
+import { FormCheckboxFieldBuilder } from './fields/formCheckboxFieldBuilder';
+import { FormDateFieldBuilder } from './fields/formDateFieldBuilder';
+import { FormPasswordFieldBuilder } from './fields/formPasswordFieldBuilder';
 import { DropDownFieldBuilder } from './fields/dropDownFieldBuilder';
 
 export class FormContainerBuilder {
@@ -45,7 +45,7 @@ export class FormContainerBuilder {
 
     return builder;
   }
-  addDropDownField(){
+  addDropDownField() {
     const builder = new DropDownFieldBuilder(this);
 
     this.formFieldBuilders.push(builder);

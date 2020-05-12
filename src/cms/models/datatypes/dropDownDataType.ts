@@ -2,14 +2,19 @@ import { DataType } from './dataType';
 
 export class DropDownDataType extends DataType {
   constructor() {
-    super();    
+    super();
     this.selectedEditor = 'Umbraco.DropDown.Flexible';
-    this.addPrevalues([],false);
-  }  
-  public addPrevalues(value: string[],multiSelect: boolean = false) {
+    this.addPrevalues([], false);
+  }
+  public addPrevalues(value: string[], multiSelect: boolean = false) {
     this.preValues = [
       { key: 'multiple', value: multiSelect },
-      { key: 'items', value: value.map(val=>{ return {value: val}}) }    
+      {
+        key: 'items',
+        value: value.map((val) => {
+          return { value: val };
+        }),
+      },
     ];
   }
 }

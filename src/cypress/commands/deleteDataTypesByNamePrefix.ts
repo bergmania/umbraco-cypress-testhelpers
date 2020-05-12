@@ -7,7 +7,6 @@ export default class DeleteDataTypesByNamePrefix extends CommandBase {
   method(prefix: string) {
     const cy = this.cy;
     return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
-      
       return cy
         .request({
           method: 'GET',
@@ -19,11 +18,10 @@ export default class DeleteDataTypesByNamePrefix extends CommandBase {
           },
         })
         .then((response) => {
-
           const items = JsonHelper.getBody(response);
-          
-          for (const item of items) {            
-            if (item.name.startsWith(prefix) ||item.name.startsWith(prefix.toLowerCase()) ) {              
+
+          for (const item of items) {
+            if (item.name.startsWith(prefix) || item.name.startsWith(prefix.toLowerCase())) {
               cy.deleteDataTypeById(item.id);
             }
           }

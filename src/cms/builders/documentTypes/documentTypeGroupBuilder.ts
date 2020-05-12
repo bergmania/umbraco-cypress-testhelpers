@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import {FormPickerDocumentTypePropertyBuilder} from './properties/formPickerDocumentTypePropertyBuilder';
+import { FormPickerDocumentTypePropertyBuilder } from './properties/formPickerDocumentTypePropertyBuilder';
 import { TextBoxDocumentTypePropertyBuilder } from './properties/textBoxDocumentTypePropertyBuilder';
 import { DropDownDocumentTypePropertyBuilder } from './properties/dropDownDocumentTypePropertyBuilder';
 

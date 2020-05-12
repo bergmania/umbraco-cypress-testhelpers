@@ -1,3 +1,3 @@
 export class CheckboxField {
-    public id: string;    
+  public id: string;
 }

@@ -37,8 +37,10 @@ export class ContentVariantBuilder {
     this.save = save;
     return this;
   }
- 
- 
+  withName(name) {
+    this.name = name;
+    return this;
+  }
   done() {
     return this.parentBuilder;
   }
@@ -48,7 +50,7 @@ export class ContentVariantBuilder {
 
     return {
       name,
-      id: this.id || 0 ,
+      id: this.id || 0,
       properties: this.contentVariantPropertyBuilders.map((builder) => {
         return builder.build();
       }),

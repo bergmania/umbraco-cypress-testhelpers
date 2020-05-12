@@ -3,7 +3,7 @@ import { FormPickerDataType } from '../../models/datatypes/formPickerDataType';
 
 export class FormPickerDataTypeBuilder extends DataTypeBuilder {
   constructor(private formPickerDataType: FormPickerDataType = new FormPickerDataType()) {
-    super(formPickerDataType);    
+    super(formPickerDataType);
   }
 
   withAllowedForms(formIds: string[]) {

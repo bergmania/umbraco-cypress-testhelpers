@@ -2,7 +2,7 @@ import { DataType } from './dataType';
 
 export class TextBoxDataType extends DataType {
   constructor() {
-    super();    
+    super();
     this.selectedEditor = 'Umbraco.TextBox';
     this.addPrevalues(8);
   }

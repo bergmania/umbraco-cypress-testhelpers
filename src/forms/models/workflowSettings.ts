@@ -1,4 +1,4 @@
-export class WorkflowSettings{
-    name: string;
-    value: string;
+export class WorkflowSettings {
+  name: string;
+  value: string;
 }

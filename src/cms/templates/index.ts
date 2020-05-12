@@ -1,2 +1,2 @@
-export {FormPickerTemplate } from './formPickerTemplate';
-export {MinimalTemplate} from './minimalTemplate';
+export { FormPickerTemplate } from './formPickerTemplate';
+export { MinimalTemplate } from './minimalTemplate';

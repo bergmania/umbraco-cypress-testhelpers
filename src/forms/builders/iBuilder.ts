@@ -1,4 +1,4 @@
 export interface IBuilder {
-    done();
-    build();
+  done();
+  build();
 }

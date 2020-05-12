@@ -1,2 +1,2 @@
-export {FormWorkflowBuilder} from './formWorkflowBuilder';
-export {WorkflowTypeSetting} from './workflowTypeSetting';
+export { FormWorkflowBuilder } from './formWorkflowBuilder';
+export { WorkflowTypeSetting } from './workflowTypeSetting';

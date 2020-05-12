@@ -1,8 +1,7 @@
 import { DataType } from '../../models/datatypes/dataType';
 
 export class DataTypeBuilder {
-  constructor(public dataType: DataType) {    
-  }
+  constructor(public dataType: DataType) {}
   public withSaveAction() {
     this.dataType.action = 'save';
     return this;

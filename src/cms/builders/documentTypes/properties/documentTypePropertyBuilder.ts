@@ -29,7 +29,7 @@ export class DocumentTypePropertyBuilder {
     this.alias = alias;
     return this;
   }
-  withValue(value){
+  withValue(value) {
     this.value = value;
     return this;
   }
