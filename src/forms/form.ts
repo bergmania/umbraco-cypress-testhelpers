@@ -24,8 +24,9 @@ import { PasswordField } from './Models/passwordField';
 import { CheckboxField } from './models/checkboxField';
 import { DateField } from './models/dateField';
 import { Workflow } from './Models/workflow';
-import { Chainable } from 'src/cypress/commands/chainable';
-import { DropDownProperty } from 'src/cms/models';
+import { DropDownProperty, FormPickerProperty, CmsDocumentType } from '../cms/models';
+import DocumentTypeGroupBuilder from '../cms/builders/documentTypes/documentTypeGroupBuilder';
+import { DropDownField } from './models';
 
 
 export class Form {
@@ -63,7 +64,8 @@ export class Form {
                 longAnswerFields?: LongAnswerField[],
                 passwordFields?: PasswordField[],
                 checkboxFields?: CheckboxField[],
-                dateFields?: DateField[]
+                dateFields?: DateField[],
+                dropDownFields?: DropDownField[]
             }
     ) {
         let f = new FormBuilder().withName(model.formModel.name);
@@ -114,7 +116,16 @@ export class Form {
                 .withId(dateField.id)
                 .done();
         });
-
+        model.dropDownFields?.forEach(dropDownField => {            
+            container.addDropDownField()
+                .withId(dropDownField.id)
+                .withAlias(dropDownField?.alias)
+                .withCaption(dropDownField?.caption)  
+                .withSensitiveData(dropDownField?.containsSensitiveData)              
+                .withPrevalueSourceId(dropDownField.prevalueSourceId)
+                .withPrevalues(dropDownField.preValues)
+                .done();
+        });
         container.done()
             .done()
             .done()
@@ -205,7 +216,7 @@ export class Form {
         properties?.forEach(property => {
             content.addProperty()
                 .withAlias(property.alias)
-                .withValue(property.value)
+                .withValue(property.value)                
                 .done()
         });
 
@@ -226,90 +237,78 @@ export class Form {
             .build();
     }
 
-
-
+    public buildProperty(        
+        documentTypeGroupBuilder: DocumentTypeGroupBuilder,
+        items: {property: any,dataType: DataType}[]
+        ):DocumentTypeBuilder{
+            items?.forEach((item:{property: any,dataType: DataType})=>{                
+                let builder;
+                if(item.property instanceof TextBoxProperty){                                        
+                    builder=documentTypeGroupBuilder.addTextBoxProperty()
+                }else if(item.property instanceof DropDownProperty){
+                    builder=documentTypeGroupBuilder.addDropDownProperty()
+                }else if(item.property instanceof FormPickerProperty){
+                    builder=documentTypeGroupBuilder.addFormPickerProperty()
+                }                
+                builder
+                    .withDataTypeId(item.dataType.id)
+                    .withAlias(item.property.alias)
+                    .done(); 
+            });
+            return documentTypeGroupBuilder.done();            
+    }
+    public buildDocumentType(documentType: CmsDocumentType, template: Template,items: {property: any,dataType: DataType}[]): DocumentTypeBuilder{
+         var builder= new DocumentTypeBuilder()
+             .withName(documentType.name)
+             .withAlias(documentType.alias)
+             .withId(documentType.id)
+             .withDefaultTemplate(template.alias)
+             .withAllowAsRoot(true);         
+        return this.buildProperty( builder.addGroup(),items);          
+    }
+    
     /***********/
     /* Inserts */
     /***********/
-    public insertForm(form) {
-        return cy.saveForm(form).then(formBody => formBody);
+    public insertForm(theForm) {
+        return cy.saveForm(theForm).then(formBody => formBody);
     }
-
-    public insertContentOnPage(
-        documentType: { name: string, alias: string },
-        template: Template,
+    public insertTemplate(template: Template){
+        return cy.saveTemplate(template).then(templateBody=>templateBody);
+    }
+    public insertDataType(
         textBoxProperties?: TextBoxProperty[],
         dropDownProperties?: DropDownProperty[],
-        formPickerProperty?: { name: string, alias: string, allowedFormIds: string[], formBuild },
-    ): any {
-        return cy.saveTemplate(template).then(templateBody => {
-            template = templateBody;
-            let documentTypeBuilder = new DocumentTypeBuilder()
-                .withName(documentType.name)
-                .withAlias(documentType.alias)
-                .withDefaultTemplate(template.alias)
-                .withAllowAsRoot(true)
-                .addGroup();
-            let promises=[];
-            textBoxProperties?.map(textBoxProperty => {
-                let dataType = this.buildTextBoxDataType(textBoxProperty.name, textBoxProperty.maxChars);
-                promises.push(new Cypress.Promise(resolve => {
-                    cy.saveDataType(dataType).then(dataTypeBody => {
-                        documentTypeBuilder.addTextBoxProperty()
-                            .withDataTypeId(dataTypeBody.id)
-                            .withAlias(textBoxProperty.alias)
-                            .done();
-                        resolve(textBoxProperty);
-                    })
-                }));
-            });
-            dropDownProperties?.map(dropDownProperty => {
-                let dataType = this.buildDropDownDataType(dropDownProperty.name, dropDownProperty.values, dropDownProperty.multiSelect);                
-                promises.push(new Cypress.Promise(resolve => {
-                    cy.saveDataType(dataType).then(dataTypeBody => {
-                        console.log(dataType);
-                        documentTypeBuilder.addDropDownProperty()
-                            .withDataTypeId(dataTypeBody.id)
-                            .withAlias(dropDownProperty.alias)                            
-                            .done();                            
-                        resolve(dropDownProperty);
-                    })
-                }));
-            });
-            let formPromises = [];
-            if (formPickerProperty) {
-                formPromises.push(new Cypress.Promise(formResolv => {
-                    cy.saveForm(formPickerProperty.formBuild).then(formbody => { formResolv(formbody) });
-                }).then((formBody: any) => {
-                    let dataType = this.buildFormPickerDataType(formPickerProperty.name, formPickerProperty.allowedFormIds);
-                    promises.push(
-                        new Cypress.Promise(resolve => {
-                            cy.saveDataType(dataType).then(dataTypeBody => {
-                                documentTypeBuilder.addFormPickerProperty()
-                                    .withDataTypeId(dataTypeBody.id)
-                                    .withAlias(formPickerProperty.alias)
-                                    .done();
-                                resolve({ alias: formPickerProperty.alias, name: formPickerProperty.name, value: formBody.id });
-                            });
-                        })
-                    );
-                    return formBody;
-                }));
-            }
-            Cypress.Promise.all(formPromises).then(formBody => {
-                Cypress.Promise.all(promises).then(properties => {
-                    console.log(properties);
-                    cy.saveDocumentType(documentTypeBuilder.done().build()).then(documentTypeBody => {
-                        var content = this.buildContent(template.alias, documentTypeBody.alias, properties);
-                        cy.saveContent(content).then((contentBody) => {                            
-                            return { contentBody, formBody: formBody[0] };
-                        });
-                    });
-                });
-            });
+        formPickerProperty?: FormPickerProperty
+    ){
+        let promises=[];
+        textBoxProperties?.map(textBoxProperty => {
+            let dataType = this.buildTextBoxDataType(textBoxProperty.name, textBoxProperty.maxChars);
+            promises.push(new Cypress.Promise(resolve=>cy.saveDataType(dataType).then(dataTypeBody =>{return resolve({dataType: dataTypeBody,property: textBoxProperty})})));
         });
+        dropDownProperties?.map(dropDownProperty => {
+            let dataType = this.buildDropDownDataType(dropDownProperty.name, dropDownProperty.values, dropDownProperty.multiSelect);                
+            promises.push(new Cypress.Promise(resolve=>cy.saveDataType(dataType).then(dataTypeBody => {return resolve({dataType: dataTypeBody,property: dropDownProperty})})));            
+        });
+        if (formPickerProperty) {
+            let dataType = this.buildFormPickerDataType(formPickerProperty.name, formPickerProperty.allowedFormIds);
+            promises.push(new Cypress.Promise(resolve=>cy.saveDataType(dataType).then(dataTypeBody => {return resolve({dataType: dataTypeBody,property: formPickerProperty})})));
+        };  
+        return Cypress.Promise.all(promises).then(r=>r); 
+        
     }
-  
+    public insertDocumentType(documentTypeBuilder:DocumentTypeBuilder){               
+        return cy.saveDocumentType(documentTypeBuilder.build()).then(documentTypeBody=>documentTypeBody);
+    }
+
+    public insertContent(
+        template: Template,
+        documentType: CmsDocumentType,
+        properties
+    ){
+        var content=this.buildContent(template.alias,documentType.alias,properties);
+        return cy.saveContent(content).then(contentBody=>contentBody);                
+    }      
     public insertFormOnPage({
         formBuild,
         dataTypePrefix = this.dataTypePrefix,

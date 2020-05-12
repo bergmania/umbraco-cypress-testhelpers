@@ -62,7 +62,7 @@
     export { FormBuilder } from './forms/builders/formBuilder';
     export { FormContainerBuilder } from './forms/builders/formContainerBuilder';
     export { FormFieldSetBuilder } from './forms/builders/formFieldSetBuilder';
-    export { FormPageBuilder } from './forms/builders/formPageBuilder';
+    export { FormPageBuilder } from './forms/builders/formPageBuilder';    
         /* Fields */
         // export * from './forms/builders/fields/'
         export {FormCheckboxFieldBuilder} from './forms/builders/fields/formCheckboxFieldBuilder';
@@ -71,6 +71,7 @@
         export {FormLongAnswerFieldBuilder} from './forms/builders/fields/formLongAnswerFieldBuilder';
         export {FormPasswordFieldBuilder} from './forms/builders/fields/formPasswordFieldBuilder';
         export {FormShortAnswerFieldBuilder} from './forms/builders/fields/formShortAnswerFieldBuilder';
+        export {DropDownFieldBuilder} from './forms/builders/fields/dropDownFieldBuilder';
             /* Conditions */
             // export * from './forms/builders/fields/conditions/'
             export { FormFieldConditionBuilder } from './forms/builders/fields/conditions/formFieldConditionBuilder';
@@ -83,10 +84,12 @@
     // export * from './forms/models/'
     export {CheckboxField} from './forms/models/checkboxField';
     export {DateField} from './forms/models/dateField';
+    export {DropDownField}  from './forms/models/dropDownField';
     export {FormModel} from './forms/models/formModel';
     export {LongAnswerField} from './forms/models/longAnswerField';
     export {PasswordField} from './forms/models/passwordField';
     export {SendEmailRazorModel} from './forms/models/sendEmailRazorModel';
+    export{SaveAsUmbracoContentNodeWorkflowModel} from './forms/models/saveAsUmbracoContentNodeWorkflowModel';
     export {ShortAnswerField} from './forms/models/shortAnswerField';
     export {Workflow} from './forms/models/workflow';
     export {WorkflowSettings} from './forms/models/workflowSettings';

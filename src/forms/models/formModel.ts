@@ -1,5 +1,4 @@
 import faker from 'faker';
 export class FormModel{
-    public name = faker.random.word();
-  
+    public name = faker.random.word();        
 }

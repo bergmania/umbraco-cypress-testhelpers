@@ -1,12 +1,12 @@
 import { BaseProperty } from './baseProperty';
 
-export class FormPickerProperty extends BaseProperty{
+export class FormPickerProperty extends BaseProperty{    
     allowedFormIds: string[];
-    formBuild: string;
-    constructor(name: string, alias: string, allowedFormIds?: string[], formBuild?: string) {
+    value: string;
+    constructor(name: string, alias: string, value: string, allowedFormIds?: string[]) {
         super(name,alias); 
         this.allowedFormIds=allowedFormIds;
-        this.formBuild=formBuild;          
+        this.value = value;        
     }
 }
          

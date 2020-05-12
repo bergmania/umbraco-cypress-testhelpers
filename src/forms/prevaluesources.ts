@@ -36,8 +36,7 @@ export class PrevalueSources {
     private insert(payload){
         return cy.postRequest('/backoffice/UmbracoForms/PreValueSource/ValidateSettings', payload).then(() => {
                     cy.postRequest('/backoffice/UmbracoForms/PreValueSource/PostSave', payload).then(postsave =>{
-                        cy.postRequest('/backoffice/UmbracoForms/PreValueSource/GetPreValues', payload).then(() => postsave)
-                    
+                        cy.postRequest('/backoffice/UmbracoForms/PreValueSource/GetPreValues', payload).then(() => postsave)                            
                     });
                 });
     }

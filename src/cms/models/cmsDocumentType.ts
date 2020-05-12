@@ -1,10 +1,5 @@
 export class CmsDocumentType {
-    name: string;
-    alias: string;
-  
-    constructor(name: string, alias: string) {
-        this.name= name;
-        this.alias=alias;
-        
+    
+    constructor(public name: string, public alias: string,public id?: number) {                     
     }
 }

@@ -1,5 +1,4 @@
 /// <reference types="Cypress" />
-import camelize from 'camelize';
 import {  FormBuilder, 
           Form, 
           FormModel,
@@ -21,16 +20,22 @@ import {  FormBuilder,
           CmsDocumentType,
           TextBoxProperty,
           FormPickerProperty,          
-          DropDownProperty
+          DropDownProperty,
+          PrevalueSources,
+          DataType,
+          DropDownField,
+          SaveAsUmbracoContentNodeWorkflowModel
         } from '../../../src';
 import faker from 'faker';
 
 context('Forms', () => {
   
   const form: Form = new Form();  
+  const prevalueSources: PrevalueSources = new PrevalueSources();
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
     form.cleanUp({});
+    prevalueSources.cleanUp();
   });
 
   afterEach(() => {
@@ -38,40 +43,40 @@ context('Forms', () => {
   });
 
 
-  it.skip('Insert simple form page', ()=>{    
+  // it.skip('Insert simple form page', ()=>{    
     
-    const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
-    const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
-    const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
-    const passwordFields: PasswordField[] = [ { id: faker.random.uuid(), value: faker.random.alphaNumeric(12) }];
-    const checkboxFields: CheckboxField[] = [ { id: faker.random.uuid() }];
-    const dateFields: DateField[] = [ { id: faker.random.uuid() }];   
-    const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
+  //   const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
+  //   const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
+  //   const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
+  //   const passwordFields: PasswordField[] = [ { id: faker.random.uuid(), value: faker.random.alphaNumeric(12) }];
+  //   const checkboxFields: CheckboxField[] = [ { id: faker.random.uuid() }];
+  //   const dateFields: DateField[] = [ { id: faker.random.uuid() }];   
+  //   const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
 
-    const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
-      razorSendEmailRazorModel      
-    )];
-    const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields});
+  //   const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
+  //     razorSendEmailRazorModel      
+  //   )];
+  //   const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields});
       
-    const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
-    const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
+  //   const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
+  //   const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
     
-    const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
-    const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
-    const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
-    const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
-    let textBoxProperties=[textBoxProperty1,textBoxProperty2];
+  //   const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
+  //   const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
+  //   const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
+  //   const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
+  //   let textBoxProperties=[textBoxProperty1,textBoxProperty2];
 
-    const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker', [], formBuild);            
+  //   const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker', [], formBuild);            
      
-    const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
-    const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);              
+  //   const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
+  //   const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);              
     
-    // With form
-    form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((p)=>console.log(p));              
+  //   // With form
+  //   form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((p)=>console.log(p));              
     
-  });
-  it('Insert simple contentpage', ()=>{
+  // });
+  it.skip('Insert simple contentpage', ()=>{
     const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
     const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
     
@@ -87,12 +92,22 @@ context('Forms', () => {
 
     const minimalTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;
     const minimalTemplate = form.buildMinimalTemplate(minimalTemplateName, AliasHelper.uuidToAlias(minimalTemplateName),documentType.alias,textBoxProperties);    
-    // Without form
-    form.insertContentOnPage(documentType, minimalTemplate, textBoxProperties,dropDownProperties ).then((p)=>console.log(p));      
-
+    form.insertDataType(textBoxProperties,dropDownProperties).then((result: {dataType,property}[])=>{ 
+      form.insertTemplate(minimalTemplate).then(template=>{
+        var builder=form.buildDocumentType(documentType,template,result);      
+        form.insertDocumentType(builder).then(docType=>{  
+          // Get the id of the dropdown datatype
+          var index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
+          prevalueSources.insertDataTypePrevalue(faker.random.word(), result[index].dataType.id).then(prevalueSource=>{                                    
+              form.insertContent(template,docType,result.map(p=>p.property));              
+            });
+          });
+        });
+      });                  
   });
-  it.skip('Test form submitting and run workflow send email with template (Razor)', () => {
-         
+  it('Test form submitting and run workflow send email with template (Razor)', () => {
+    /******************* SETUP  /********************/
+    /* CMS */
     const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
     const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
     
@@ -103,7 +118,16 @@ context('Forms', () => {
 
     let textBoxProperties=[textBoxProperty1,textBoxProperty2];
 
+    const dropDownPropertyName1 =`${form.dataTypePrefix}${faker.random.uuid()}`;
+    const dropDownProperty1 = new DropDownProperty(dropDownPropertyName1, AliasHelper.uuidToAlias(dropDownPropertyName1),true,['value1','value2','value3','value4','value5']);    
+    let dropDownProperties=[dropDownProperty1];   
+    
+    const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker','',[]);                              
+    /* CMS */
+    /* Forms */    
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};    
+    const firstName =`${faker.random.uuid()}`;
+    const lastName = `${faker.random.uuid()}`;
     const shortAnswerFields: ShortAnswerField[] = [
       { id: faker.random.uuid(), value: faker.lorem.sentence() },
       { id: faker.random.uuid(), alias: 'email', caption: 'Email' },
@@ -112,94 +136,157 @@ context('Forms', () => {
       //https://github.com/umbraco/Umbraco.Forms.Issues/issues/52
       //Fields marked as sensitive is included in emails 
       { id:  faker.random.uuid(), caption:'Sensitive', alias:'sensitiveData', containsSensitiveData: true },
+      { id: firstName, caption: 'First name', alias: 'firstName' },
+      { id: lastName, caption: 'Last name', alias: 'lastName' }
     ];    
 
     const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
     const passwordFields: PasswordField[] = [ { id: faker.random.uuid(), value: faker.random.alphaNumeric(12) }];
     const checkboxFields: CheckboxField[] = [ { id: faker.random.uuid() }];
-    const dateFields: DateField[] = [ { id: faker.random.uuid() }];       
-    
+    const dateFields: DateField[] = [ { id: faker.random.uuid() }];    
+    const dropDownFields: DropDownField[] = [{ id: faker.random.uuid() }];
+
     const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
     razorSendEmailRazorModel.email ='{email}';
     razorSendEmailRazorModel.senderEmail='{emailAddress}';
     razorSendEmailRazorModel.subject = `Test {phone} {phonenumber} {eMAILAddREss} {EMail} {emailAddress} [#pageTitle] [@Url] [$${textBoxPropertyName1}] [%dismissAvatar]`;
-    const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
-      razorSendEmailRazorModel      
-    )];
-
-    const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields});
-
-    const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker', [], formBuild);            
-     
-    const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
-    const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);              
     
-    // With form
-    form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((response: {contentBody,formBody})=> {  
-      
-      cy.visit(response.contentBody.urls[0].text).then(p=>{
-      cy.dataUmb(shortAnswerFields[0].id).should('be.visible');
-      cy.dataUmb(longAnswerFields[0].id).should('be.visible');
-      cy.dataUmb(passwordFields[0].id).should('be.visible');
-      cy.dataUmb(checkboxFields[0].id).should('be.visible');
-      cy.dataUmb(dateFields[0].id).should('not.be.visible');
+    const saveAsUmbracoContentNodeWorkflowName = faker.random.uuid();
+    const saveAsUmbracoContentNodeWorkflowModel = new SaveAsUmbracoContentNodeWorkflowModel(saveAsUmbracoContentNodeWorkflowName);
 
-      // Short answer
-      cy.dataUmb(shortAnswerFields[0].id).type(shortAnswerFields[0].value).blur();
+    const workflows: Workflow[] =[
+      new SendEmailRazorWorkflow().getWorkflow(razorSendEmailRazorModel),
+      new SaveAsUmbracoContentNodeWorkflow().getWorkflow(saveAsUmbracoContentNodeWorkflowModel)
+    ];
 
-      // Long answer
-      cy.dataUmb(longAnswerFields[0].id).type(longAnswerFields[0].value).blur();
+    const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
+    const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);     
+    /* Forms */    
+    
+    /* Build and post*/
+    form.insertDataType(textBoxProperties,dropDownProperties,formPickerProperty).then((result: {dataType,property}[])=>{ 
+      form.insertTemplate(formPickerTemplate).then(template=>{
+        var builder=form.buildDocumentType(documentType,template,result);      
+        form.insertDocumentType(builder).then(docType=>{  
+          // Get the id of the dropdown datatype
+          var index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
+          prevalueSources.insertDataTypePrevalue(faker.random.word(), result[index].dataType.id).then(prevalueSource=>{            
+            dropDownFields[0].prevalueSourceId = prevalueSource.id;
+            
+            const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields,dropDownFields});
+            
+            form.insertForm(formBuild).then(formBody=>{
+              
+              formPickerProperty.value = formBody.id;
+              form.insertContent(template,docType,result.map(p=>p.property)).then(response=>{
+    /* Build and post*/
+    /******************* END SETUP  /********************/      
+    /******************* START TEST  /********************/          
+                  // Test https://github.com/umbraco/Umbraco.Forms.Issues/issues/299
+                  // Saving a form field with prevalues like dropdown to a responding document property editor throws exception
+                  // Setup the save as umbraco content node workflow
+                  cy.visit(`/umbraco/#/forms/form/edit/${formBody.id}`).then(p=>{
+                    cy.dataUmb(saveAsUmbracoContentNodeWorkflowName).click();                    
+                    cy.dataUmb('documentmapper').select(docType.name);                  
+                    cy.dataUmb('select_form_field').first().select(dropDownFields[0].id)
+                    cy.dataUmb('choose_a_root_node').click();
+                    // Pick Document type
+                    cy.get('[ng-if="vm.treeReady"] > .umb-tree > [ng-if="!tree.root.containsGroups"] > .umb-animated > .umb-tree-item__inner > .umb-tree-item__label').click();
+                    cy.get('[ng-if="vm.treeReady"] > .umb-tree > [ng-if="!tree.root.containsGroups"] > .umb-animated > .umb-tree-item__inner > .umb-tree-item__label').click();
+                    
+                    // Pick Field value
+                    cy.contains('Submit').parent().click();                  
+                    // Save form                  
+                    
+                    cy.contains('Save').parent().click();
+                    // End test https://github.com/umbraco/Umbraco.Forms.Issues/issues/299
+                  })
+                  // Create two form entry                                    
+                  for(let i=0;i<2;i++){
+                    cy.visit(response.urls[0].text).then(p=>{
+                      cy.dataUmb(shortAnswerFields[0].id).should('be.visible');
+                      cy.dataUmb(longAnswerFields[0].id).should('be.visible');
+                      cy.dataUmb(passwordFields[0].id).should('be.visible');
+                      cy.dataUmb(checkboxFields[0].id).should('be.visible');
+                      cy.dataUmb(dateFields[0].id).should('not.be.visible');
 
-      // Password
-      cy.dataUmb(passwordFields[0].id).type(passwordFields[0].value).blur();
+                      // Short answer
+                      cy.dataUmb(shortAnswerFields[0].id).type(shortAnswerFields[0].value).blur();
+                      cy.dataUmb(firstName).type(faker.random.word());
+                      cy.dataUmb(lastName).type(faker.random.word());
 
-      // Checkbox
-      cy.dataUmb(checkboxFields[0].id).check();
+                      // Long answer
+                      cy.dataUmb(longAnswerFields[0].id).type(longAnswerFields[0].value).blur();
 
-      // Date
-      cy.dataUmb(`${dateFields[0].id}_1`).focus();
-      cy.get("div.pika-lendar").should('be.visible');
-      cy.get(".pika-button.pika-day").first().click();
-      cy.get("div.pika-lendar").should('not.be.visible');
+                      // Password
+                      cy.dataUmb(passwordFields[0].id).type(passwordFields[0].value).blur();
 
-      cy.dataUmb(shortAnswerFields[1].id).type(faker.internet.email());
-      cy.dataUmb(shortAnswerFields[2].id).type(faker.internet.email());
-      cy.dataUmb(shortAnswerFields[3].id).type(`${faker.phone.phoneNumber()}`);
-      cy.dataUmb(shortAnswerFields[4].id).type(`Sensitive word: ${faker.random.word()}`);
+                      // Checkbox
+                      cy.dataUmb(checkboxFields[0].id).check();
 
-      // Submit
-      cy.get('form').submit();
+                      // Date
+                      cy.dataUmb(`${dateFields[0].id}_1`).focus();
+                      cy.get("div.pika-lendar").should('be.visible');
+                      cy.get(".pika-button.pika-day").first().click();
+                      cy.get("div.pika-lendar").should('not.be.visible');
 
-      // Thank you message
-      cy.get('.umbraco-forms-submitmessage').should('be.visible');
+                      cy.dataUmb(shortAnswerFields[1].id).type(faker.internet.email());
+                      cy.dataUmb(shortAnswerFields[2].id).type(faker.internet.email());
+                      cy.dataUmb(shortAnswerFields[3].id).type(`${faker.phone.phoneNumber()}`);
+                      cy.dataUmb(shortAnswerFields[4].id).type(`Sensitive word: ${faker.random.word()}`);
+                      
+                      // Dropdown
+                      cy.dataUmb(dropDownFields[0].id).select(dropDownProperties[0].values[faker.random.number({min: 0, max:4})]);
 
-      // Visit entries
-      cy.visit('/umbraco/#/forms/form/entries/' + response.formBody.id);
+                      // Submit
+                      cy.get('form').submit();
 
-      // Click first (newest)
-      cy.get('.umb-table-body__link').first().click();
+                      // Thank you message
+                      cy.get('.umbraco-forms-submitmessage').should('be.visible');
+                    });
+                  }
+                  // Test https://github.com/umbraco/Umbraco.Forms.Issues/issues/305
+                  // Can't remove Entry when fields in Form have changed
+                  cy.visit(`/umbraco/#/forms/form/edit/${formBody.id}`).wait(3000).then(p=>{
+                    // Get last name
+                    cy.dataUmb('delete_0_6_6').click();
+                    cy.dataUmb('confirm_6_6_6').children().first().click();
+                    cy.contains('Last name').should('not.exist');
+                    cy.contains('Save').parent().click();                    
+                  });
+                  cy.visit(`/umbraco/#/forms/form/entries/${formBody.id}`).wait(3000).then(p=>{
+                    cy.dataUmb('record_entry_0','a').first().click();
+                    cy.dataUmb('label_Lastname').should('not.exist');
+                    // End test https://github.com/umbraco/Umbraco.Forms.Issues/issues/305
+                    
+                    // General test                    
+                    // Verify field values
+                    cy.dataUmb('label_' + shortAnswerFields[0].id).should('have.text', shortAnswerFields[0].id);
+                    cy.dataUmb(shortAnswerFields[0].id).should('contain.text', shortAnswerFields[0].value);
 
-      // Verify field values
-      cy.dataUmb('label_' + shortAnswerFields[0].id).should('have.text', shortAnswerFields[0].id);
-      cy.dataUmb(shortAnswerFields[0].id).should('contain.text', shortAnswerFields[0].value);
+                    cy.dataUmb('label_' + longAnswerFields[0].id).should('have.text', longAnswerFields[0].id);
+                    cy.dataUmb(longAnswerFields[0].id).should('contain.text', longAnswerFields[0].value);
 
-      cy.dataUmb('label_' + longAnswerFields[0].id).should('have.text', longAnswerFields[0].id);
-      cy.dataUmb(longAnswerFields[0].id).should('contain.text', longAnswerFields[0].value);
+                    cy.dataUmb('label_' + checkboxFields[0].id).should('have.text', checkboxFields[0].id);
+                    cy.dataUmb(checkboxFields[0].id).should('contain.text', "True");
 
-      cy.dataUmb('label_' + checkboxFields[0].id).should('have.text', checkboxFields[0].id);
-      cy.dataUmb(checkboxFields[0].id).should('contain.text', "True");
+                    cy.dataUmb('label_' + dateFields[0].id).should('have.text', dateFields[0].id);
+                    const d = new Date();
+                    const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
+                    cy.dataUmb(dateFields[0].id).should('contain.text', datestring + '\n');
 
-      cy.dataUmb('label_' + dateFields[0].id).should('have.text', dateFields[0].id);
-      const d = new Date();
-      const datestring = (d.getMonth() + 1) + "/" + 1 + "/" + d.getFullYear() + " 12:00:00 AM";
-      cy.dataUmb(dateFields[0].id).should('contain.text', datestring + '\n');
+                  });                                                     
 
-
-      cy.visit('/umbraco/#/forms/form/edit/' + response.formBody.id);
-      // Verify that the workflow is attached
-      cy.dataUmb(formModel.name).should('have.text', formModel.name);
-    });     
-    });
+                  cy.visit('/umbraco/#/forms/form/edit/' + formBody.id).wait(3000).then(p=>{
+                    // Verify that the workflow is attached
+                    cy.dataUmb(formModel.name).should('have.text', formModel.name);
+                  });
+              });              
+            });
+          });
+        });
+      });          
+    });               
   });
   
   

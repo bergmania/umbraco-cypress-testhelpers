@@ -3,6 +3,7 @@ import {FormLongAnswerFieldBuilder} from './fields/formLongAnswerFieldBuilder';
 import {FormCheckboxFieldBuilder} from './fields/formCheckboxFieldBuilder';
 import {FormDateFieldBuilder} from './fields/formDateFieldBuilder';
 import {FormPasswordFieldBuilder} from './fields/formPasswordFieldBuilder';
+import { DropDownFieldBuilder } from './fields/dropDownFieldBuilder';
 
 export class FormContainerBuilder {
   parentBuilder;
@@ -44,7 +45,13 @@ export class FormContainerBuilder {
 
     return builder;
   }
+  addDropDownField(){
+    const builder = new DropDownFieldBuilder(this);
 
+    this.formFieldBuilders.push(builder);
+
+    return builder;
+  }
   addCheckboxField() {
     const builder = new FormCheckboxFieldBuilder(this);
 

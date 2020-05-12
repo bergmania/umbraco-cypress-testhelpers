@@ -12,8 +12,7 @@ export default class SaveContent extends CommandBase {
     }
 
     const method = 'POST';
-    const url = this.relativeBackOfficePath + '/backoffice/UmbracoApi/Content/PostSave';
-
+    const url = this.relativeBackOfficePath + '/backoffice/UmbracoApi/Content/PostSave';    
     const formData = new FormData();
     formData.append('contentItem', JSON.stringify(content));
     return cy.getCookie('UMB-XSRF-TOKEN').then((token) => {

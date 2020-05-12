@@ -1,5 +1,6 @@
 export {CheckboxField} from './checkboxField';
 export {DateField} from './dateField';
+export {DropDownField} from './dropDownField';
 export {FormModel} from './formModel';
 export {LongAnswerField} from './longAnswerField';
 export {PasswordField} from './passwordField';
@@ -7,3 +8,4 @@ export {SendEmailRazorModel} from './sendEmailRazorModel';
 export {ShortAnswerField} from './shortAnswerField';
 export {Workflow} from './workflow';
 export {WorkflowSettings} from './workflowSettings';
+export{SaveAsUmbracoContentNodeWorkflowModel} from './saveAsUmbracoContentNodeWorkflowModel';

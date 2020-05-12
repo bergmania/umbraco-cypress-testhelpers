@@ -51,14 +51,17 @@ export class DocumentTypeBuilder {
     this.lockedCompositeContentTypes = types;
     return this;
   }
-  addGroup() {
-    const builder = new DocumentTypeGroupBuilder(this);
-
+  addGroup(documentTypeGroupBuilder?: DocumentTypeGroupBuilder) {
+    let builder = (documentTypeGroupBuilder === null || documentTypeGroupBuilder === undefined) ? new DocumentTypeGroupBuilder(this) : documentTypeGroupBuilder;
     this.documentTypeGroupBuilders.push(builder);
-
     return builder;
   }
-
+  withId(id: number){
+    this.id=id;    
+    return this;
+  }
+  
+  
   build() {
     const key = this.key || faker.random.uuid();
     const name = this.name || key;

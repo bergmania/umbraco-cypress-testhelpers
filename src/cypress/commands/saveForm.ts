@@ -1,6 +1,6 @@
 import CommandBase from './commandBase';
 import { JsonHelper } from '../../helpers/jsonHelper';
-
+import faker from 'faker';
 export default class SaveForm extends CommandBase {
   commandName = 'saveForm';
 
@@ -9,7 +9,7 @@ export default class SaveForm extends CommandBase {
 
     if (form == null) {
       return;
-    }
+    }    
     return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
       cy.request({
         method: 'POST',
@@ -20,7 +20,7 @@ export default class SaveForm extends CommandBase {
           Accept: 'application/json',
           'X-UMB-XSRF-TOKEN': token.value,
         },
-      }).then((response) => {
+      }).then((response) => {        
         return JsonHelper.getBody(response);
       });
     });
