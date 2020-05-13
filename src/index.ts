@@ -44,7 +44,7 @@ export { Template } from './cms/models/template';
 export { TextBoxDataType } from './cms/models/datatypes/textBoxDataType';
 export { DropDownDataType } from './cms/models/datatypes/dropDownDataType';
 /*Properties*/
-export { TextBoxProperty } from './cms/models/properties/textboxProperty';
+export { TextBoxProperty } from './cms/models/properties/textBoxProperty';
 export { FormPickerProperty } from './cms/models/properties/formPickerProperty';
 export { DropDownProperty } from './cms/models/properties/dropDownProperty';
 
