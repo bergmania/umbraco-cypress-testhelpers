@@ -46,3 +46,7 @@ others
 /test-results.xml
 /cypress/screenshots/
 /cypress/videos/
+*.tgz
+test-results.trx
+/coverage
+*.trx
