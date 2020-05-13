@@ -9,6 +9,7 @@ export default class UmbracoSuccessNotification extends CommandBase {
 
     cy.get('.umb-notifications__notifications > .alert-success', {
       log: false,
+      timeout: 60000 // This is often tested after a long running operation
     }).click({ log: false });
 
     cypress.log({
