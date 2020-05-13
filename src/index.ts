@@ -56,7 +56,7 @@ export { Command } from './cypress/commands/command';
 // export * from './forms/'
 export { Form } from './forms/form';
 export { DataSources } from './forms/datasources';
-export { PrevalueSources } from './forms/prevalueSources';
+export { PrevalueSources } from './forms/prevaluesources';
 
 /* Builders */
 // export * from './forms/builders/'
