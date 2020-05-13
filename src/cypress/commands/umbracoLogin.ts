@@ -41,7 +41,7 @@ export default class UmbracoLogin extends CommandBase {
               const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
               if (getUserToursBody.length > 0) {
                 for (const userTourBody of getUserToursBody) {
-                  if (userTourBody.completed !== true && userTourBody.disabled !== true) {
+                  if (userTourBody.completed !== true || userTourBody.disabled !== true) {
                     toursClosed = true;
                   }
                 }
