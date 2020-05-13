@@ -1,5 +1,5 @@
 import { Workflow } from '../models/workflow';
-import { SendEmailRazorModel } from '../Models/sendEmailRazorModel';
+import { SendEmailRazorModel } from '../models/sendEmailRazorModel';
 export class SendEmailRazorWorkflow {
   public getWorkflow(model: SendEmailRazorModel): Workflow {
     const workflow = new Workflow();
