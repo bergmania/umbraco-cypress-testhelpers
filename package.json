@@ -47,11 +47,9 @@
     "@types/faker": "^4.1.11",
     "@types/jest": "^25.2.1",
     "@types/node": "^12.12.2",
-    "camelize": "^1.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "cypress": "^4.5.0",
-    "faker": "^4.1.0",
     "jest": "^25.3.0",
     "jest-trx-results-processor": "^2.0.0",
     "ncp": "^2.0.0",
@@ -71,5 +69,9 @@
     "cypress": "^4.5.0",
     "cross-env": "^7.0.2",
     "ncp": "^2.0.0"
+  },
+  "dependencies": {
+    "camelize": "^1.0.0",
+    "faker": "^4.1.0"
   }
 }
