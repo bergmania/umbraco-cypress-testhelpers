@@ -16,13 +16,13 @@ import {
   DropDownDataTypeBuilder,
 } from '../';
 
-import { FormModel } from './Models/formModel';
-import { ShortAnswerField } from './Models/shortAnswerField';
+import { FormModel } from './models/formModel';
+import { ShortAnswerField } from './models/shortAnswerField';
 import { LongAnswerField } from './models/longAnswerField';
-import { PasswordField } from './Models/passwordField';
+import { PasswordField } from './models/passwordField';
 import { CheckboxField } from './models/checkboxField';
 import { DateField } from './models/dateField';
-import { Workflow } from './Models/workflow';
+import { Workflow } from './models/workflow';
 import { DropDownProperty, FormPickerProperty, CmsDocumentType } from '../cms/models';
 import DocumentTypeGroupBuilder from '../cms/builders/documentTypes/documentTypeGroupBuilder';
 import { DropDownField } from './models';
@@ -32,7 +32,7 @@ export class Form {
   private readonly content: string = `@inherits Umbraco.Web.Mvc.UmbracoViewPage<${AliasHelper.capitalize(
     this.docTypeAlias,
   )}>\n
-    @using ContentModels = Umbraco.Web.PublishedModels;\n
+    @using Contentmodels = Umbraco.Web.Publishedmodels;\n
     @{\n
     \tLayout = null;\n
     }\n
