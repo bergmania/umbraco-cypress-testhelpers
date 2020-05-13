@@ -39,16 +39,19 @@ export default class UmbracoLogin extends CommandBase {
               log: false,
             }).then((getToursResponse) => {
               const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
-              if (getUserToursBody.length > 0) {
+              if(getUserToursBody.length === 0){
+                // If length == 0, then the user has not disabled any tours => Tours will be shown
+                toursClosed = true;
+              } else{
                 for (const userTourBody of getUserToursBody) {
-                  if (userTourBody.completed !== true || userTourBody.disabled !== true) {
+                  if (userTourBody.disabled  !== true || userTourBody.completed  !== true) {
                     toursClosed = true;
                   }
                 }
-                if (toursClosed) {
-                  cy.get('.umb-tour-step').should('be.visible');
-                  cy.get('.umb-tour-step__close').click();
-                }
+              }
+              if (toursClosed) {
+                cy.get('.umb-tour-step').should('be.visible');
+                cy.get('.umb-tour-step__close').click();
               }
             });
           });
