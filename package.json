@@ -8,22 +8,20 @@
   "scripts": {
     "clean": "rimraf lib",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint --project ./tsconfig.json",    
+    "lint": "tslint --project ./tsconfig.json",
     "jest": "jest --clearCache && jest ",
     "test": "npm run jest",
     "build": "tsc",
     "prepare": "npm run clean && npm run lint && npm run format && npm run jest && npm run build",
     "pack": "npm pack",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-
+    "cypress:open": "npm run build && cypress open",
+    "cypress:run": "npm run build && cypress run",
     "postinstall": "cross-env-shell node postinstall.js $INIT_CWD"
   },
   "files": [
     "lib",
     "src",
-    "postinstall.js",
-    "cypress/fixtures/prevalueSourceFile.txt"
+    "postinstall.js"
   ],
   "repository": {
     "type": "git",

@@ -1,12 +1,10 @@
 {
-  "baseUrl": "http://localhost:9000",
+  "baseUrl": "http://localhost:8700",
   "viewportHeight": 1024,
   "viewportWidth": 1200,
   "env": {
-    "username": "tha@umbraco.dk",
-    "password": "1234567890"
+    "username": "bmb@umbraco.dk",
+    "password": "123456789012"
   },
-  "ignoreTestFiles": ["**/cypress/integration/examples/*.js", "**/projects/*.js","**/cypress/integration/Shared/*"],
-  "chromeWebSecurity": false,
-  "supportFile": "cypress/support/index.js"
+  "ignoreTestFiles": ["**/Forms/*.ts"]
 }

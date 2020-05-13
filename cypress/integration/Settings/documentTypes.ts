@@ -34,7 +34,7 @@ context('Document Types', () => {
     cy.get('.umb-search-field').type('Textstring');
 
     // Choose first item
-    cy.get('ul.umb-card-grid li span[title="Textstring"]').closest("li").click();
+    cy.get('ul.umb-card-grid li a[title="Textstring"]').closest("li").click();
 
     // Save property
     cy.get('.btn-success').last().click();
@@ -49,30 +49,30 @@ context('Document Types', () => {
     cy.umbracoEnsureDocumentTypeNameNotExists(name);
    });
 
-  it('Delete document type', () => {	
-    const name = "Test document type";	
-    cy.umbracoEnsureDocumentTypeNameNotExists(name);	
+  it('Delete document type', () => {
+    const name = "Test document type";
+    cy.umbracoEnsureDocumentTypeNameNotExists(name);
 
-    const dataType = new DocumentTypeBuilder()	
-      .withName(name)	
-      .build();	
+    const dataType = new DocumentTypeBuilder()
+      .withName(name)
+      .build();
 
-    cy.saveDocumentType(dataType);	
+    cy.saveDocumentType(dataType);
 
 
-    cy.umbracoSection('settings');	
-    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");	
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-    cy.umbracoTreeItem("settings", ["Document Types", name]).rightclick();	
+    cy.umbracoTreeItem("settings", ["Document Types", name]).rightclick();
 
-    cy.umbracoContextMenuAction("action-delete").click();	
+    cy.umbracoContextMenuAction("action-delete").click();
 
-    cy.get('label.checkbox').click();	
-    cy.umbracoButtonByLabelKey("general_ok").click();	
+    cy.get('label.checkbox').click();
+    cy.umbracoButtonByLabelKey("general_ok").click();
 
-    cy.contains(name).should('not.exist');	
+    cy.contains(name).should('not.exist');
 
-    cy.umbracoEnsureDocumentTypeNameNotExists(name);	
+    cy.umbracoEnsureDocumentTypeNameNotExists(name);
 
 
   });
