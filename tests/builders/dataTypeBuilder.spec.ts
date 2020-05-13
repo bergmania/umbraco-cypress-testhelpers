@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import faker from 'faker'
 import { FormPickerDataTypeBuilder } from '../../src';
 
+
 describe('DataType Builders', () => {
   it('FormPickerDataTypeBuilder Default', () => {
     const actual = new FormPickerDataTypeBuilder()
