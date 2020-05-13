@@ -1,1 +1,1 @@
-export {TemplateBuilder} from './templateBuilder';
+export { TemplateBuilder } from './templateBuilder';
