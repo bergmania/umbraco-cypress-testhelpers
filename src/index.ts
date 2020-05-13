@@ -33,7 +33,7 @@ export { MinimalTemplate } from './cms/templates/minimalTemplate';
 
 // export * from './cms/models/
 export { CmsDocumentType } from './cms/models';
-
+ 
 /* DataTypes */
 // export * from './cms/models/dataTypes'
 export { DataType } from './cms/models/dataTypes/dataType';
