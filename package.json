@@ -14,9 +14,9 @@
     "build": "tsc",
     "prepare": "npm run clean && npm run lint && npm run format && npm run jest && npm run build",
     "pack": "npm pack",
-    "cypress:open": "npm run build && cypress open",
-    "cypress:run": "npm run build && cypress run",
-    "postinstall": "cross-env-shell node postinstall.js $INIT_CWD"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "postinstall": "node postinstall.js"
   },
   "files": [
     "lib",
