@@ -1,4 +1,4 @@
-import { DataType } from '../../models/datatypes/dataType';
+import { DataType } from '../../models/dataTypes/dataType';
 
 export class DataTypeBuilder {
   constructor(public dataType: DataType) {}

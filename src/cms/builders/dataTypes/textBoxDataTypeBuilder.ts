@@ -1,5 +1,5 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
-import { TextBoxDataType } from '../../models/datatypes/textBoxDataType';
+import { TextBoxDataType } from '../../models/dataTypes/textBoxDataType';
 
 export class TextBoxDataTypeBuilder extends DataTypeBuilder {
   constructor(private textBoxDataType: TextBoxDataType = new TextBoxDataType()) {

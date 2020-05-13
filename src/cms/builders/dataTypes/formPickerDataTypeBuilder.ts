@@ -1,5 +1,5 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
-import { FormPickerDataType } from '../../models/datatypes/formPickerDataType';
+import { FormPickerDataType } from '../../models/dataTypes/formPickerDataType';
 
 export class FormPickerDataTypeBuilder extends DataTypeBuilder {
   constructor(private formPickerDataType: FormPickerDataType = new FormPickerDataType()) {

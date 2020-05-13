@@ -36,13 +36,13 @@ export { CmsDocumentType } from './cms/models';
 
 /* DataTypes */
 // export * from './cms/models/dataTypes'
-export { DataType } from './cms/models/datatypes/dataType';
-export { DataTypePrevalue } from './cms/models/datatypes/dataTypePrevalue';
-export { FormPickerDataType } from './cms/models/datatypes/formPickerDataType';
-export { LabelDataType } from './cms/models/datatypes/labelDataType';
+export { DataType } from './cms/models/dataTypes/dataType';
+export { DataTypePrevalue } from './cms/models/dataTypes/dataTypePrevalue';
+export { FormPickerDataType } from './cms/models/dataTypes/formPickerDataType';
+export { LabelDataType } from './cms/models/dataTypes/labelDataType';
 export { Template } from './cms/models/template';
-export { TextBoxDataType } from './cms/models/datatypes/textBoxDataType';
-export { DropDownDataType } from './cms/models/datatypes/dropDownDataType';
+export { TextBoxDataType } from './cms/models/dataTypes/textBoxDataType';
+export { DropDownDataType } from './cms/models/dataTypes/dropDownDataType';
 /*Properties*/
 export { TextBoxProperty } from './cms/models/properties/textBoxProperty';
 export { FormPickerProperty } from './cms/models/properties/formPickerProperty';

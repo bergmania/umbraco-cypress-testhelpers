@@ -1,5 +1,5 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
-import { LabelDataType } from '../../models/datatypes/labelDataType';
+import { LabelDataType } from '../../models/dataTypes/labelDataType';
 
 export class LabelDataTypeBuilder extends DataTypeBuilder {
   constructor(private labelDataType: LabelDataType = new LabelDataType()) {

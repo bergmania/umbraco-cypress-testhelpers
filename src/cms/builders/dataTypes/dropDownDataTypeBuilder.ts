@@ -1,5 +1,5 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
-import { DropDownDataType } from '../../models/datatypes/dropDownDataType';
+import { DropDownDataType } from '../../models/dataTypes/dropDownDataType';
 
 export class DropDownDataTypeBuilder extends DataTypeBuilder {
   constructor(private dropDownDataType: DropDownDataType = new DropDownDataType()) {

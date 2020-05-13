@@ -2,9 +2,9 @@ export { ContentBuilder } from './content/contentBuilder';
 export { ContentVariantBuilder } from './content/contentVariantBuilder';
 export { ContentVariantPropertyBuilder } from './content/contentVariantPropertyBuilder';
 
-export { FormPickerDataTypeBuilder } from './datatypes/formPickerDataTypeBuilder';
-export { LabelDataTypeBuilder } from './datatypes/labelDataTypeBuilder';
-export { TextBoxDataTypeBuilder } from './datatypes/textBoxDataTypeBuilder';
+export { FormPickerDataTypeBuilder } from './dataTypes/formPickerDataTypeBuilder';
+export { LabelDataTypeBuilder } from './dataTypes/labelDataTypeBuilder';
+export { TextBoxDataTypeBuilder } from './dataTypes/textBoxDataTypeBuilder';
 
 export { DocumentTypeBuilder } from './documentTypes/documentTypeBuilder';
 
