@@ -7,10 +7,10 @@ export { ContentVariantBuilder } from './cms/builders/content/contentVariantBuil
 export { ContentVariantPropertyBuilder } from './cms/builders/content/contentVariantPropertyBuilder';
 /* Datatypes  builders */
 // export * from './cms/builders/dataTypes/';
-export { FormPickerDataTypeBuilder } from './cms/builders/dataTypes/formPickerDataTypeBuilder';
-export { LabelDataTypeBuilder } from './cms/builders/dataTypes/labelDataTypeBuilder';
-export { TextBoxDataTypeBuilder } from './cms/builders/dataTypes/textBoxDataTypeBuilder';
-export { DropDownDataTypeBuilder } from './cms/builders/dataTypes/dropDownDataTypeBuilder';
+export { FormPickerDataTypeBuilder } from './cms/builders/datatypes/formPickerDataTypeBuilder';
+export { LabelDataTypeBuilder } from './cms/builders/datatypes/labelDataTypeBuilder';
+export { TextBoxDataTypeBuilder } from './cms/builders/datatypes/textBoxDataTypeBuilder';
+export { DropDownDataTypeBuilder } from './cms/builders/datatypes/dropDownDataTypeBuilder';
 
 /* DocumentTypes  builders */
 // export * from './cms/builders/documentTypes/';
