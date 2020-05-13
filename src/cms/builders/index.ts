@@ -5,6 +5,7 @@ export { ContentVariantPropertyBuilder } from './content/contentVariantPropertyB
 export { FormPickerDataTypeBuilder } from './dataTypes/formPickerDataTypeBuilder';
 export { LabelDataTypeBuilder } from './dataTypes/labelDataTypeBuilder';
 export { TextBoxDataTypeBuilder } from './dataTypes/textBoxDataTypeBuilder';
+export { DropDownDataTypeBuilder } from './dataTypes/dropDownDataTypeBuilder';
 
 export { DocumentTypeBuilder } from './documentTypes/documentTypeBuilder';
 
