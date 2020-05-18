@@ -87,6 +87,8 @@ export class Form {
         .withAlias(shortAnswerField?.alias)
         .withCaption(shortAnswerField?.caption)
         .withSensitiveData(shortAnswerField?.containsSensitiveData)
+        .withMandatory(shortAnswerField?.mandatory)
+        .withValidationRegex(shortAnswerField?.regex)
         .done();
     });
     model.longAnswerFields?.forEach((longAnswerField) => {
@@ -96,16 +98,33 @@ export class Form {
         .withAlias(longAnswerField?.alias)
         .withCaption(longAnswerField?.caption)
         .withSensitiveData(longAnswerField?.containsSensitiveData)
+        .withMandatory(longAnswerField?.mandatory)
+        .withValidationRegex(longAnswerField?.regex)
         .done();
     });
     model.passwordFields?.forEach((passwordField) => {
-      container.addPasswordField().withId(passwordField.id).done();
+      container
+        .addPasswordField()
+        .withId(passwordField.id)
+        .withMandatory(passwordField?.mandatory)
+        .withValidationRegex(passwordField?.regex)
+        .done();
     });
     model.checkboxFields?.forEach((checkboxField) => {
-      container.addCheckboxField().withId(checkboxField.id).done();
+      container
+        .addCheckboxField()
+        .withId(checkboxField.id)
+        .withMandatory(checkboxField?.mandatory)
+        .withValidationRegex(checkboxField?.regex)
+        .done();
     });
     model.dateFields?.forEach((dateField) => {
-      container.addDateField().withId(dateField.id).done();
+      container
+        .addDateField()
+        .withId(dateField.id)
+        .withMandatory(dateField?.mandatory)
+        .withValidationRegex(dateField?.regex)
+        .done();
     });
     model.dropDownFields?.forEach((dropDownField) => {
       container
@@ -116,6 +135,8 @@ export class Form {
         .withSensitiveData(dropDownField?.containsSensitiveData)
         .withPrevalueSourceId(dropDownField.prevalueSourceId)
         .withPrevalues(dropDownField.preValues)
+        .withMandatory(dropDownField?.mandatory)
+        .withValidationRegex(dropDownField?.regex)
         .done();
     });
     container.done().done().done();
