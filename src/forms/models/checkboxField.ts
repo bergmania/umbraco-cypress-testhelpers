@@ -1,3 +1,3 @@
-export class CheckboxField {
-  public id: string;
-}
+import { FormField } from './formField';
+
+export class CheckboxField extends FormField {}

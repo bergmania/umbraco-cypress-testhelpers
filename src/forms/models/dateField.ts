@@ -1,3 +1,3 @@
-export class DateField {
-  public id: string;
-}
+import { FormField } from './formField';
+
+export class DateField extends FormField {}
