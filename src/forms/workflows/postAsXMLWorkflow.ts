@@ -12,12 +12,12 @@ export class PostAsXMLWorkflow {
     workflowName: string = faker.random.word(),
     includeSensitiveData = false,
     // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows
-    executeOn: number = 0,
-    url: string = '127.0.0.1',
+    executeOn = 0,
+    url = '127.0.0.1',
     method: Method = Method.POST,
-    xsltFile: string = '',
-    user: string = 'user',
-    password: string = 'password',
+    xsltFile = '',
+    user = 'user',
+    password = 'password',
     headers?: [{ alias: string; value: string; staticValue: string; $$hashKey: string }],
   ): Workflow {
     const workflow = new Workflow();

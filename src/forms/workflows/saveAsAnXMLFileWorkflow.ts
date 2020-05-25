@@ -5,10 +5,10 @@ export class SaveAsAnXMLFileWorkflow {
     workflowName: string = faker.random.word(),
     includeSensitiveData = false,
     // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows
-    executeOn: number = 0,
-    path: string = 'c:\\tmp',
-    extension: string = '.mxl',
-    xsltFile: string = '',
+    executeOn = 0,
+    path = 'c:\\tmp',
+    extension = '.mxl',
+    xsltFile = '',
   ): Workflow {
     const workflow = new Workflow();
     workflow.workflowTypeId = '9cc5854d-61a2-48f6-9f4a-8f3bdfafb521';

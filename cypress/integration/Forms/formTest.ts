@@ -84,20 +84,20 @@ context('Forms', () => {
     const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
     const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
     const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
-    let textBoxProperties=[textBoxProperty1,textBoxProperty2];
+    const textBoxProperties=[textBoxProperty1,textBoxProperty2];
 
     const dropDownPropertyName1 =`${form.dataTypePrefix}${faker.random.uuid()}`;
     const dropDownProperty1 = new DropDownProperty(dropDownPropertyName1, AliasHelper.uuidToAlias(dropDownPropertyName1),true,['value1','value2','value3','value4','value5']);    
-    let dropDownProperties=[dropDownProperty1];
+    const dropDownProperties=[dropDownProperty1];
 
     const minimalTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;
     const minimalTemplate = form.buildMinimalTemplate(minimalTemplateName, AliasHelper.uuidToAlias(minimalTemplateName),documentType.alias,textBoxProperties);    
     form.insertDataType(textBoxProperties,dropDownProperties).then((result: {dataType,property}[])=>{ 
       form.insertTemplate(minimalTemplate).then(template=>{
-        var builder=form.buildDocumentType(documentType,template,result);      
+        const builder=form.buildDocumentType(documentType,template,result);      
         form.insertDocumentType(builder).then(docType=>{  
           // Get the id of the dropdown datatype
-          var index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
+          const index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
           prevalueSources.insertDataTypePrevalue(faker.random.word(), result[index].dataType.id).then(prevalueSource=>{                                    
               form.insertContent(template,docType,result.map(p=>p.property));              
             });
@@ -116,11 +116,11 @@ context('Forms', () => {
     const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
     const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
 
-    let textBoxProperties=[textBoxProperty1,textBoxProperty2];
+    const textBoxProperties=[textBoxProperty1,textBoxProperty2];
 
     const dropDownPropertyName1 =`${form.dataTypePrefix}${faker.random.uuid()}`;
     const dropDownProperty1 = new DropDownProperty(dropDownPropertyName1, AliasHelper.uuidToAlias(dropDownPropertyName1),true,['value1','value2','value3','value4','value5']);    
-    let dropDownProperties=[dropDownProperty1];   
+    const dropDownProperties=[dropDownProperty1];   
     
     const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker','',[]);                              
     /* CMS */
@@ -166,10 +166,10 @@ context('Forms', () => {
     /* Build and post*/
     form.insertDataType(textBoxProperties,dropDownProperties,formPickerProperty).then((result: {dataType,property}[])=>{ 
       form.insertTemplate(formPickerTemplate).then(template=>{
-        var builder=form.buildDocumentType(documentType,template,result);      
+        const builder=form.buildDocumentType(documentType,template,result);      
         form.insertDocumentType(builder).then(docType=>{  
           // Get the id of the dropdown datatype
-          var index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
+          const index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
           prevalueSources.insertDataTypePrevalue(faker.random.word(), result[index].dataType.id).then(prevalueSource=>{            
             dropDownFields[0].prevalueSourceId = prevalueSource.id;
             

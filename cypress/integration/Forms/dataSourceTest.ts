@@ -18,7 +18,7 @@ context('Forms Data sources', () => {
 
     it('Test Create Web Service source', () => {
         const dataSourceName = faker.random.word();
-        var fixture= { InsertMethod: 'POST', Password: "test",ServiceName:"Add",ServiceUrl:"http://localhost/service.asmx?wsdl",UserName:"test"};
+        const fixture= { InsertMethod: 'POST', Password: "test",ServiceName:"Add",ServiceUrl:"http://localhost/service.asmx?wsdl",UserName:"test"};
         dataSources.insertWebService(dataSourceName,fixture).then(dataSource => {
             cy.visit(`/umbraco#/forms/datasource/edit/${dataSource.id}`);
             cy.dataUmbScope(`settingstype-pickers-dataSourceType`).its('dataSource.formDataSourceTypeId').should('deep.equal',dataSource.formDataSourceTypeId);
@@ -31,7 +31,7 @@ context('Forms Data sources', () => {
     });    
     it('Test CreateSql Database source', () => {
         const dataSourceName = faker.random.word();
-        var fixture=  {Connection: 'Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;Provider=sqloledb',Table: 'Test'}
+        const fixture=  {Connection: 'Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;Provider=sqloledb',Table: 'Test'}
         
         dataSources.insertSqlDatabase(dataSourceName,fixture).then(dataSource => {  
             cy.server();

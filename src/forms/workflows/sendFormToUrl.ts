@@ -12,11 +12,11 @@ export class SendFormToUrl {
     workflowName: string = faker.random.word(),
     includeSensitiveData = false,
     // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows
-    executeOn: number = 0,
-    url: string = '127.0.0.1',
+    executeOn = 0,
+    url = '127.0.0.1',
     method: Method = Method.POST,
-    user: string = 'user',
-    password: string = 'password',
+    user = 'user',
+    password = 'password',
     fields?: [{ alias: string; value: string; staticValue: string; $$hashKey: string }],
   ): Workflow {
     const workflow = new Workflow();
