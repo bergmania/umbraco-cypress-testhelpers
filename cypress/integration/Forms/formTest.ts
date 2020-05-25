@@ -9,24 +9,20 @@ import {  FormBuilder,
           PasswordField,
           DateField,
           Workflow,
-          SaveAsUmbracoContentNodeWorkflow,
-          SendEmailWorkflow,
-          ChangeRecordStateWorkflow,
-          PostAsXMLWorkflow,
-          SendFormToUrl,
-          SendXsltTransformedEmail,
+          SaveAsUmbracoContentNodeWorkflow,         
           SendEmailRazorModel,         
           AliasHelper,
           CmsDocumentType,
           TextBoxProperty,
           FormPickerProperty,          
           DropDownProperty,
-          PrevalueSources,
-          DataType,
+          PrevalueSources,          
           DropDownField,
-          SaveAsUmbracoContentNodeWorkflowModel
+          SaveAsUmbracoContentNodeWorkflowModel,          
+          FileUploadField
         } from '../../../src';
 import faker from 'faker';
+
 
 context('Forms', () => {
   
@@ -43,67 +39,45 @@ context('Forms', () => {
   });
 
 
-  // it.skip('Insert simple form page', ()=>{    
-    
-  //   const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
-  //   const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
-  //   const longAnswerFields: LongAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
-  //   const passwordFields: PasswordField[] = [ { id: faker.random.uuid(), value: faker.random.alphaNumeric(12) }];
-  //   const checkboxFields: CheckboxField[] = [ { id: faker.random.uuid() }];
-  //   const dateFields: DateField[] = [ { id: faker.random.uuid() }];   
-  //   const razorSendEmailRazorModel = new SendEmailRazorModel(formModel.name);    
-
-  //   const workflows: Workflow[] =[new SendEmailRazorWorkflow().getWorkflow(
-  //     razorSendEmailRazorModel      
-  //   )];
-  //   const formBuild=form.buildForm({formModel, workflows,shortAnswerFields,longAnswerFields,passwordFields,checkboxFields,dateFields});
-      
-  //   const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
-  //   const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
-    
-  //   const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
-  //   const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
-  //   const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
-  //   const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
-  //   let textBoxProperties=[textBoxProperty1,textBoxProperty2];
-
-  //   const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker', [], formBuild);            
-     
-  //   const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
-  //   const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias,textBoxProperties);              
-    
-  //   // With form
-  //   form.insertContentOnPage(documentType, formPickerTemplate, textBoxProperties,formPickerProperty ).then((p)=>console.log(p));              
-    
-  // });
-  it.skip('Insert simple contentpage', ()=>{
+  it('Test file file upload',()=>{
     const documentTypeName = `${form.docTypePrefix}${faker.random.uuid()}`;    
     const documentType=new CmsDocumentType(documentTypeName,AliasHelper.uuidToAlias(documentTypeName));  
+    const formPickerProperty = new FormPickerProperty(`${form.dataTypePrefix}${faker.random.uuid()}`,'MyFormPicker','',[]);                              
     
-    const textBoxPropertyName1= `${form.dataTypePrefix}${faker.random.uuid()}`;
-    const textBoxProperty1= new TextBoxProperty(textBoxPropertyName1, AliasHelper.uuidToAlias(textBoxPropertyName1), 100,'Page title'); 
-    const textBoxPropertyName2= `${form.dataTypePrefix}${faker.random.uuid()}`;
-    const textBoxProperty2= new TextBoxProperty(textBoxPropertyName2, AliasHelper.uuidToAlias(textBoxPropertyName2),100,'Your name?'); 
-    const textBoxProperties=[textBoxProperty1,textBoxProperty2];
+    
 
-    const dropDownPropertyName1 =`${form.dataTypePrefix}${faker.random.uuid()}`;
-    const dropDownProperty1 = new DropDownProperty(dropDownPropertyName1, AliasHelper.uuidToAlias(dropDownPropertyName1),true,['value1','value2','value3','value4','value5']);    
-    const dropDownProperties=[dropDownProperty1];
-
-    const minimalTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;
-    const minimalTemplate = form.buildMinimalTemplate(minimalTemplateName, AliasHelper.uuidToAlias(minimalTemplateName),documentType.alias,textBoxProperties);    
-    form.insertDataType(textBoxProperties,dropDownProperties).then((result: {dataType,property}[])=>{ 
-      form.insertTemplate(minimalTemplate).then(template=>{
+    const formPickerTemplateName = `${form.templatePrefix}${faker.random.uuid()}`;          
+    const formPickerTemplate = form.buildFormPickerTemplate(formPickerTemplateName,AliasHelper.uuidToAlias(formPickerTemplateName),'MyFormPicker',documentType.alias);     
+    /* Forms */    
+    const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};        
+    const uploadFieldName = faker.random.uuid();
+    const uploadFields = [ new FileUploadField(uploadFieldName)];
+    /* Build and post*/
+    form.insertDataType(null,null,formPickerProperty).then((result: {dataType,property}[])=>{ 
+      form.insertTemplate(formPickerTemplate).then(template=>{
         const builder=form.buildDocumentType(documentType,template,result);      
-        form.insertDocumentType(builder).then(docType=>{  
-          // Get the id of the dropdown datatype
-          const index=result.findIndex(p=>p.property.name===dropDownPropertyName1);
-          prevalueSources.insertDataTypePrevalue(faker.random.word(), result[index].dataType.id).then(prevalueSource=>{                                    
-              form.insertContent(template,docType,result.map(p=>p.property));              
-            });
+        form.insertDocumentType(builder).then(docType=>{                                  
+            const formBuild=form.buildForm({formModel, uploadFields});            
+            form.insertForm(formBuild).then(formBody=>{              
+              formPickerProperty.value = formBody.id;
+              form.insertContent(template,docType,result.map(p=>p.property)).then(response=>{
+                cy.visit(response.urls[0].text).then(p=>{
+                  cy.dataUmb(uploadFields[0].id).should('be.visible');
+                  const fileName = 'prevalueSourceFile.txt';
+                  cy.fixture(fileName).then(fileContent => {
+                    cy.dataUmb(uploadFields[0].id).upload({ fileContent, fileName, mimeType: 'application/json' });
+                    cy.contains('Submit').click();  
+                    cy.visit(`/umbraco/#/forms/form/entries/${formBody.id}`).then(()=>{
+                         cy.dataUmb('record_entry_0','a').first().click();
+                         cy.contains(fileName.toLowerCase());                         
+                    });
+                  });
+                });
+            });              
           });
         });
-      });                  
+      });
+    });            
   });
   it('Test form submitting and run workflow send email with template (Razor)', () => {
     /******************* SETUP  /********************/
@@ -290,7 +264,7 @@ context('Forms', () => {
   });
   
   
-  it.skip('Field actions can cancel and delete', () => {
+  it('Field actions can cancel and delete', () => {
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
     const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];
 
@@ -306,7 +280,7 @@ context('Forms', () => {
       cy.get('field_name_0_0_0').should('not.exist');
     });
   });
-  it.skip('Required field values can not be empty', () => {
+  it('Required field values can not be empty', () => {
     const formModel: FormModel = { name: `${form.formPrefix}${faker.random.uuid()}`};
     form.insertForm(form.buildForm({formModel})).then((formbody) => {
       cy.visit(`/umbraco/#/forms/form/edit/${formbody.id}`);

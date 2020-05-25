@@ -16,5 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import {Command} from '../../src/cypress/commands/command';
 import {Chainable} from '../../src/cypress/commands/chainable';
+
 new Chainable();
 new Command().registerCypressCommands();
+import 'cypress-file-upload';

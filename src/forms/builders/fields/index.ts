@@ -5,3 +5,4 @@ export { FormLongAnswerFieldBuilder } from './formLongAnswerFieldBuilder';
 export { FormPasswordFieldBuilder } from './formPasswordFieldBuilder';
 export { FormShortAnswerFieldBuilder } from './formShortAnswerFieldBuilder';
 export { DropDownFieldBuilder } from './dropDownFieldBuilder';
+export { UploadFileFieldBuilder } from './fileUploadFieldBuilder';

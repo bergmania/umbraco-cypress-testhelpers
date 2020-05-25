@@ -1,6 +1,7 @@
 export { CheckboxField } from './checkboxField';
 export { DateField } from './dateField';
 export { DropDownField } from './dropDownField';
+export { FileUploadField } from './fileUploadField';
 export { FormModel } from './formModel';
 export { LongAnswerField } from './longAnswerField';
 export { PasswordField } from './passwordField';

@@ -25,7 +25,7 @@ import { DateField } from './models/dateField';
 import { Workflow } from './models/workflow';
 import { DropDownProperty, FormPickerProperty, CmsDocumentType } from '../cms/models';
 import DocumentTypeGroupBuilder from '../cms/builders/documentTypes/documentTypeGroupBuilder';
-import { DropDownField } from './models';
+import { DropDownField, FileUploadField } from './models';
 
 export class Form {
   private readonly docTypeAlias = AliasHelper.toSafeAlias(faker.random.uuid());
@@ -64,6 +64,7 @@ export class Form {
     checkboxFields?: CheckboxField[];
     dateFields?: DateField[];
     dropDownFields?: DropDownField[];
+    uploadFields?: FileUploadField[];
   }) {
     const f = new FormBuilder().withName(model.formModel.name);
     if (model.workflows) {
@@ -138,6 +139,16 @@ export class Form {
         .withMandatory(dropDownField?.mandatory)
         .withValidationRegex(dropDownField?.regex)
         .done();
+    });
+    model.uploadFields?.forEach((uploadField) => {
+      container
+        .addUploadField()
+        .withId(uploadField.id)
+        .withAlias(uploadField?.alias)
+        .withCaption(uploadField?.caption)
+        .withSensitiveData(uploadField?.containsSensitiveData)
+        .withMandatory(uploadField?.mandatory)
+        .withValidationRegex(uploadField?.regex);
     });
     container.done().done().done();
     return f.build();

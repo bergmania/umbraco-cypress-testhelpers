@@ -73,6 +73,7 @@ export { FormLongAnswerFieldBuilder } from './forms/builders/fields/formLongAnsw
 export { FormPasswordFieldBuilder } from './forms/builders/fields/formPasswordFieldBuilder';
 export { FormShortAnswerFieldBuilder } from './forms/builders/fields/formShortAnswerFieldBuilder';
 export { DropDownFieldBuilder } from './forms/builders/fields/dropDownFieldBuilder';
+export { UploadFileFieldBuilder } from './forms/builders/fields/fileUploadFieldBuilder';
 /* Conditions */
 // export * from './forms/builders/fields/conditions/'
 export { FormFieldConditionBuilder } from './forms/builders/fields/conditions/formFieldConditionBuilder';
@@ -86,6 +87,7 @@ export { WorkflowTypeSetting } from './forms/builders/workflows/workflowTypeSett
 export { CheckboxField } from './forms/models/checkboxField';
 export { DateField } from './forms/models/dateField';
 export { DropDownField } from './forms/models/dropDownField';
+export { FileUploadField } from './forms/models/fileUploadField';
 export { FormModel } from './forms/models/formModel';
 export { LongAnswerField } from './forms/models/longAnswerField';
 export { PasswordField } from './forms/models/passwordField';
