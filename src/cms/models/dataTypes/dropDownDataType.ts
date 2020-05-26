@@ -6,7 +6,7 @@ export class DropDownDataType extends DataType {
     this.selectedEditor = 'Umbraco.DropDown.Flexible';
     this.addPrevalues([], false);
   }
-  public addPrevalues(value: string[], multiSelect: boolean = false) {
+  public addPrevalues(value: string[], multiSelect = false) {
     this.preValues = [
       { key: 'multiple', value: multiSelect },
       {

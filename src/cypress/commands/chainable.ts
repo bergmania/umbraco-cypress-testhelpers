@@ -1,4 +1,5 @@
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable<Subject> {
       addTextToUsernameInput: (name: string) => Chainable<void>;
@@ -51,7 +52,8 @@ declare global {
       umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
-      umbracoEditorHeaderName: (name: string) => Chainable<void>;
+      umbracoEditorHeaderName: (name: string) => Chainable<void>;  
+      upload(fileOrArray, processingOpts?): Chainable<Subject>;      
     }
   }
 }

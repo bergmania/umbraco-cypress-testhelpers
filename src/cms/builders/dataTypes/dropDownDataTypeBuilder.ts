@@ -5,7 +5,7 @@ export class DropDownDataTypeBuilder extends DataTypeBuilder {
   constructor(private dropDownDataType: DropDownDataType = new DropDownDataType()) {
     super(dropDownDataType);
   }
-  withPrevalues(value: string[], multiSelect: boolean = false) {
+  withPrevalues(value: string[], multiSelect = false) {
     this.dropDownDataType.addPrevalues(value, multiSelect);
     return this;
   }
