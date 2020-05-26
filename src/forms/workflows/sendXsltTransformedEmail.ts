@@ -6,11 +6,11 @@ export class SendXsltTransformedEmail {
     workflowName: string = faker.random.word(),
     includeSensitiveData = false,
     // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows
-    executeOn: number = 0,
+    executeOn = 0,
     email: string = faker.internet.email(),
     senderEmail: string = faker.internet.email(),
     subject: string = faker.random.word(),
-    xsltFile: string = '',
+    xsltFile = '',
   ): Workflow {
     const workflow = new Workflow();
     workflow.workflowTypeId = '616edfeb-badf-414b-89dc-d8655eb85998';

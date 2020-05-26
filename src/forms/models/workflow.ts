@@ -1,6 +1,6 @@
 import { WorkflowSettings } from './workflowSettings';
 export class Workflow {
-  executeOn: number = 0;
+  executeOn = 0;
   workflowTypeId: string;
   includeSensitiveData = false;
   name: string;

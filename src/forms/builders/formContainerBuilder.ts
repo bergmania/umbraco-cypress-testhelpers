@@ -4,6 +4,7 @@ import { FormCheckboxFieldBuilder } from './fields/formCheckboxFieldBuilder';
 import { FormDateFieldBuilder } from './fields/formDateFieldBuilder';
 import { FormPasswordFieldBuilder } from './fields/formPasswordFieldBuilder';
 import { DropDownFieldBuilder } from './fields/dropDownFieldBuilder';
+import { UploadFileFieldBuilder } from './fields';
 
 export class FormContainerBuilder {
   parentBuilder;
@@ -65,6 +66,12 @@ export class FormContainerBuilder {
 
     this.formFieldBuilders.push(builder);
 
+    return builder;
+  }
+
+  addUploadField() {
+    const builder = new UploadFileFieldBuilder(this);
+    this.formFieldBuilders.push(builder);
     return builder;
   }
 
