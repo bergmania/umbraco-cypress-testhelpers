@@ -1,4 +1,4 @@
-export class PrevalueSources {
+export class PrevalueSourcesBuilderHelper {
   private readonly fieldPreValueSourceTextFileTypeId = '35c2053e-cbf7-4793-b27c-6e97b7671a2d';
   private readonly fieldPreValueSourceDocumentTypeId = 'de996870-c45a-11de-8a39-0800200c9a66';
   private readonly fieldPreValueSourceDataTypePrevalueId = 'ea773caf-fef2-491b-b5b7-6a3552b1a0e2';
