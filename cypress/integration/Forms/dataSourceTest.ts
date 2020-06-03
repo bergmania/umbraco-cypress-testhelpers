@@ -1,10 +1,11 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import { DataSources } from '../../../src/forms/datasources';
+import { DataSourcesBuilderHelper } from '../../../src/forms/builders/helpers/dataSourcesBuilderHelper';
+
 
 context('Forms Data sources', () => {
 
-    const dataSources: DataSources = new DataSources();    
+    const dataSources: DataSourcesBuilderHelper = new DataSourcesBuilderHelper();    
 
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));

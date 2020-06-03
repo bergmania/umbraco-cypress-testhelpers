@@ -1,14 +1,16 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import { PrevalueSources } from '../../../src/forms/prevaluesources';
-import { Form } from '../../../src/forms/form';
+
+
 import { FormModel } from '../../../src/forms/models/formModel';
 import { ShortAnswerField } from '../../../src/forms/models/shortAnswerField';
+import { FormBuilderHelper } from '../../../src/forms/builders/helpers/formBuilderHelper';
+import { PrevalueSourcesBuilderHelper } from '../../../src/forms/builders/helpers/prevalueSourcesBuilderHelper';
 
 context('Forms Prevalue sources', () => {
 
-    const prevalueSources: PrevalueSources = new PrevalueSources();
-    const form: Form = new Form();
+    const prevalueSources: PrevalueSourcesBuilderHelper = new PrevalueSourcesBuilderHelper();
+    const form: FormBuilderHelper = new FormBuilderHelper();
 
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
@@ -38,7 +40,7 @@ context('Forms Prevalue sources', () => {
     it('Test Umbraco Document type', () => {    
         const formModel: FormModel = { name: `formTest${faker.random.uuid()}`};
         const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];    
-        form.insertFormOnPage({ formBuild: form.buildForm({formModel,shortAnswerFields}), visit: false }).then(f => {
+        form.insert({ formBuild: form.build({formModel,shortAnswerFields}), visit: false }).then(f => {
             const name = faker.random.word();
             
             prevalueSources.insertDocument(name, f.formBody.name).then(
