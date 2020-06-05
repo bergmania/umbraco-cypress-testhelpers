@@ -52,8 +52,8 @@ declare global {
       umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
-      umbracoEditorHeaderName: (name: string) => Chainable<void>;  
-      upload(fileOrArray, processingOpts?): Chainable<Subject>;      
+      umbracoEditorHeaderName: (name: string) => Chainable<void>;
+      upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
 }

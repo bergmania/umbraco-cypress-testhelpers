@@ -5,7 +5,7 @@ export class PrevalueSourcesBuilderHelper {
 
   public insertTextFile(name: string) {
     return cy
-      .postFile('prevalueSourceFile.txt', '/backoffice/UmbracoForms/PreValueFile/PostAddFile')
+      .postFile('prevaluesource.txt', '/backoffice/UmbracoForms/PreValueFile/PostAddFile')
       .then((settings) => {
         const payload = {
           fieldPreValueSourceTypeId: this.fieldPreValueSourceTextFileTypeId,

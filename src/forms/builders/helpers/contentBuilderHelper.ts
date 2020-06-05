@@ -1,7 +1,7 @@
 import { ContentBuilder, Template, CmsDocumentType } from '../../..';
 
-export class ContentBuilderHelper{
- public build(templateAlias, documentTypeAlias: string, properties?: any[]) {
+export class ContentBuilderHelper {
+  public build(templateAlias, documentTypeAlias: string, properties?: any[]) {
     const content = new ContentBuilder()
       .withTemplateAlias(templateAlias)
       .withContentTypeAlias(documentTypeAlias)
@@ -33,5 +33,4 @@ export class ContentBuilderHelper{
     const content = this.build(template.alias, documentType.alias, properties);
     return cy.saveContent(content).then((contentBody) => contentBody);
   }
-
 }

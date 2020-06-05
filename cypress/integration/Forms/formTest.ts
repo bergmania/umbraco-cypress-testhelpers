@@ -45,6 +45,29 @@ context('Forms', () => {
     prevalueSourcesBuilder.cleanUp();
   });
 
+  it('Required field values can not be empty', () => {
+    const formModel: FormModel = { name: `${formBuilderHelper.formPrefix}${faker.random.uuid()}`};
+    formBuilderHelper.insert(formBuilderHelper.build({formModel})).then((formbody) => {
+      cy.visit(`/umbraco/#/forms/form/edit/${formbody.id}`).then(()=>{
+        cy.get('field-setting-editor').should('not.exist');
+        cy.dataUmb('forms-add-question').click();
+        cy.dataUmb('field-settings-submit').click();
+        // Test that the dialog didn't close
+        cy.dataUmb('field-setting-editor').should('exist');
+        // Fill out some values
+        cy.dataUmb('field-settings-enter-question').type(faker.random.word()).blur();
+        cy.dataUmb('field-settings-submit').click();
+        // Test that the dialog didn't close
+        cy.dataUmb('field-setting-editor').should('exist');
+        cy.dataUmb('field-settings-choose-answer-type').click();
+        cy.dataUmb('field-type-picker-fieldType_0').click();
+        cy.dataUmb('field-settings-submit').click();
+        // Test that the dialog closed
+        cy.dataUmb('field-setting-editor').should('not.exist');
+      });
+    });
+  });
+
   it('Field actions can cancel and delete', () => {
     const formModel: FormModel = { name: `${formBuilderHelper.formPrefix}${faker.random.uuid()}`};
     const shortAnswerFields: ShortAnswerField[] = [new ShortAnswerField(faker.random.uuid(), faker.lorem.sentence())];
@@ -63,28 +86,7 @@ context('Forms', () => {
   });
 
  
-  it('Required field values can not be empty', () => {
-    const formModel: FormModel = { name: `${formBuilderHelper.formPrefix}${faker.random.uuid()}`};
-    formBuilderHelper.insert(formBuilderHelper.build({formModel})).then((formbody) => {
-      cy.visit(`/umbraco/#/forms/form/edit/${formbody.id}`);
-      cy.get('field-setting-editor').should('not.exist');
-      cy.dataUmb('forms-add-question').click();
-      cy.dataUmb('field-settings-submit').click();
-      // Test that the dialog didn't close
-      cy.dataUmb('field-setting-editor').should('exist');
-      // Fill out some values
-      cy.dataUmb('field-settings-enter-question').type(faker.random.word()).blur();
-      cy.dataUmb('field-settings-submit').click();
-      // Test that the dialog didn't close
-      cy.dataUmb('field-setting-editor').should('exist');
-      cy.dataUmb('field-settings-choose-answer-type').click();
-      cy.dataUmb('field-type-picker-fieldType_0').click();
-      cy.dataUmb('field-settings-submit').click();
-      // Test that the dialog closed
-      cy.dataUmb('field-setting-editor').should('not.exist');
-
-    });
-  });
+ 
   it('Test form submitting and run workflow send email with template (Razor)', () => {
     /******************* SETUP  /********************/
     /* CMS */
@@ -133,7 +135,7 @@ context('Forms', () => {
     razorSendEmailRazorModel.senderEmail='{emailAddress}';
     razorSendEmailRazorModel.subject = `Test {phone} {phonenumber} {eMAILAddREss} {EMail} {emailAddress} [#pageTitle] [@Url] [$${textBoxPropertyName1}] [%dismissAvatar]`;
     
-    const fileName = 'prevalueSourceFile.txt';
+    const fileName = 'prevaluesource.txt';
 
     const saveAsUmbracoContentNodeWorkflowName = faker.random.uuid();
     const saveAsUmbracoContentNodeWorkflowModel = new SaveAsUmbracoContentNodeWorkflowModel(saveAsUmbracoContentNodeWorkflowName);

@@ -27,29 +27,30 @@ context('Forms Prevalue sources', () => {
     it('Test Get value from text file', () => {
         const prevalueName = faker.random.word();
         prevalueSources.insertTextFile(prevalueName).then(prevalueSource => {
-            cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`);
-            cy.dataUmbScope(`settingstype-pickers-fieldPreValueSourceType`).its('preValueSource.fieldPreValueSourceTypeId').should('deep.equal',prevalueSource.fieldPreValueSourceTypeId);
-            cy.dataUmb(`settingtypes-fileupload`).should('contain.text','prevaluesourcefile.txt');
+            cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`).then(()=>{
+                cy.dataUmbScope(`settingstype-pickers-fieldPreValueSourceType`).its('preValueSource.fieldPreValueSourceTypeId').should('deep.equal',prevalueSource.fieldPreValueSourceTypeId);
+                cy.dataUmb(`settingtypes-fileupload`).should('contain.text','prevaluesource.txt');
 
-            for (let i = 0; i < 5; i++) {
-                cy.dataUmb(`prevalueId_${i}`).should('have.text', `${i}`);
-                cy.dataUmb(`prevalue_${i}`).should('have.text', `Prevalue${i + 1}`);
-            }
+                for (let i = 0; i < 5; i++) {
+                    cy.dataUmb(`prevalueId_${i}`).should('have.text', `${i}`);
+                    cy.dataUmb(`prevalue_${i}`).should('have.text', `Prevalue${i + 1}`);
+                }
+            });
         });
     });
     it('Test Umbraco Document type', () => {    
         const formModel: FormModel = { name: `formTest${faker.random.uuid()}`};
         const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];    
-        form.insert({ formBuild: form.build({formModel,shortAnswerFields}), visit: false }).then(f => {
+        form.insert(form.build({formModel,shortAnswerFields})).then(f => {
             const name = faker.random.word();
             
-            prevalueSources.insertDocument(name, f.formBody.name).then(
+            prevalueSources.insertDocument(name, f.name).then(
                 prevalueSource => {
-                    cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`);
+                    cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`).then(()=>{
                     cy.dataUmbScope(`settingstype-pickers-fieldPreValueSourceType`).its('preValueSource.fieldPreValueSourceTypeId').should('deep.equal',prevalueSource.fieldPreValueSourceTypeId);                    
-                    cy.dataUmbScope(`settingstype-pickers-documenttype`).its('setting.value').should('deep.equal', `${f.formBody.name}`);
-                }
-            );
+                    cy.dataUmbScope(`settingstype-pickers-documenttype`).its('setting.value').should('deep.equal', `${f.name}`);
+                });
+            });
         });
 
     });

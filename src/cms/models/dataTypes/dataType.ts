@@ -5,7 +5,7 @@ export abstract class DataType {
   public id = 0;
   public name = '';
   public parentId = -1;
-  public selectedEditor= '';
+  public selectedEditor = '';
   protected preValues: DataTypePrevalue[];
 
   public getPrevalues() {

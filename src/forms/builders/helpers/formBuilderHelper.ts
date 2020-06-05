@@ -1,10 +1,4 @@
-
-
-import {
-  AliasHelper,
-   FormBuilder
-}
-  from '../../..';
+import { AliasHelper, FormBuilder } from '../../..';
 
 import { FormModel } from '../../models/formModel';
 import { ShortAnswerField } from '../../models/shortAnswerField';
@@ -18,7 +12,7 @@ import faker from 'faker';
 
 export class FormBuilderHelper {
   private readonly docTypeAlias = AliasHelper.toSafeAlias(faker.random.uuid());
- 
+
   public readonly formPrefix = 'formTest';
   public readonly dataTypePrefix = 'dataTypeTest';
   public readonly templatePrefix = 'templateTest';
@@ -126,9 +120,7 @@ export class FormBuilderHelper {
   public insert(theForm) {
     return cy.saveForm(theForm).then((formBody) => formBody);
   }
-  
- 
-  
+
   // public insertFormOnPage({
   //   formBuild,
   //   dataTypePrefix = this.dataTypePrefix,
