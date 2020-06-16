@@ -1,14 +1,16 @@
 /// <reference types="Cypress" />
 import faker from 'faker';
-import { PrevalueSources } from '../../../src/forms/prevaluesources';
-import { Form } from '../../../src/forms/form';
+
+
 import { FormModel } from '../../../src/forms/models/formModel';
 import { ShortAnswerField } from '../../../src/forms/models/shortAnswerField';
+import { FormBuilderHelper } from '../../../src/forms/builders/helpers/formBuilderHelper';
+import { PrevalueSourcesBuilderHelper } from '../../../src/forms/builders/helpers/prevalueSourcesBuilderHelper';
 
 context('Forms Prevalue sources', () => {
 
-    const prevalueSources: PrevalueSources = new PrevalueSources();
-    const form: Form = new Form();
+    const prevalueSources: PrevalueSourcesBuilderHelper = new PrevalueSourcesBuilderHelper();
+    const form: FormBuilderHelper = new FormBuilderHelper();
 
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
@@ -25,29 +27,30 @@ context('Forms Prevalue sources', () => {
     it('Test Get value from text file', () => {
         const prevalueName = faker.random.word();
         prevalueSources.insertTextFile(prevalueName).then(prevalueSource => {
-            cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`);
-            cy.dataUmbScope(`settingstype-pickers-fieldPreValueSourceType`).its('preValueSource.fieldPreValueSourceTypeId').should('deep.equal',prevalueSource.fieldPreValueSourceTypeId);
-            cy.dataUmb(`settingtypes-fileupload`).should('contain.text','prevaluesourcefile.txt');
+            cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`).then(()=>{
+                cy.dataUmbScope(`settingstype-pickers-fieldPreValueSourceType`).its('preValueSource.fieldPreValueSourceTypeId').should('deep.equal',prevalueSource.fieldPreValueSourceTypeId);
+                cy.dataUmb(`settingtypes-fileupload`).should('contain.text','prevaluesource.txt');
 
-            for (let i = 0; i < 5; i++) {
-                cy.dataUmb(`prevalueId_${i}`).should('have.text', `${i}`);
-                cy.dataUmb(`prevalue_${i}`).should('have.text', `Prevalue${i + 1}`);
-            }
+                for (let i = 0; i < 5; i++) {
+                    cy.dataUmb(`prevalueId_${i}`).should('have.text', `${i}`);
+                    cy.dataUmb(`prevalue_${i}`).should('have.text', `Prevalue${i + 1}`);
+                }
+            });
         });
     });
     it('Test Umbraco Document type', () => {    
         const formModel: FormModel = { name: `formTest${faker.random.uuid()}`};
         const shortAnswerFields: ShortAnswerField[] = [{ id: faker.random.uuid(), value: faker.lorem.sentence() }];    
-        form.insertFormOnPage({ formBuild: form.buildForm({formModel,shortAnswerFields}), visit: false }).then(f => {
+        form.insert(form.build({formModel,shortAnswerFields})).then(f => {
             const name = faker.random.word();
             
-            prevalueSources.insertDocument(name, f.formBody.name).then(
+            prevalueSources.insertDocument(name, f.name).then(
                 prevalueSource => {
-                    cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`);
+                    cy.visit(`/umbraco#/forms/prevaluesource/edit/${prevalueSource.id}`).then(()=>{
                     cy.dataUmbScope(`settingstype-pickers-fieldPreValueSourceType`).its('preValueSource.fieldPreValueSourceTypeId').should('deep.equal',prevalueSource.fieldPreValueSourceTypeId);                    
-                    cy.dataUmbScope(`settingstype-pickers-documenttype`).its('setting.value').should('deep.equal', `${f.formBody.name}`);
-                }
-            );
+                    cy.dataUmbScope(`settingstype-pickers-documenttype`).its('setting.value').should('deep.equal', `${f.name}`);
+                });
+            });
         });
 
     });

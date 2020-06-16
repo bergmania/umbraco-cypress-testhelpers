@@ -40,17 +40,15 @@ export default class UmbracoLogin extends CommandBase {
             }).then((getToursResponse) => {
               const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
               let umbEmailMarketingDisabled = false;
-              if(getUserToursBody.length === 0){
+              if (getUserToursBody.length === 0) {
                 // If length == 0, then the user has not disabled any tours => Tours will be shown
                 toursClosed = true;
-              }
-              else{
-                
+              } else {
                 for (const userTourBody of getUserToursBody) {
-                  if(userTourBody.alias === 'umbEmailMarketing'){
-                    umbEmailMarketingDisabled = userTourBody.disabled ;
+                  if (userTourBody.alias === 'umbEmailMarketing') {
+                    umbEmailMarketingDisabled = userTourBody.disabled;
                   }
-                  if (userTourBody.disabled  !== true) {
+                  if (userTourBody.disabled !== true) {
                     toursClosed = true;
                   }
                 }

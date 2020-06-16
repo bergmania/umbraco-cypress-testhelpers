@@ -1,4 +1,4 @@
-export class DataSources {
+export class DataSourcesBuilderHelper {
   private readonly dataSourceWebServiceDataSourceId = '7edf567c-4230-4079-b3fb-cca44baf6b75';
   private readonly dataSourceSqlDataSourceId = 'f19506f3-efea-4b13-a308-89348f69df91';
 
