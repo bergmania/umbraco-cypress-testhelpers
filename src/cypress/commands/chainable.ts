@@ -33,6 +33,7 @@ declare global {
       umbracoContextMenuAction: (name: string) => Chainable<void>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
+      umbracoInstall: (username: string, password: string, connectionString: string) => Chainable<void>;
       umbracoLogin: (name: string, password: string) => Chainable<void>;
       umbracoSection: (name: string) => Chainable<void>;
       umbracoSuccessNotification: () => Chainable<void>;
@@ -52,8 +53,8 @@ declare global {
       umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
-      umbracoEditorHeaderName: (name: string) => Chainable<void>;  
-      upload(fileOrArray, processingOpts?): Chainable<Subject>;      
+      umbracoEditorHeaderName: (name: string) => Chainable<void>;
+      upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
 }

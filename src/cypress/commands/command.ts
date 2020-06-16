@@ -51,6 +51,7 @@ import DeleteDataSourceByGuid from './deleteDataSourceByGuid';
 import DeleteAllDataSources from './deleteAllDataSources';
 import DeleteAllContent from './deleteAllContent';
 import DeleteContentById from './deleteContentById';
+import UmbracoInstall from './umbracoInstall';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -95,6 +96,7 @@ export class Command {
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
+    new UmbracoInstall(relativeBackOfficePath).registerCommand();
     new UmbracoSection(relativeBackOfficePath).registerCommand();
     new UmbracoTreeItem(relativeBackOfficePath).registerCommand();
     new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();
