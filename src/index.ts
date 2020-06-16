@@ -53,10 +53,15 @@ export { DropDownProperty } from './cms/models/properties/dropDownProperty';
 export { Command } from './cypress/commands/command';
 
 /* Forms */
-// export * from './forms/'
-export { Form } from './forms/form';
-export { DataSources } from './forms/datasources';
-export { PrevalueSources } from './forms/prevaluesources';
+// export * from './forms/builders/helpers'
+export { ContentBuilderHelper } from './forms/builders/helpers/contentBuilderHelper';
+export { DataSourcesBuilderHelper } from './forms/builders/helpers/dataSourcesBuilderHelper';
+export { DataTypesBuilderHelper } from './forms/builders/helpers/dataTypesBuilderHelper';
+export { DocumentTypeBuilderHelper } from './forms/builders/helpers/documentTypeBuilderHelper';
+export { PrevalueSourcesBuilderHelper } from './forms/builders/helpers/prevalueSourcesBuilderHelper';
+export { PropertyBuilderHelper } from './forms/builders/helpers/propertyBuilderHelper';
+export { TemplateBuilderHelper } from './forms/builders/helpers/templateBuilderHelper';
+export { FormBuilderHelper } from './forms/builders/helpers/formBuilderHelper';
 
 /* Builders */
 // export * from './forms/builders/'
