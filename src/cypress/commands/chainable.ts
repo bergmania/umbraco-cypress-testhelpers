@@ -34,7 +34,7 @@ declare global {
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
       umbracoInstall: (username: string, password: string, connectionString: string) => Chainable<void>;
-      umbracoLogin: (name: string, password: string) => Chainable<void>;
+      umbracoLogin: (name: string, password: string, umbracoLogin: boolean) => Chainable<void>;
       umbracoSection: (name: string) => Chainable<void>;
       umbracoSuccessNotification: () => Chainable<void>;
       umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
