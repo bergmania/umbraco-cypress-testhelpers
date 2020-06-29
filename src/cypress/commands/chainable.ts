@@ -37,11 +37,13 @@ declare global {
       umbracoSuccessNotification: () => Chainable<void>;
       umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
       umbracoEnsureUserEmailNotExists: (name: string) => Chainable<void>;
+      umbracoEnsureMemberEmailNotExists: (name: string) => Chainable<void>;
       umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureRelationTypeNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureDocumentTypeNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureMediaTypeNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureMemberTypeNameNotExists: (name: string) => Chainable<void>;
+      umbracoEnsureMemberGroupNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureDataTypeNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureLanguageNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureMacroNameNotExists: (name: string) => Chainable<void>;

@@ -51,6 +51,9 @@ import DeleteDataSourceByGuid from './deleteDataSourceByGuid';
 import DeleteAllDataSources from './deleteAllDataSources';
 import DeleteAllContent from './deleteAllContent';
 import DeleteContentById from './deleteContentById';
+import UmbracoInstall from './umbracoInstall';
+import UmbracoEnsureMemberGroupNameNotExists from "./umbracoEnsureMemberGroupNameNotExists";
+import UmbracoEnsureMemberEmailNotExists from "./umbracoEnsureMemberEmailNotExists";
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -101,11 +104,13 @@ export class Command {
     new UmbracoSuccessNotification(relativeBackOfficePath).registerCommand();
     new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMemberEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMemberGroupNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureDataTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureLanguageNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMacroNameNotExists(relativeBackOfficePath).registerCommand();
