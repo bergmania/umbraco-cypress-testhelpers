@@ -1,12 +1,11 @@
-import faker from 'faker';
 import { DataTypePrevalue } from './dataTypePrevalue';
 
 export abstract class DataType {
-  public action: string = 'saveNew';
-  public id: number = 0;
-  public name: string = '';
-  public parentId: number = -1;
-  public selectedEditor: string = '';
+  public action = 'saveNew';
+  public id = 0;
+  public name = '';
+  public parentId = -1;
+  public selectedEditor = '';
   protected preValues: DataTypePrevalue[];
 
   public getPrevalues() {

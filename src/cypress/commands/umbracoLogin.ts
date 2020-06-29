@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../helpers/responseHelper';
 export default class UmbracoLogin extends CommandBase {
   _commandName = 'umbracoLogin';
 
-  method(username, password) {
+  method(username, password, skipCheckTours = false) {
     const cy = this.cy;
     const cypress = this.cypress;
 
@@ -38,26 +38,26 @@ export default class UmbracoLogin extends CommandBase {
               },
               log: false,
             }).then((getToursResponse) => {
-              const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
-              let umbEmailMarketingDisabled = false;
-              if(getUserToursBody.length === 0){
-                // If length == 0, then the user has not disabled any tours => Tours will be shown
-                toursClosed = true;
-              }
-              else{
-                
-                for (const userTourBody of getUserToursBody) {
-                  if(userTourBody.alias === 'umbEmailMarketing'){
-                    umbEmailMarketingDisabled = userTourBody.disabled ;
-                  }
-                  if (userTourBody.disabled  !== true) {
-                    toursClosed = true;
+              if (!skipCheckTours) {
+                const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
+                let umbEmailMarketingDisabled = false;
+                if (getUserToursBody.length === 0) {
+                  // If length == 0, then the user has not disabled any tours => Tours will be shown
+                  toursClosed = true;
+                } else {
+                  for (const userTourBody of getUserToursBody) {
+                    if (userTourBody.alias === 'umbEmailMarketing') {
+                      umbEmailMarketingDisabled = userTourBody.disabled;
+                    }
+                    if (userTourBody.disabled !== true) {
+                      toursClosed = true;
+                    }
                   }
                 }
-              }
-              if (toursClosed || umbEmailMarketingDisabled === false) {
-                cy.get('.umb-tour-step').should('be.visible');
-                cy.get('.umb-tour-step__close').click();
+                if (toursClosed || umbEmailMarketingDisabled === false) {
+                  cy.get('.umb-tour-step', { timeout: 60000 }).should('be.visible'); // We now due to the api calls this will be shown, but slow computers can take a while
+                  cy.get('.umb-tour-step__close').click();
+                }
               }
             });
           });

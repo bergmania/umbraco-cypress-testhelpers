@@ -98,6 +98,7 @@ export class Command {
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
+    new UmbracoInstall(relativeBackOfficePath).registerCommand();
     new UmbracoSection(relativeBackOfficePath).registerCommand();
     new UmbracoTreeItem(relativeBackOfficePath).registerCommand();
     new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();

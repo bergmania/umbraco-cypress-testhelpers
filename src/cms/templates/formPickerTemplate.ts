@@ -1,9 +1,9 @@
 import { AliasHelper } from '../../helpers/aliasHelper';
 
 export class FormPickerTemplate {
-  public get(formPickerModel: string, model: string = '', properties?: { name: string; alias: string }[]): string {
+  public get(formPickerModel: string, model = '', properties?: { name: string; alias: string }[]): string {
     if (model.length > 0) model = `<${AliasHelper.capitalize(model)}>`;
-    let template = `@inherits Umbraco.Web.Mvc.UmbracoViewPage${model}                   
+    let template = `@inherits Umbraco.Web.Mvc.UmbracoViewPage${model}\n                 
             @using ContentModels = Umbraco.Web.PublishedModels;\n
             @{\n
             \tLayout = null;\n

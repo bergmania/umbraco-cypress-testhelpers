@@ -9,7 +9,7 @@ export class ChangeRecordStateWorkflow {
     workflowName: string = faker.random.word(),
     includeSensitiveData = false,
     // Need to figure out how to expose enum from package. 0=Submit, 1=Approve -> for workflows
-    executeOn: number = 0,
+    executeOn = 0,
     action: RecordStateAction = RecordStateAction['Approve Record'],
     words: string[] = ['word'],
   ): Workflow {

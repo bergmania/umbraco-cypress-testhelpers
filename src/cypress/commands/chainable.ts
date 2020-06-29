@@ -1,4 +1,5 @@
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable<Subject> {
       addTextToUsernameInput: (name: string) => Chainable<void>;
@@ -32,7 +33,8 @@ declare global {
       umbracoContextMenuAction: (name: string) => Chainable<void>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
-      umbracoLogin: (name: string, password: string) => Chainable<void>;
+      umbracoInstall: (username: string, password: string, connectionString: string) => Chainable<void>;
+      umbracoLogin: (name: string, password: string, umbracoLogin: boolean) => Chainable<void>;
       umbracoSection: (name: string) => Chainable<void>;
       umbracoSuccessNotification: () => Chainable<void>;
       umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
@@ -54,6 +56,7 @@ declare global {
       umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
+      upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
 }
