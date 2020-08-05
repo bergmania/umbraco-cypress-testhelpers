@@ -117,10 +117,39 @@ context('Partial View Macro Files', () => {
     cy.umbracoContextMenuAction("action-delete").click();
     cy.umbracoButtonByLabelKey("general_ok").click();
 
-    //Assert
+    // Assert
     cy.contains(fullName).should('not.exist');
 
-    //Clearn
+    // Clearn
+    cleanup(name);
+  })
+
+  it('Edit partial view macro', () => {
+    const name = "TestPartialViewMacroEditable";
+    const fullName = name + ".cshtml";
+
+    cleanup(name);
+
+    const partialViewMacro = new PartialViewMacroBuilder()
+      .withName(name)
+      .withContent("@inherits Umbraco.Web.Macros.PartialViewMacroPage")
+      .build();
+    
+    cy.savePartialViewMacro(partialViewMacro);
+
+    // Navigate to settings
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+    cy.umbracoTreeItem("settings", ["Partial View Macro Files", fullName]).click();
+
+    // Type an edit
+    cy.get('.ace_content').type(" // test");
+    // Save
+    cy.get('.btn-success').click();
+
+    // Assert
+    cy.umbracoSuccessNotification().should('be.visible');
+
     cleanup(name);
   })
 
