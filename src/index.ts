@@ -24,6 +24,9 @@ export { DropDownDocumentTypePropertyBuilder } from './cms/builders/documentType
 // export * from './cms/builders/templates/'
 export { TemplateBuilder } from './cms/builders/templates/templateBuilder';
 
+/* PartialViewMacroBuilders */
+export {PartialViewMacroBuilder} from './cms/builders/partialViewMacros/partialViewMacroBuilder'
+
 /* Contents */
 // export * from './cms/templates/'
 export { FormPickerTemplate } from './cms/templates/formPickerTemplate';
