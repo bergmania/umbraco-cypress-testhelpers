@@ -6,5 +6,5 @@ export class PartialViewMacro {
   public path = null;
   public id = 0;
   public snippet = null;
-  public virtualPath = `/Views/MacroPartials/`;
+  public virtualPath = '/Views/MacroPartials/';
 }
