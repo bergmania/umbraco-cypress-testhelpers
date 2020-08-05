@@ -22,7 +22,6 @@ export default class UmbracoMacroExists extends CommandBase {
       }).then((response) => {
         const searchBody = ResponseHelper.getResponseBody(response);
         if (searchBody.length > 0) {
-          let macroId = null;
           for (const sb of searchBody) {
             if (sb.name === name) {
               // Macro found, return true
