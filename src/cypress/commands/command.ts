@@ -57,6 +57,7 @@ import UmbracoEnsureMemberEmailNotExists from './umbracoEnsureMemberEmailNotExis
 import UmbracoMacroExists from './umbracoMacroExists';
 import SavePartialViewMacro from './savePartialViewMacro';
 import UmbracoErrorNotification from './umbracoErrorNotification';
+import SavePartialView from './savePartialView';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -129,5 +130,6 @@ export class Command {
     new UmbracoMacroExists(relativeBackOfficePath).registerCommand();
     new SavePartialViewMacro(relativeBackOfficePath).registerCommand();
     new UmbracoErrorNotification(relativeBackOfficePath).registerCommand();
+    new SavePartialView(relativeBackOfficePath).registerCommand();
   }
 }

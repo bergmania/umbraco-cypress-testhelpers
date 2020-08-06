@@ -1,4 +1,6 @@
 /// <reference types="Cypress" />
+import { PartialViewBuilder } from "../../../src";
+
 context('Partial Views', () => {
 
   beforeEach(() => {
@@ -74,4 +76,34 @@ context('Partial Views', () => {
     // Assert
     cy.umbracoErrorNotification().should('be.visible');
   });
+
+  it('Delete partial view', () => {
+    const name = "TestDeletePartialView";
+    const fileName = name + ".cshtml";
+
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+
+    // Build and save partial view
+    const partialView = new PartialViewBuilder()
+      .withName(name)
+      .withContent("@inherits Umbraco.Web.Mvc.UmbracoViewPage")
+      .build();
+    
+    cy.savePartialView(partialView);
+
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+
+    // Delete partial view
+    cy.umbracoTreeItem("settings", ["Partial Views", fileName]).rightclick();
+    cy.umbracoContextMenuAction("action-delete").click();
+    cy.umbracoButtonByLabelKey("general_ok").click();
+
+    // Assert 
+    cy.contains(fileName).should('not.exist');
+
+    // Clean 
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+  });
+
 });
