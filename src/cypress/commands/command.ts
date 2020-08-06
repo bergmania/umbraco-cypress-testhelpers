@@ -58,6 +58,7 @@ import UmbracoMacroExists from './umbracoMacroExists';
 import SavePartialViewMacro from './savePartialViewMacro';
 import UmbracoErrorNotification from './umbracoErrorNotification';
 import SavePartialView from './savePartialView';
+import UmbracoPartialViewExists from './umbracoPartialViewExists'
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -131,5 +132,6 @@ export class Command {
     new SavePartialViewMacro(relativeBackOfficePath).registerCommand();
     new UmbracoErrorNotification(relativeBackOfficePath).registerCommand();
     new SavePartialView(relativeBackOfficePath).registerCommand();
+    new UmbracoPartialViewExists(relativeBackOfficePath).registerCommand();
   }
 }

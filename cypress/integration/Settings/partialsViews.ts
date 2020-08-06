@@ -135,4 +135,62 @@ context('Partial Views', () => {
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
   });
 
+  it('Partial views unsaved changes stay', () => {
+    const name = "PartialViewsUnsavedChangesStay";
+    const fileName = name + ".cshtml";
+
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+
+    openPartialViewsCreatePanel();
+
+    const partialView = new PartialViewBuilder()
+      .withName(name)
+      .withContent('@inherits Umbraco.Web.Mvc.UmbracoViewPage\n')
+      .build();
+    
+    cy.savePartialView(partialView);
+
+    // Open partial view
+    cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
+    // Edit
+    cy.get('.ace_content').type("var num = 5;");
+    // Navigate away
+    cy.umbracoSection('content');
+    // Click stay button 
+    cy.get('umb-button[label="Stay"] button:enabled').click();
+
+    // Assert
+    // That the same document is open
+    cy.get('#headerName').should('have.value', fileName);
+    cy.get('.ace_content').should('be.visible');
+
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+  });
+
+  it('Partial view discard unsaved changes', () => {
+    const name = "Partial view discard changes";
+    const fileName = name + ".cshtml";
+    
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+
+    openPartialViewsCreatePanel();
+
+    cy.umbracoContextMenuAction("action-create").click();
+    cy.get('.menu-label').first().click();
+
+    // Type name
+    cy.umbracoEditorHeaderName(name);
+    // Navigate away
+    cy.umbracoSection('content');
+    // Click discard
+    cy.get('umb-button[label="Discard changes"] button:enabled').click();
+    // Navigate back
+    cy.umbracoSection('settings');
+
+    // Assert
+    cy.get('.ace_content').should('not.be.visible');  
+    cy.umbracoPartialViewExists(name).then(exists => { expect(exists).to.be.false; });
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+  });
+
 });
