@@ -7,9 +7,13 @@ context('Partial Views', () => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  function openPartialViewsCreatePanel() {
+  function navigateToSettings() {
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+  }
+
+  function openPartialViewsCreatePanel() {
+    navigateToSettings();
     cy.umbracoTreeItem("settings", ["Partial Views"]).rightclick();
   }
 
@@ -91,8 +95,7 @@ context('Partial Views', () => {
     
     cy.savePartialView(partialView);
 
-    cy.umbracoSection('settings');
-    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+    navigateToSettings();
 
     // Delete partial view
     cy.umbracoTreeItem("settings", ["Partial Views", fileName]).rightclick();
@@ -103,6 +106,32 @@ context('Partial Views', () => {
     cy.contains(fileName).should('not.exist');
 
     // Clean 
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+  });
+
+  it('Edit partial view', () => {
+    const name = 'EditPartialView';
+    const fileName = name + ".cshtml";
+
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+
+    const partialView = new PartialViewBuilder()
+      .withName(name)
+      .withContent("@inherits Umbraco.Web.Mvc.UmbracoViewPage\n")
+      .build();
+
+    cy.savePartialView(partialView);
+
+    navigateToSettings();
+    // Open partial view
+    cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
+    // Edit
+    cy.get('.ace_content').type("var num = 5;");
+    cy.get('.btn-success').click();
+
+    // Assert
+    cy.umbracoSuccessNotification().should('be.visible');
+    // Clean
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
   });
 
