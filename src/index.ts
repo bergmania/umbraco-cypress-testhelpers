@@ -24,6 +24,9 @@ export { DropDownDocumentTypePropertyBuilder } from './cms/builders/documentType
 // export * from './cms/builders/templates/'
 export { TemplateBuilder } from './cms/builders/templates/templateBuilder';
 
+/* PartialViewMacroBuilders */
+export {PartialViewMacroBuilder} from './cms/builders/partialViewMacros/partialViewMacroBuilder'
+
 /* Contents */
 // export * from './cms/templates/'
 export { FormPickerTemplate } from './cms/templates/formPickerTemplate';
@@ -47,6 +50,9 @@ export { DropDownDataType } from './cms/models/dataTypes/dropDownDataType';
 export { TextBoxProperty } from './cms/models/properties/textBoxProperty';
 export { FormPickerProperty } from './cms/models/properties/formPickerProperty';
 export { DropDownProperty } from './cms/models/properties/dropDownProperty';
+
+/* PartialViewMacros */
+export { PartialViewMacro } from './cms/models/partialViewMacros/partialViewMacro'
 
 /* Cypress */
 /* Commands */
