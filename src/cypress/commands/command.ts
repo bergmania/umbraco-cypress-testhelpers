@@ -56,6 +56,7 @@ import UmbracoEnsureMemberGroupNameNotExists from './umbracoEnsureMemberGroupNam
 import UmbracoEnsureMemberEmailNotExists from './umbracoEnsureMemberEmailNotExists';
 import UmbracoMacroExists from './umbracoMacroExists';
 import SavePartialViewMacro from './savePartialViewMacro';
+import UmbracoErrorNotification from './umbracoErrorNotification';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -127,5 +128,6 @@ export class Command {
     new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
     new UmbracoMacroExists(relativeBackOfficePath).registerCommand();
     new SavePartialViewMacro(relativeBackOfficePath).registerCommand();
+    new UmbracoErrorNotification(relativeBackOfficePath).registerCommand();
   }
 }
