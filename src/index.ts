@@ -51,6 +51,9 @@ export { TextBoxProperty } from './cms/models/properties/textBoxProperty';
 export { FormPickerProperty } from './cms/models/properties/formPickerProperty';
 export { DropDownProperty } from './cms/models/properties/dropDownProperty';
 
+/* PartialViewMacros */
+export { PartialViewMacro } from './cms/models/partialViewMacros/partialViewMacro'
+
 /* Cypress */
 /* Commands */
 export { Command } from './cypress/commands/command';

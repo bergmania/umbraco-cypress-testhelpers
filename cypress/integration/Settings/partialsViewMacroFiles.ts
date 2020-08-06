@@ -1,6 +1,5 @@
 /// <reference types="Cypress" />
-import { should } from "chai";
-import { PartialViewMacroBuilder } from "../../../src/cms/builders/partialViewMacros/partialViewMacroBuilder";
+import { PartialViewMacroBuilder } from "../../../src";
 
 context('Partial View Macro Files', () => {
 
