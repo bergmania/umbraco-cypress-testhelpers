@@ -36,6 +36,7 @@ context('Partial Views', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
+    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.true; });
 
     //Clean up
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -62,7 +63,7 @@ context('Partial Views', () => {
 
     // Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    // Maybe check that the partial view was actually create with an api call?
+    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.true; });
 
     // Clean up
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -104,6 +105,7 @@ context('Partial Views', () => {
 
     // Assert 
     cy.contains(fileName).should('not.exist');
+    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.false; });
 
     // Clean 
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -189,7 +191,7 @@ context('Partial Views', () => {
 
     // Assert
     cy.get('.ace_content').should('not.be.visible');  
-    cy.umbracoPartialViewExists(name).then(exists => { expect(exists).to.be.false; });
+    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.false; });
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
   });
 

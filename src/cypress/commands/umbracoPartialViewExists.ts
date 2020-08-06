@@ -6,7 +6,7 @@ export default class UmbracoPartialViewExists extends CommandBase {
 
   method(name) {
     const cy = this.cy;
-
+    
     cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
       // Request list of partial views
       cy.request({
@@ -32,5 +32,6 @@ export default class UmbracoPartialViewExists extends CommandBase {
         // No partial view found, return false
         return false;
       });
+    });
   }
 }

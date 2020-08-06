@@ -8,8 +8,6 @@ export class PartialViewBuilder{
   snippet;
   virtualPath;
 
-  constructor() {
-  }
 
   withContent(content) {
     this.content = content;
