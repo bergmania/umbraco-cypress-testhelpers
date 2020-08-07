@@ -137,7 +137,7 @@ context('Partial Views', () => {
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
   });
 
-  it('Partial views unsaved changes stay', () => {
+  it('Unsaved changes stay', () => {
     const name = "PartialViewsUnsavedChangesStay";
     const fileName = name + ".cshtml";
 
@@ -169,7 +169,7 @@ context('Partial Views', () => {
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
   });
 
-  it('Partial view discard unsaved changes', () => {
+  it('Discard unsaved changes', () => {
     const name = "Partial view discard changes";
     const fileName = name + ".cshtml";
     
@@ -195,4 +195,62 @@ context('Partial Views', () => {
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
   });
 
+  it('Insert macro', () => {
+    const name = 'PartialViewInsertMacro';
+    const fileName = name + '.cshtml';
+
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+    cy.umbracoEnsureMacroNameNotExists(name);
+
+    const partialView = new PartialViewBuilder()
+      .withName(name)
+      .withContent('')
+      .build();
+    
+    cy.savePartialView(partialView);
+    cy.saveMacro(name);
+
+    navigateToSettings();
+    cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
+    // Insert macro
+    cy.umbracoButtonByLabelKey('general_insert').click();
+    cy.get('.umb-insert-code-box__title').contains('Macro').click();
+    cy.get('.umb-card-grid-item').contains(name).click();
+
+    // Assert
+    cy.get('.ace_content').contains('@Umbraco.RenderMacro("' + name + '")').should('exist');
+
+    // Clean
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+    cy.umbracoEnsureMacroNameNotExists(name);
+  });
+
+  it('Insert value', () => {
+    const name = 'PartialViewInsertValue';
+    const fileName = name + '.cshtml';
+
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+
+    const partialView = new PartialViewBuilder()
+      .withName(name)
+      .withContent('')
+      .build();
+    
+    cy.savePartialView(partialView);
+
+    navigateToSettings();
+    cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
+    
+    // Insert value
+    cy.umbracoButtonByLabelKey('general_insert').click();
+    cy.get('.umb-insert-code-box__title').contains('Value').click();
+    cy.get('select').select('umbracoBytes');
+    cy.umbracoButtonByLabelKey('general_submit').click();
+
+    // assert
+    cy.get('.ace_content').contains('@Model.Value("umbracoBytes")').should('exist');
+
+    // Clean
+    cy.umbracoEnsurePartialViewNameNotExists(fileName);
+  });
 });
