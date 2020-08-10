@@ -21,7 +21,7 @@ context('Templates', () => {
 
 
   it('Create template', () => {
-    const name = "Test template";
+    const name = "Test template test";
     cy.umbracoEnsureTemplateNameNotExists(name);
 
     createTemplate();
@@ -43,7 +43,7 @@ context('Templates', () => {
   });
 
   it('Unsaved changes stay', () => {
-    const name = "Templates Unsaved Changes Stay";
+    const name = "Templates Unsaved Changes Stay test";
     const edit = "var num = 5;";
     cy.umbracoEnsureTemplateNameNotExists(name);
 
@@ -74,7 +74,7 @@ context('Templates', () => {
   });
 
   it('Discard unsaved changes', () => {
-    const name = "Discard changes";
+    const name = "Discard changes test";
     const edit = "var num = 5;";
     
     cy.umbracoEnsureTemplateNameNotExists(name);
@@ -105,61 +105,62 @@ context('Templates', () => {
     cy.umbracoEnsureTemplateNameNotExists(name);
   });
 
-  // it('Insert macro', () => {
-  //   const name = 'PartialViewInsertMacro';
-  //   const fileName = name + '.cshtml';
+  it('Insert macro', () => {
+    const name = 'InsertMacroTest';
 
-  //   cy.umbracoEnsureTemplateNameNotExists(name);
-  //   cy.umbracoEnsureMacroNameNotExists(name);
+    cy.umbracoEnsureTemplateNameNotExists(name);
+    cy.umbracoEnsureMacroNameNotExists(name);
 
-  //   const template = new TemplateBuilder()
-  //     .withName(name)
-  //     .withContent('')
-  //     .build();
+    const template = new TemplateBuilder()
+      .withName(name)
+      .withContent('')
+      .build();
     
-  //   cy.saveTemplate(template);
+    cy.saveTemplate(template);
 
-  //   navigateToSettings();
-  //   cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
-  //   // Insert macro
-  //   cy.umbracoButtonByLabelKey('general_insert').click();
-  //   cy.get('.umb-insert-code-box__title').contains('Macro').click();
-  //   cy.get('.umb-card-grid-item').contains(name).click();
+    cy.saveMacro(name);
 
-  //   // Assert
-  //   cy.get('.ace_content').contains('@Umbraco.RenderMacro("' + name + '")').should('exist');
+    navigateToSettings();
+    cy.umbracoTreeItem("settings", ["Templsates", name]).click();
+    // Insert macro
+    cy.umbracoButtonByLabelKey('general_insert').click();
+    cy.get('.umb-insert-code-box__title').contains('Macro').click();
+    cy.get('.umb-card-grid-item').contains(name).click();
 
-  //   // Clean
-  //   cy.umbracoEnsureTemplateNameNotExists(name);
-  // });
+    // Assert
+    cy.get('.ace_content').contains('@Umbraco.RenderMacro("' + name + '")').should('exist');
 
-  // it('Insert value', () => {
-  //   const name = 'PartialViewInsertValue';
-  //   const fileName = name + '.cshtml';
+    // Clean
+    cy.umbracoEnsureTemplateNameNotExists(name);
+    cy.umbracoEnsureMacroNameNotExists(name);
+  });
 
-  //   cy.umbracoEnsureTemplateNameNotExists(name);
+  it('Insert value', () => {
+    const name = 'Insert Value Test';
 
-  //   const partialView = new TemplateBuilder()
-  //     .withName(name)
-  //     .withContent('')
-  //     .build();
+    cy.umbracoEnsureTemplateNameNotExists(name);
+
+    const partialView = new TemplateBuilder()
+      .withName(name)
+      .withContent('')
+      .build();
     
-  //   cy.saveTemplate(partialView);
+    cy.saveTemplate(partialView);
 
-  //   navigateToSettings();
-  //   cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
+    navigateToSettings();
+    cy.umbracoTreeItem("settings", ["Templates", name]).click();
     
-  //   // Insert value
-  //   cy.umbracoButtonByLabelKey('general_insert').click();
-  //   cy.get('.umb-insert-code-box__title').contains('Value').click();
-  //   cy.get('select').select('umbracoBytes');
-  //   cy.umbracoButtonByLabelKey('general_submit').click();
+    // Insert value
+    cy.umbracoButtonByLabelKey('general_insert').click();
+    cy.get('.umb-insert-code-box__title').contains('Value').click();
+    cy.get('select').select('umbracoBytes');
+    cy.umbracoButtonByLabelKey('general_submit').click();
 
-  //   // assert
-  //   cy.get('.ace_content').contains('@Model.Value("umbracoBytes")').should('exist');
+    // assert
+    cy.get('.ace_content').contains('@Model.Value("umbracoBytes")').should('exist');
 
-  //   // Clean
-  //   cy.umbracoEnsureTemplateNameNotExists(name);
-  // });
+    // Clean
+    cy.umbracoEnsureTemplateNameNotExists(name);
+  });
 
 });
