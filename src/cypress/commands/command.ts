@@ -54,6 +54,8 @@ import DeleteContentById from './deleteContentById';
 import UmbracoInstall from './umbracoInstall';
 import UmbracoEnsureMemberGroupNameNotExists from './umbracoEnsureMemberGroupNameNotExists';
 import UmbracoEnsureMemberEmailNotExists from './umbracoEnsureMemberEmailNotExists';
+import UmbracoMacroExists from './umbracoMacroExists';
+import SavePartialViewMacro from './savePartialViewMacro';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -123,5 +125,7 @@ export class Command {
     new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
     new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
     new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
+    new UmbracoMacroExists(relativeBackOfficePath).registerCommand();
+    new SavePartialViewMacro(relativeBackOfficePath).registerCommand();
   }
 }
