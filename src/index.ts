@@ -25,7 +25,9 @@ export { DropDownDocumentTypePropertyBuilder } from './cms/builders/documentType
 export { TemplateBuilder } from './cms/builders/templates/templateBuilder';
 
 /* PartialViewMacroBuilders */
-export {PartialViewMacroBuilder} from './cms/builders/partialViewMacros/partialViewMacroBuilder'
+export { PartialViewMacroBuilder } from './cms/builders/partialViewMacros/partialViewMacroBuilder';
+/* PartialViewBuilders */
+export { PartialViewBuilder } from './cms/builders/partialViews/partialViewBuilder';
 
 /* Contents */
 // export * from './cms/templates/'
@@ -52,7 +54,7 @@ export { FormPickerProperty } from './cms/models/properties/formPickerProperty';
 export { DropDownProperty } from './cms/models/properties/dropDownProperty';
 
 /* PartialViewMacros */
-export { PartialViewMacro } from './cms/models/partialViewMacros/partialViewMacro'
+export { PartialViewMacro } from './cms/models/partialViewMacros/partialViewMacro';
 
 /* Cypress */
 /* Commands */
