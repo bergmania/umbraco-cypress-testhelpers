@@ -52,8 +52,8 @@ import DeleteAllDataSources from './deleteAllDataSources';
 import DeleteAllContent from './deleteAllContent';
 import DeleteContentById from './deleteContentById';
 import UmbracoInstall from './umbracoInstall';
-import UmbracoEnsureMemberGroupNameNotExists from "./umbracoEnsureMemberGroupNameNotExists";
-import UmbracoEnsureMemberEmailNotExists from "./umbracoEnsureMemberEmailNotExists";
+import UmbracoEnsureMemberGroupNameNotExists from './umbracoEnsureMemberGroupNameNotExists';
+import UmbracoEnsureMemberEmailNotExists from './umbracoEnsureMemberEmailNotExists';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {

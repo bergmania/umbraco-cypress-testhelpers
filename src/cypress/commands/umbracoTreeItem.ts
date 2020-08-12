@@ -33,6 +33,8 @@ export default class UmbracoTreeItem extends CommandBase {
           foundItem = menuItem;
           breakLoop = true;
         }
+
+        return breakLoop;
       });
       if (breakLoop) {
         break;
