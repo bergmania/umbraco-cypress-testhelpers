@@ -121,7 +121,7 @@ context('Templates', () => {
     cy.saveMacro(name);
 
     navigateToSettings();
-    cy.umbracoTreeItem("settings", ["Templsates", name]).click();
+    cy.umbracoTreeItem("settings", ["Templates", name]).click();
     // Insert macro
     cy.umbracoButtonByLabelKey('general_insert').click();
     cy.get('.umb-insert-code-box__title').contains('Macro').click();
