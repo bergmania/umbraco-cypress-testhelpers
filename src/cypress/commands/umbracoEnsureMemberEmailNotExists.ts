@@ -1,4 +1,4 @@
-﻿﻿import CommandBase from './commandBase';
+﻿import CommandBase from './commandBase';
 import { ResponseHelper } from '../../helpers/responseHelper';
 
 export default class UmbracoEnsureMemberEmailNotExists extends CommandBase {

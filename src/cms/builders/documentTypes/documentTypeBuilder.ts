@@ -29,6 +29,7 @@ export class DocumentTypeBuilder {
     this.isContainer = false;
     this.allowAsRoot = false;
     this.documentTypeGroupBuilders = [];
+    this.allowedContentTypes = [];
   }
 
   withAllowAsRoot(allowAsRoot) {
@@ -45,6 +46,10 @@ export class DocumentTypeBuilder {
   }
   withName(name) {
     this.name = name;
+    return this;
+  }
+  withAllowedContentTypes(id: number) {
+    this.allowedContentTypes.push(id);
     return this;
   }
   withLockedCompositeContentTypes(types: any[]) {

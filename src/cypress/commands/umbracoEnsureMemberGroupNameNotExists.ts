@@ -30,10 +30,7 @@ export default class UmbracoEnsureMemberGroupNameNotExists extends CommandBase {
           if (memberGroupId !== null) {
             cy.request({
               method: 'POST',
-              url:
-                this._relativeBackOfficePath +
-                '/backoffice/UmbracoApi/MemberGroup/DeleteById?id=' +
-                  memberGroupId,
+              url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/MemberGroup/DeleteById?id=' + memberGroupId,
               followRedirect: false,
               headers: {
                 ContentType: 'application/json',

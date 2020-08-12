@@ -7,7 +7,7 @@ export default class UmbracoTreeItem extends CommandBase {
     const cy = this.cy;
     const cypress = this.cypress;
 
-    cy.get('li > .umb-tree-root a[href$=' + treeName + ']', {
+    cy.get('li > .umb-tree-root a[href*=' + treeName + ']', {
       log: false,
     }).then(($root) => {
       return this.findItem($root.closest('li'), itemNamePathArray, 0);
@@ -27,9 +27,16 @@ export default class UmbracoTreeItem extends CommandBase {
     let foundItem = null;
     for (const mi of menuItems) {
       const menuItem = cy.$$(mi);
+      let breakLoop = false;
+      menuItem.find('.umb-tree-item__label').text((index, text) => {
+        if (text === itemName) {
+          foundItem = menuItem;
+          breakLoop = true;
+        }
 
-      if (menuItem.find('.umb-tree-item__label').text() === itemName) {
-        foundItem = menuItem;
+        return breakLoop;
+      });
+      if (breakLoop) {
         break;
       }
     }
@@ -38,12 +45,18 @@ export default class UmbracoTreeItem extends CommandBase {
       return foundItem;
     } else if (foundItem != null) {
       const li = foundItem.closest('li');
-      li.find('[data-element="tree-item-expand"]').click();
+
+      const ul = li.find('ul').first();
+
+      if (ul.hasClass('collapsed')) {
+        li.find('[data-element="tree-item-expand"]').click();
+      }
+
       return cy
-        .wrap(li.find('ul'))
+        .wrap(ul)
         .should('not.have.class', 'collapsed')
         .then((xx) => {
-          return this.findItem(li.find('ul'), items, index + 1);
+          return this.findItem(ul, items, index + 1);
         });
     } else {
       return null;
