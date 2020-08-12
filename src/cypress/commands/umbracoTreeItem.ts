@@ -28,13 +28,12 @@ export default class UmbracoTreeItem extends CommandBase {
     for (const mi of menuItems) {
       const menuItem = cy.$$(mi);
       let breakLoop = false;
-      menuItem.find('.umb-tree-item__label').text((index, text) => {
+      // @ts-ignore
+      const xx = menuItem.find('.umb-tree-item__label').text((index, text) => {
         if (text === itemName) {
           foundItem = menuItem;
           breakLoop = true;
         }
-
-        return breakLoop;
       });
       if (breakLoop) {
         break;
