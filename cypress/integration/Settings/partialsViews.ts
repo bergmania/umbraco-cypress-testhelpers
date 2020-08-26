@@ -75,6 +75,10 @@ context('Partial Views', () => {
     cy.umbracoContextMenuAction("action-create").click();
     cy.get('.menu-label').first().click();
 
+    // The test would fail intermittently, most likely because the editor didn't have time to load
+    // This should ensure that the editor is loaded and the test should no longer fail unexpectedly. 
+    cy.get('.ace_content', {timeout: 5000}).should('exist');  
+
     // Click save
     cy.get('.btn-success').click();
 
