@@ -16,7 +16,7 @@ context('Scripts', () => {
     const name = "TestScript";
     const fileName = name + ".js";
 
-   cy.umbracoEnsureScriptNameNotExists(fileName);
+    cy.umbracoEnsureScriptNameNotExists(fileName);
 
     navigateToSettings()
 
@@ -61,6 +61,34 @@ context('Scripts', () => {
 
     cy.contains(fileName).should('not.exist');
     cy.umbracoScriptExists(name).then(exists => { expect(exists).to.be.false });
+
+    cy.umbracoEnsureScriptNameNotExists(fileName);
+  });
+
+  it('Update JavaScript file', () => {
+    const name = "TestEditJavaScriptFile";
+    const fileName = name + ".js";
+
+    const originalContent = 'console.log("A script);\n';
+    const edit = 'alert("content");';
+    const expected = originalContent + edit;
+
+    cy.umbracoEnsureScriptNameNotExists(fileName);
+    
+    const script = new ScriptBuilder()
+      .withName(name)
+      .withContent(originalContent)
+      .build();
+    cy.saveScript(script);
+
+    navigateToSettings();
+    cy.umbracoTreeItem("settings", ["Scripts", fileName]).click();
+    
+    cy.get('.ace_text-input').type(edit, { force: true });
+    cy.get('.btn-success').click();
+
+    cy.umbracoSuccessNotification().should('be.visible');
+    cy.umbracoVerifyScriptContent(fileName, expected).then((result) => { expect(result).to.be.true });
 
     cy.umbracoEnsureScriptNameNotExists(fileName);
   });
