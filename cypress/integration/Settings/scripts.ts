@@ -1,9 +1,16 @@
 /// <reference types="Cypress" />
+import{ ScriptBuilder } from "../../../src"
+
 context('Scripts', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-  });
+  }); 
+  
+  function navigateToSettings() {
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+  }
 
   it('Create new JavaScript file', () => {
     const name = "TestScript";
@@ -11,8 +18,7 @@ context('Scripts', () => {
 
    cy.umbracoEnsureScriptNameNotExists(fileName);
 
-    cy.umbracoSection('settings');
-    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+    navigateToSettings()
 
     cy.umbracoTreeItem("settings", ["Scripts"]).rightclick();
 
@@ -30,6 +36,31 @@ context('Scripts', () => {
 
     //Clean up
     cy.umbracoEnsureScriptNameNotExists(fileName);
-   });
+  });
+  
+  it('Delete a JavaScript file', () => {
+    const name = "TestDeleteScriptFile";
+    const fileName = name + ".js";
+
+    cy.umbracoEnsureScriptNameNotExists(fileName);
+
+    const script = new ScriptBuilder()
+      .withName(name)
+      .withContent('alert("this is content");')
+      .build();
+    
+    cy.saveScript(script);
+    
+    navigateToSettings()
+
+    cy.umbracoTreeItem("settings", ["Scripts", fileName]).rightclick();
+    cy.umbracoContextMenuAction("action-delete").click();
+    cy.umbracoButtonByLabelKey("general_ok").click();
+
+    cy.contains(fileName).should('not.exist');
+    // TODO: assert with db call that script has actually been deleted
+
+    cy.umbracoEnsureScriptNameNotExists(fileName);
+  });
 
 });
