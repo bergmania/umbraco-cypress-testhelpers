@@ -62,6 +62,7 @@ import UmbracoPartialViewExists from './umbracoPartialViewExists'
 import SaveMacro from './saveMacro';
 import SaveCodeFile from './saveCodeFile';
 import SaveScript from './saveScript';
+import UmbracoScriptExists from './umbracoScriptExists'
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -139,5 +140,6 @@ export class Command {
     new SaveMacro(relativeBackOfficePath).registerCommand();
     new SaveCodeFile(relativeBackOfficePath).registerCommand();
     new SaveScript(relativeBackOfficePath).registerCommand();
+    new UmbracoScriptExists(relativeBackOfficePath).registerCommand();
   }
 }

@@ -33,6 +33,8 @@ context('Scripts', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
+    cy.umbracoScriptExists(fileName).then(exists => { expect(exists).to.be.true });
+
 
     //Clean up
     cy.umbracoEnsureScriptNameNotExists(fileName);
@@ -58,7 +60,7 @@ context('Scripts', () => {
     cy.umbracoButtonByLabelKey("general_ok").click();
 
     cy.contains(fileName).should('not.exist');
-    // TODO: assert with db call that script has actually been deleted
+    cy.umbracoScriptExists(name).then(exists => { expect(exists).to.be.false });
 
     cy.umbracoEnsureScriptNameNotExists(fileName);
   });
