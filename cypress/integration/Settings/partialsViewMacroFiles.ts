@@ -142,7 +142,7 @@ context('Partial View Macro Files', () => {
     cy.umbracoTreeItem("settings", ["Partial View Macro Files", fullName]).click();
 
     // Type an edit
-    cy.get('.ace_content').type(" // test");
+    cy.get('.ace_text-input').type(" // test", {force:true});
     // Save
     cy.get('.btn-success').click();
 

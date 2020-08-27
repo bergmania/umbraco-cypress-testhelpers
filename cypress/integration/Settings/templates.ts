@@ -30,7 +30,7 @@ context('Templates', () => {
     /* Make an edit, if you don't the file will be create twice,
     only happens in testing though, probably because the test is too fast
     Certifiably mega wonk regardless */
-    cy.get('.ace_content').type("var num = 5;");
+    cy.get('.ace_text-input').type("var num = 5;", {force:true});
 
     //Save
     cy.get('.btn-success').click();
@@ -59,7 +59,7 @@ context('Templates', () => {
     // Open partial view
     cy.umbracoTreeItem("settings", ["Templates", name]).click();
     // Edit
-    cy.get('.ace_content').type(edit);
+    cy.get('.ace_text-input').type(edit, {force:true});
     // Navigate away
     cy.umbracoSection('content');
     // Click stay button 
@@ -91,7 +91,7 @@ context('Templates', () => {
     // Open partial view
     cy.umbracoTreeItem("settings", ["Templates", name]).click();
     // Edit
-    cy.get('.ace_content').type(edit);
+    cy.get('.ace_text-input').type(edit, {force:true});
     // Navigate away
     cy.umbracoSection('content');
     // Click discard
