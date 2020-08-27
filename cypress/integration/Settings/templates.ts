@@ -30,8 +30,9 @@ context('Templates', () => {
     /* Make an edit, if you don't the file will be create twice,
     only happens in testing though, probably because the test is too fast
     Certifiably mega wonk regardless */
+    /* And now we hav to click as well, this auto save thing is a pain... */ 
+    cy.get('.ace_content').click();
     cy.get('.ace_text-input').type("var num = 5;", {force:true});
-
     //Save
     cy.get('.btn-success').click();
 
@@ -63,7 +64,7 @@ context('Templates', () => {
     // Navigate away
     cy.umbracoSection('content');
     // Click stay button 
-    cy.get('umb-button[label="Stay"] button:enabled').click();
+    cy.get('umb-button[label="Stay"] button:enabled', {timeout: 5000}).click();
 
     // Assert
     // That the same document is open
@@ -95,7 +96,7 @@ context('Templates', () => {
     // Navigate away
     cy.umbracoSection('content');
     // Click discard
-    cy.get('umb-button[label="Discard changes"] button:enabled').click();
+    cy.get('umb-button[label="Discard changes"] button:enabled', {timeout: 5000}).click();
     // Navigate back
     cy.umbracoSection('settings');
 
