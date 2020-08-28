@@ -67,7 +67,8 @@ context('Scripts', () => {
 
   it('Update JavaScript file', () => {
     const name = "TestEditJavaScriptFile";
-    const fileName = name + ".js";
+    const nameEdit = "Edited";
+    var fileName = name + ".js";
 
     const originalContent = 'console.log("A script);\n';
     const edit = 'alert("content");';
@@ -84,13 +85,38 @@ context('Scripts', () => {
     navigateToSettings();
     cy.umbracoTreeItem("settings", ["Scripts", fileName]).click();
     
+
     cy.get('.ace_text-input').type(edit, { force: true });
+
+    // Since scripts has no alias it should be safe to not use umbracoEditorHeaderName
+    // umbracoEditorHeaderName does not like {backspace}
+    cy.get('#headerName').type("{backspace}{backspace}{backspace}" + nameEdit).should('have.value', name+nameEdit);
+    fileName = name + nameEdit + ".js";
     cy.get('.btn-success').click();
 
     cy.umbracoSuccessNotification().should('be.visible');
     cy.umbracoVerifyScriptContent(fileName, expected).then((result) => { expect(result).to.be.true });
 
     cy.umbracoEnsureScriptNameNotExists(fileName);
+  });
+
+  it('Can Delete folder', () => {
+    const folderName = "TestFolder";
+
+    // The way scripts and folders are fetched and deleted are identical
+    cy.umbracoEnsureScriptNameNotExists(folderName);
+    cy.saveFolder('scripts', folderName);
+
+    navigateToSettings()
+
+    cy.umbracoTreeItem("settings", ["Scripts", folderName]).rightclick();
+    cy.umbracoContextMenuAction("action-delete").click();
+    cy.umbracoButtonByLabelKey("general_ok").click();
+
+    cy.contains(folderName).should('not.exist');
+    cy.umbracoScriptExists(folderName).then(exists => { expect(exists).to.be.false });
+
+    cy.umbracoEnsureScriptNameNotExists(folderName);
   });
 
 });
