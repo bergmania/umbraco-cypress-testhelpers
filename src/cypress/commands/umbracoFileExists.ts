@@ -1,4 +1,3 @@
-import { ResponseHelper } from '../../helpers/responseHelper'; 
 import CommandBase from './commandBase';
 
 export default class UmbracoFileExists extends CommandBase{
@@ -8,18 +7,8 @@ export default class UmbracoFileExists extends CommandBase{
   method(name) {
     const cy = this.cy;
 
-    cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => { 
-      cy.request({
-        method: 'GET',
-        url: this._relativeBackOfficePath + this._endPoint,
-        followRedirect: true,
-        headers: {
-          Accept: 'application/json',
-          'X-UMB-XSRF-TOKEN': token.value,
-        },
-        log: false,
-      }).then((response) => { 
-        const searchBody = ResponseHelper.getResponseBody(response);
+    cy.umbracoApiRequest(this._relativeBackOfficePath + this._endPoint)
+      .then((searchBody) => {
         if (searchBody.length > 0) {
           for (const sb of searchBody) {
             if (sb.name === name) {
@@ -28,7 +17,6 @@ export default class UmbracoFileExists extends CommandBase{
           }
         }
         return false;
-       });
-     });
+      });
   }
 }

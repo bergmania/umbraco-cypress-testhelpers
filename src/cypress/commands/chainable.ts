@@ -67,6 +67,7 @@ declare global {
       umbracoErrorNotification: () => Chainable<any>;
       umbracoMacroExists: (name: string) => Chainable<boolean>;
       savePartialViewMacro: (macro: any) => Chainable<any>;
+      umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
     }
   }
 }

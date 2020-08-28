@@ -65,6 +65,7 @@ import SaveScript from './saveScript';
 import UmbracoScriptExists from './umbracoScriptExists'
 import UmbracoVerifyScriptContent from './umbracoVerifyScriptContent';
 import SaveFolder from './saveFolder';
+import UmbracoApiRequest from './umbracoApiRequest';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -145,5 +146,6 @@ export class Command {
     new UmbracoScriptExists(relativeBackOfficePath).registerCommand();
     new UmbracoVerifyScriptContent(relativeBackOfficePath).registerCommand();
     new SaveFolder(relativeBackOfficePath).registerCommand();
+    new UmbracoApiRequest(relativeBackOfficePath).registerCommand();
   }
 }
