@@ -69,7 +69,7 @@ export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
     const relativeBackOfficePath = customRelativeBackOfficePath || '/umbraco';
     Cypress.Server.defaults({
-      whitelist: (xhr) => {
+      ignore: (xhr) => {
         if (new URL(xhr.url).pathname?.startsWith(relativeBackOfficePath)) {
           return true;
         }
