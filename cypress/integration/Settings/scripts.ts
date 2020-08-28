@@ -68,7 +68,7 @@ context('Scripts', () => {
   it('Update JavaScript file', () => {
     const name = "TestEditJavaScriptFile";
     const nameEdit = "Edited";
-    var fileName = name + ".js";
+    let fileName = name + ".js";
 
     const originalContent = 'console.log("A script);\n';
     const edit = 'alert("content");';
