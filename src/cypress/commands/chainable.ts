@@ -57,10 +57,14 @@ declare global {
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
-      umbracoScriptExists: (name: string) => Chainable<any>;
+      umbracoScriptExists: (name: string) => Chainable<boolean>;
       saveScript: (script: any) => Chainable<void>;
       saveFolder: (section: string ,folderName: string) => Chainable<void>;
-      umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<any>;
+      umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
+      saveMacro: (name: string) => Chainable<any>;
+      umbracoPartialViewExists: (name: string) => Chainable<boolean>;
+      savePartialView: (name: any) => Chainable<void>;
+      umbracoErrorNotification: () => Chainable<any>;
     }
   }
 }

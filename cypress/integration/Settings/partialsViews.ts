@@ -36,7 +36,7 @@ context('Partial Views', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.true; });
+    cy.umbracoPartialViewExists(fileName).should('be.true')
 
     //Clean up
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -63,7 +63,7 @@ context('Partial Views', () => {
 
     // Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.true; });
+    cy.umbracoPartialViewExists(fileName).should('be.true')
 
     // Clean up
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -109,7 +109,7 @@ context('Partial Views', () => {
 
     // Assert 
     cy.contains(fileName).should('not.exist');
-    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.false; });
+    cy.umbracoPartialViewExists(fileName).should('be.false');
 
     // Clean 
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
