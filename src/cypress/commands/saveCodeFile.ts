@@ -1,5 +1,4 @@
 import CommandBase from './commandBase';
-import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class SaveCodeFile extends CommandBase{
   commandName = 'saveCodeFile';

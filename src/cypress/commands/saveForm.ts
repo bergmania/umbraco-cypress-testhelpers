@@ -1,6 +1,5 @@
 import CommandBase from './commandBase';
-import { JsonHelper } from '../../helpers/jsonHelper';
-import faker from 'faker';
+
 export default class SaveForm extends CommandBase {
   commandName = 'saveForm';
 
@@ -10,19 +9,7 @@ export default class SaveForm extends CommandBase {
     if (form == null) {
       return;
     }
-    return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
-      cy.request({
-        method: 'POST',
-        url: this.relativeBackOfficePath + '/backoffice/UmbracoForms/Form/SaveForm',
-        body: form,
-        followRedirect: true,
-        headers: {
-          Accept: 'application/json',
-          'X-UMB-XSRF-TOKEN': token.value,
-        },
-      }).then((response) => {
-        return JsonHelper.getBody(response);
-      });
-    });
+
+    return cy.umbracoApiRequest(this.relativeBackOfficePath + '/backoffice/UmbracoForms/Form/SaveForm', 'POST', form);
   }
 }
