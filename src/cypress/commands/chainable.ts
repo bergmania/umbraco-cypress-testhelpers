@@ -63,8 +63,10 @@ declare global {
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
       saveMacro: (name: string) => Chainable<any>;
       umbracoPartialViewExists: (name: string) => Chainable<boolean>;
-      savePartialView: (name: any) => Chainable<void>;
+      savePartialView: (view: any) => Chainable<void>;
       umbracoErrorNotification: () => Chainable<any>;
+      umbracoMacroExists: (name: string) => Chainable<boolean>;
+      savePartialViewMacro: (macro: any) => Chainable<any>;
     }
   }
 }
