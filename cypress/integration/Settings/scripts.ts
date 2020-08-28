@@ -33,7 +33,7 @@ context('Scripts', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoScriptExists(fileName).then(exists => { expect(exists).to.be.true });
+    cy.umbracoScriptExists(fileName).should('be.true');
 
 
     //Clean up
@@ -60,7 +60,7 @@ context('Scripts', () => {
     cy.umbracoButtonByLabelKey("general_ok").click();
 
     cy.contains(fileName).should('not.exist');
-    cy.umbracoScriptExists(name).then(exists => { expect(exists).to.be.false });
+    cy.umbracoScriptExists(name).should('be.false');
 
     cy.umbracoEnsureScriptNameNotExists(fileName);
   });
@@ -95,7 +95,7 @@ context('Scripts', () => {
     cy.get('.btn-success').click();
 
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoVerifyScriptContent(fileName, expected).then((result) => { expect(result).to.be.true });
+    cy.umbracoVerifyScriptContent(fileName, expected).should('be.true');
 
     cy.umbracoEnsureScriptNameNotExists(fileName);
   });
@@ -114,7 +114,7 @@ context('Scripts', () => {
     cy.umbracoButtonByLabelKey("general_ok").click();
 
     cy.contains(folderName).should('not.exist');
-    cy.umbracoScriptExists(folderName).then(exists => { expect(exists).to.be.false });
+    cy.umbracoScriptExists(folderName).should('be.false')
 
     cy.umbracoEnsureScriptNameNotExists(folderName);
   });

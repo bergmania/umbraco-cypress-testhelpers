@@ -57,6 +57,10 @@ declare global {
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
+      umbracoScriptExists: (name: string) => Chainable<any>;
+      saveScript: (script: any) => Chainable<void>;
+      saveFolder: (section: string ,folderName: string) => Chainable<void>;
+      umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<any>;
     }
   }
 }
