@@ -27,12 +27,7 @@ context('Templates', () => {
     createTemplate();
     //Type name
     cy.umbracoEditorHeaderName(name);
-    /* Make an edit, if you don't the file will be create twice,
-    only happens in testing though, probably because the test is too fast
-    Certifiably mega wonk regardless */
-    /* And now we hav to click as well, this auto save thing is a pain... */ 
-    cy.get('.ace_content').click();
-    cy.get('.ace_text-input').type("var num = 5;", {force:true});
+
     //Save
     cy.get('.btn-success').click();
 
@@ -40,6 +35,9 @@ context('Templates', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
+    cy.umbracoEnsureTemplateNameNotExists(name);
+    // Trying to make the test not create two templates tends to do more bad than good
+    // Simply just deleting botht the templates seems to work better.
     cy.umbracoEnsureTemplateNameNotExists(name);
   });
 
