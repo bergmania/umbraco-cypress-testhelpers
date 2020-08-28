@@ -10,7 +10,7 @@ export default class PostFile extends CommandBase {
     const formData = new FormData();
 
     cy.fixture(fileName, 'base64').then((fileFixture) => {
-      Cypress.Blob.base64StringToBlob(fileFixture).then((blob) => {
+      const blob = Cypress.Blob.base64StringToBlob(fileFixture);
         const testFile = new File([blob], fileName);
         formData.append('file', testFile);
         cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
@@ -32,7 +32,6 @@ export default class PostFile extends CommandBase {
               return JsonHelper.getBody(res.response);
             });
         });
-      });
     });
   }
 }
