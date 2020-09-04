@@ -63,6 +63,7 @@ declare global {
       saveStylesheet: (stylesheet: any) => Chainable<void>;
       saveFolder: (section: string ,folderName: string) => Chainable<void>;
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
+      umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;
       saveMacro: (name: string) => Chainable<any>;
       umbracoPartialViewExists: (name: string) => Chainable<boolean>;
       savePartialView: (view: any) => Chainable<void>;

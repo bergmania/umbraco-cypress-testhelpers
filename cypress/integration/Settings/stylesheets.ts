@@ -63,4 +63,37 @@ context('Stylesheets', () => {
      cy.umbracoStylesheetExists(fileName).should('be.false');
    });
 
+   it('Can update style sheet', () => {
+     const name = "CanUpdateStylesheet";
+     const nameEdit = "Edited";
+     let fileName = name + ".css";
+
+     cy.umbracoEnsureScriptNameNotExists(fileName);
+
+     const originalContent = ".h1{ color: red;}\n";
+     const edit = ".h2{{} color: purple;{}}";
+     const expected = originalContent + ".h2{ color: purple;}";
+
+     const style = new StylesheetBuilder()
+       .withName(name)
+       .withContent(originalContent)
+       .build();
+     cy.saveStylesheet(style);
+
+     navigateToSettings();
+     cy.umbracoTreeItem("settings", ["Stylesheets", fileName]).click();
+     
+     cy.get('.ace_text-input').type(edit, { force: true });
+
+     // Since scripts has no alias it should be safe to not use umbracoEditorHeaderName
+     // umbracoEditorHeaderName does not like {backspace}
+     cy.get('#headerName').type("{backspace}{backspace}{backspace}{backspace}" + nameEdit).should('have.value', name+nameEdit);
+     fileName = name + nameEdit + ".css";
+     cy.get('.btn-success').click()
+     
+     cy.umbracoSuccessNotification().should('be.visible');
+     cy.umbracoVerifyStylesheetContent(fileName, expected).should('be.true');
+
+   });
+
 });
