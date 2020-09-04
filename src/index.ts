@@ -30,6 +30,7 @@ export { PartialViewMacroBuilder } from './cms/builders/partialViewMacros/partia
 export { PartialViewBuilder } from './cms/builders/partialViews/partialViewBuilder';
 
 export{ ScriptBuilder } from './cms/builders/scriptbuilder'
+export { StylesheetBuilder } from './cms/builders/stylesheetBuilder';
 
 /* Contents */
 // export * from './cms/templates/'

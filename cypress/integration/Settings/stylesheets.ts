@@ -1,18 +1,25 @@
 /// <reference types="Cypress" />
+import{ StylesheetBuilder} from "../../../src"
+
 context('Stylesheets', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
+  function navigateToSettings()
+  {
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+  }
+
   it('Create new style sheet file', () => {
     const name = "TestStylesheet";
     const fileName = name + ".css";
 
-   cy.umbracoEnsureStylesheetNameNotExists(fileName);
+    cy.umbracoEnsureStylesheetNameNotExists(fileName);
 
-    cy.umbracoSection('settings');
-    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+    navigateToSettings();
 
     cy.umbracoTreeItem("settings", ["Stylesheets"]).rightclick();
 
@@ -31,6 +38,29 @@ context('Stylesheets', () => {
 
     //Clean up
     cy.umbracoEnsureStylesheetNameNotExists(fileName);
+   });
+
+   it('Can delete style sheet', () => {
+    const name = "CanDeleteStylesheet";
+    const fileName = name + ".css";
+
+    cy.umbracoEnsureStylesheetNameNotExists(fileName);
+
+    const stylesheet = new StylesheetBuilder()
+      .withName(name)
+      .withContent('')
+      .build();
+
+     cy.saveStylesheet(stylesheet);
+ 
+     navigateToSettings();
+
+     cy.umbracoTreeItem("settings", ["Stylesheets", fileName]).rightclick();
+     cy.umbracoContextMenuAction("action-delete").click();
+     cy.umbracoButtonByLabelKey("general_ok").click();
+
+     cy.contains(fileName).should('not.exist');
+     cy.umbracoStylesheetExists(fileName).should('be.false');
    });
 
 });

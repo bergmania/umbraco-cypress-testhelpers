@@ -60,6 +60,7 @@ declare global {
       umbracoScriptExists: (name: string) => Chainable<boolean>;
       umbracoStylesheetExists: (name: string) => Chainable<boolean>;
       saveScript: (script: any) => Chainable<void>;
+      saveStylesheet: (stylesheet: any) => Chainable<void>;
       saveFolder: (section: string ,folderName: string) => Chainable<void>;
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
       saveMacro: (name: string) => Chainable<any>;
