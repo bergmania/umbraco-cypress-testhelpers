@@ -27,6 +27,7 @@ context('Stylesheets', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
+    cy.umbracoStylesheetExists(fileName).should('be.true');
 
     //Clean up
     cy.umbracoEnsureStylesheetNameNotExists(fileName);

@@ -58,6 +58,7 @@ declare global {
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
       umbracoScriptExists: (name: string) => Chainable<boolean>;
+      umbracoStylesheetExists: (name: string) => Chainable<boolean>;
       saveScript: (script: any) => Chainable<void>;
       saveFolder: (section: string ,folderName: string) => Chainable<void>;
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
