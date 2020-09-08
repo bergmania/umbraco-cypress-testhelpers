@@ -10,6 +10,10 @@ export default class SaveDataType extends CommandBase {
       return;
     }
 
-    return cy.umbracoApiRequest(this.relativeBackOfficePath + '/backoffice/UmbracoApi/DataType/PostSave', 'POST', dataType);
+    return cy.umbracoApiRequest(
+      this.relativeBackOfficePath + '/backoffice/UmbracoApi/DataType/PostSave',
+      'POST',
+      dataType,
+    );
   }
 }

@@ -59,7 +59,7 @@ declare global {
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
       umbracoScriptExists: (name: string) => Chainable<boolean>;
       saveScript: (script: any) => Chainable<void>;
-      saveFolder: (section: string ,folderName: string) => Chainable<void>;
+      saveFolder: (section: string, folderName: string) => Chainable<void>;
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
       saveMacro: (name: string) => Chainable<any>;
       umbracoPartialViewExists: (name: string) => Chainable<boolean>;

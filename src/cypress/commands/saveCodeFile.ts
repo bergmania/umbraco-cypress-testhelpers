@@ -1,6 +1,6 @@
 import CommandBase from './commandBase';
 
-export default class SaveCodeFile extends CommandBase{
+export default class SaveCodeFile extends CommandBase {
   commandName = 'saveCodeFile';
 
   method(codeFile) {
@@ -11,6 +11,9 @@ export default class SaveCodeFile extends CommandBase{
     }
 
     return cy.umbracoApiRequest(
-      this.relativeBackOfficePath + '/backoffice/UmbracoApi/CodeFile/PostSave', 'POST', codeFile);
+      this.relativeBackOfficePath + '/backoffice/UmbracoApi/CodeFile/PostSave',
+      'POST',
+      codeFile,
+    );
   }
 }

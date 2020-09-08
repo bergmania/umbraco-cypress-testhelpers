@@ -1,12 +1,12 @@
 import CommandBase from './commandBase';
 
-export default class UmbracoVerifyScriptContent extends CommandBase{
+export default class UmbracoVerifyScriptContent extends CommandBase {
   _commandName = 'umbracoVerifyScriptContent';
 
   method(fileName, expectedContent) {
     const cy = this.cy;
 
-    cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => { 
+    cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
       cy.request({
         method: 'GET',
         url: '/scripts/' + fileName,
@@ -19,8 +19,7 @@ export default class UmbracoVerifyScriptContent extends CommandBase{
       }).then((response) => {
         if (response.body === expectedContent) return true;
         return false;
-      })
-     });
-
+      });
+    });
   }
 }
