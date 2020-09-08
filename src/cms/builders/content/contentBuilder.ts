@@ -19,8 +19,19 @@ export class ContentBuilder {
     this.contentTypeAlias = contentTypeAlias;
     return this;
   }
+
   withTemplateAlias(templateAlias) {
     this.templateAlias = templateAlias;
+    return this;
+  }
+
+  withAction(action) {
+    this.action = action;
+    return this;
+  }
+
+  withParent(parentId) {
+    this.parentId = parentId;
     return this;
   }
 
