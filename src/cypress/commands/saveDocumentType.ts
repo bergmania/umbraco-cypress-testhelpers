@@ -1,5 +1,4 @@
 import CommandBase from './commandBase';
-import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class SaveDocumentType extends CommandBase {
   commandName = 'saveDocumentType';
@@ -10,22 +9,7 @@ export default class SaveDocumentType extends CommandBase {
     if (docType == null) {
       return;
     }
-    return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
-      return cy
-        .request({
-          method: 'POST',
-          url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave',
-          body: docType,
-          timeout: 90000,
-          json: true,
-          headers: {
-            Accept: 'application/json',
-            'X-UMB-XSRF-TOKEN': token.value,
-          },
-        })
-        .then((response) => {
-          return JsonHelper.getBody(response);
-        });
-    });
+
+    return cy.umbracoApiRequest(this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave', 'POST', docType);
   }
 }

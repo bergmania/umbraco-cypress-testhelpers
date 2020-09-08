@@ -27,10 +27,6 @@ context('Templates', () => {
     createTemplate();
     //Type name
     cy.umbracoEditorHeaderName(name);
-    /* Make an edit, if you don't the file will be create twice,
-    only happens in testing though, probably because the test is too fast
-    Certifiably mega wonk regardless */
-    cy.get('.ace_content').type("var num = 5;");
 
     //Save
     cy.get('.btn-success').click();
@@ -39,6 +35,9 @@ context('Templates', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
+    cy.umbracoEnsureTemplateNameNotExists(name);
+    // Trying to make the test not create two templates tends to do more bad than good
+    // Simply just deleting botht the templates seems to work better.
     cy.umbracoEnsureTemplateNameNotExists(name);
   });
 
@@ -59,11 +58,11 @@ context('Templates', () => {
     // Open partial view
     cy.umbracoTreeItem("settings", ["Templates", name]).click();
     // Edit
-    cy.get('.ace_content').type(edit);
+    cy.get('.ace_text-input').type(edit, {force:true});
     // Navigate away
     cy.umbracoSection('content');
     // Click stay button 
-    cy.get('umb-button[label="Stay"] button:enabled').click();
+    cy.get('umb-button[label="Stay"] button:enabled', {timeout: 5000}).click();
 
     // Assert
     // That the same document is open
@@ -91,11 +90,11 @@ context('Templates', () => {
     // Open partial view
     cy.umbracoTreeItem("settings", ["Templates", name]).click();
     // Edit
-    cy.get('.ace_content').type(edit);
+    cy.get('.ace_text-input').type(edit, {force:true});
     // Navigate away
     cy.umbracoSection('content');
     // Click discard
-    cy.get('umb-button[label="Discard changes"] button:enabled').click();
+    cy.get('umb-button[label="Discard changes"] button:enabled', {timeout: 5000}).click();
     // Navigate back
     cy.umbracoSection('settings');
 

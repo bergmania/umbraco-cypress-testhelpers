@@ -10,7 +10,7 @@ export default class PostRequest extends CommandBase {
 
     cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
       cy.server({
-        whitelist: (request) => {
+        ignore: (request) => {
           return;
         },
       });
