@@ -16,7 +16,7 @@ export default class PostFile extends CommandBase {
       formData.append('file', testFile);
       cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
         cy.server({
-          whitelist: (request) => {
+          ignore: (request) => {
             return;
           },
         });
