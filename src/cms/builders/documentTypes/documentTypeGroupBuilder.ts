@@ -20,6 +20,11 @@ export default class DocumentTypeGroupBuilder {
     this.documentTypeGroupPropertyBuilders = [];
   }
 
+  withName(name){
+    this.name = name;
+    return this; 
+  }
+
   addFormPickerProperty() {
     const builder = new FormPickerDocumentTypePropertyBuilder(this);
 
