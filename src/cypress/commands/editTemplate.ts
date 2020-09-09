@@ -1,6 +1,6 @@
 import CommandBase from './commandBase';
-import { ResponseHelper } from 'src/helpers/responseHelper';
-import { JsonHelper } from 'src/helpers/jsonHelper';
+import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEditTemplate extends CommandBase {
   _commandName = "editTemplate";
