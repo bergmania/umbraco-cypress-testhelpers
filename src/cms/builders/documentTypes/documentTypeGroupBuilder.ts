@@ -20,7 +20,7 @@ export default class DocumentTypeGroupBuilder {
     this.documentTypeGroupPropertyBuilders = [];
   }
 
-  withName(name){
+  withName(name) {
     this.name = name;
     return this; 
   }
@@ -49,7 +49,7 @@ export default class DocumentTypeGroupBuilder {
     return builder;
   }
 
-  addContentPickerProperty(){
+  addContentPickerProperty() {
     const builder = new ContentPickerPropertyBuilder(this);
     this.documentTypeGroupPropertyBuilders.push(builder);
     return builder;

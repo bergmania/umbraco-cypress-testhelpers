@@ -3,7 +3,7 @@ import CommandBase from './commandBase';
 export default class UmbracoVerifyRenderedViewContent extends CommandBase {
   _commandName = 'umbracoVerifyRenderedViewContent';
 
-  method(endpoint, expectedContent, trim = false){
+  method(endpoint, expectedContent, trim = false) {
     const cy = this.cy;
 
     cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
