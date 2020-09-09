@@ -41,7 +41,6 @@ export default class UmbracoEditTemplate extends CommandBase {
                 'X-UMB-XSRF-TOKEN': token.value,
               },
             }).then((resp) => {
-              debugger;
               // Change the content and save that template
               const template = JsonHelper.getBody(resp);
               template.content = content;
