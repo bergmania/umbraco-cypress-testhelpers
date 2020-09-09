@@ -1,8 +1,8 @@
 import { PartialViewMacro } from '../../models/partialViewMacros/partialViewMacro';
 
-export class PartialViewMacroBuilder{
-  constructor(public partialViewMacro: PartialViewMacro = new PartialViewMacro()) { }
-  
+export class PartialViewMacroBuilder {
+  constructor(public partialViewMacro: PartialViewMacro = new PartialViewMacro()) {}
+
   public withName(name) {
     this.partialViewMacro.name = name;
     return this;
@@ -12,7 +12,7 @@ export class PartialViewMacroBuilder{
     return this;
   }
 
-  public build(): PartialViewMacro{
+  public build(): PartialViewMacro {
     return this.partialViewMacro;
   }
 }

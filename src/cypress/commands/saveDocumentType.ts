@@ -10,6 +10,10 @@ export default class SaveDocumentType extends CommandBase {
       return;
     }
 
-    return cy.umbracoApiRequest(this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave', 'POST', docType);
+    return cy.umbracoApiRequest(
+      this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave',
+      'POST',
+      docType,
+    );
   }
 }

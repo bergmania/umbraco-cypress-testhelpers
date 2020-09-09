@@ -1,6 +1,6 @@
 import CommandBase from './commandBase';
 
-export default class UmbracoErrorNotification extends CommandBase{
+export default class UmbracoErrorNotification extends CommandBase {
   _commandName = 'umbracoErrorNotification';
 
   method() {
@@ -11,4 +11,4 @@ export default class UmbracoErrorNotification extends CommandBase{
       timout: 60000, // This is often tested after a long running operation
     }).click({ log: false });
   }
-}   
+}

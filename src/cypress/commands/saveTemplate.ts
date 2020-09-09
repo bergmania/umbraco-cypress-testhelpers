@@ -10,6 +10,10 @@ export default class SaveTemplate extends CommandBase {
       return;
     }
 
-    return cy.umbracoApiRequest(this.relativeBackOfficePath + '/backoffice/UmbracoApi/Template/PostSave', 'POST', template);
+    return cy.umbracoApiRequest(
+      this.relativeBackOfficePath + '/backoffice/UmbracoApi/Template/PostSave',
+      'POST',
+      template,
+    );
   }
 }

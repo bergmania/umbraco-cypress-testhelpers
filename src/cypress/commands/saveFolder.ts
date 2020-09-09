@@ -1,8 +1,7 @@
 import CommandBase from './commandBase';
 import { JsonHelper } from '../../helpers/jsonHelper';
 
-
-export default class SaveFolder extends CommandBase{
+export default class SaveFolder extends CommandBase {
   commandName = 'saveFolder';
 
   method(section, name) {
@@ -15,7 +14,12 @@ export default class SaveFolder extends CommandBase{
     return cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
       cy.request({
         method: 'POST',
-        url: this.relativeBackOfficePath + '/backoffice/UmbracoApi/CodeFile/PostCreateContainer?type='+ section + '&parentId=-1&name=' + name,
+        url:
+          this.relativeBackOfficePath +
+          '/backoffice/UmbracoApi/CodeFile/PostCreateContainer?type=' +
+          section +
+          '&parentId=-1&name=' +
+          name,
         timeout: 90000,
         headers: {
           Accept: 'application/json, text/plain, */*',

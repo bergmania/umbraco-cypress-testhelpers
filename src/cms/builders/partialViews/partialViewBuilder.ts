@@ -1,4 +1,4 @@
-export class PartialViewBuilder{
+export class PartialViewBuilder {
   name;
   content;
   filetype;
@@ -7,7 +7,6 @@ export class PartialViewBuilder{
   path;
   snippet;
   virtualPath;
-
 
   withContent(content) {
     this.content = content;
@@ -23,7 +22,7 @@ export class PartialViewBuilder{
     this.id = id;
     return this;
   }
-  
+
   build() {
     return {
       name: this.name,
@@ -34,7 +33,6 @@ export class PartialViewBuilder{
       path: this.path || null,
       snippet: this.snippet || null,
       virtualPath: this.virtualPath || '/Views/Partials/',
-    }
+    };
   }
-
 }

@@ -1,4 +1,4 @@
-export class ScriptBuilder{
+export class ScriptBuilder {
   content;
   fileType;
   id;
@@ -23,11 +23,11 @@ export class ScriptBuilder{
       name: this.name,
       content: this.content,
       filetype: this.fileType || 'scripts',
-      id: this.id || "0",
+      id: this.id || '0',
       notifications: this.notifications || [],
       path: this.path || null,
       snippet: this.snippet || null,
-      virtualPath: this.virtualPath || "/scripts/"
-    }
+      virtualPath: this.virtualPath || '/scripts/',
+    };
   }
 }

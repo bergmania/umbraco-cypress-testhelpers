@@ -58,11 +58,11 @@ import UmbracoMacroExists from './umbracoMacroExists';
 import SavePartialViewMacro from './savePartialViewMacro';
 import UmbracoErrorNotification from './umbracoErrorNotification';
 import SavePartialView from './savePartialView';
-import UmbracoPartialViewExists from './umbracoPartialViewExists'
+import UmbracoPartialViewExists from './umbracoPartialViewExists';
 import SaveMacro from './saveMacro';
 import SaveCodeFile from './saveCodeFile';
 import SaveScript from './saveScript';
-import UmbracoScriptExists from './umbracoScriptExists'
+import UmbracoScriptExists from './umbracoScriptExists';
 import UmbracoVerifyScriptContent from './umbracoVerifyScriptContent';
 import SaveFolder from './saveFolder';
 import UmbracoApiRequest from './umbracoApiRequest';
@@ -73,7 +73,9 @@ import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent'
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
     const relativeBackOfficePath = customRelativeBackOfficePath || '/umbraco';
+
     Cypress.Server.defaults({
+      // @ts-ignore
       ignore: (xhr) => {
         if (new URL(xhr.url).pathname?.startsWith(relativeBackOfficePath)) {
           return true;

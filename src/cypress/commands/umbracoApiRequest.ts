@@ -1,13 +1,13 @@
 import CommandBase from './commandBase';
 import { JsonHelper } from '../../helpers/jsonHelper';
 
-export default class UmbracoApiRequest extends CommandBase{
+export default class UmbracoApiRequest extends CommandBase {
   commandName = 'umbracoApiRequest';
 
   method(url, method, body) {
     const cy = this.cy;
 
-    if (url == null || url === "") {
+    if (url == null || url === '') {
       return null;
     }
 

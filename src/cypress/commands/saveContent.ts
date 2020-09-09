@@ -17,7 +17,7 @@ export default class SaveContent extends CommandBase {
     formData.append('contentItem', JSON.stringify(content));
     return cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
       cy.server({
-        whitelist: (request) => {
+        ignore: (request) => {
           return;
         },
       });
