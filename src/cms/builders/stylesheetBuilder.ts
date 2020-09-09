@@ -1,4 +1,4 @@
-export class StylesheetBuilder{
+export class StylesheetBuilder {
     content;
     fileType;
     id;
@@ -28,6 +28,6 @@ export class StylesheetBuilder{
         path: this.path || null,
         snippet: this.snippet || null,
         virtualPath: this.virtualPath || "/css/"
-      }
+      };
     }
   }

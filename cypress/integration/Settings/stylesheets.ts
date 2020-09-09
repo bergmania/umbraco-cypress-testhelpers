@@ -1,5 +1,5 @@
-/// <reference types="Cypress" />
-import{ StylesheetBuilder} from "../../../src"
+/// <reference types='Cypress' />
+import{ StylesheetBuilder } from '../../../src';
 
 context('Stylesheets', () => {
 
@@ -10,20 +10,20 @@ context('Stylesheets', () => {
   function navigateToSettings()
   {
     cy.umbracoSection('settings');
-    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+    cy.get('li .umb-tree-root:contains("Settings")').should('be.visible');
   }
 
   it('Create new style sheet file', () => {
-    const name = "TestStylesheet";
-    const fileName = name + ".css";
+    const name = 'TestStylesheet';
+    const fileName = name + '.css';
 
     cy.umbracoEnsureStylesheetNameNotExists(fileName);
 
     navigateToSettings();
 
-    cy.umbracoTreeItem("settings", ["Stylesheets"]).rightclick();
+    cy.umbracoTreeItem('settings', ['Stylesheets']).rightclick();
 
-    cy.umbracoContextMenuAction("action-create").click();
+    cy.umbracoContextMenuAction('action-create').click();
     cy.get('.menu-label').first().click(); // TODO: Fucked we cant use something like cy.umbracoContextMenuAction("action-mediaType").click();
 
     //Type name
@@ -41,8 +41,8 @@ context('Stylesheets', () => {
    });
 
    it('Can delete style sheet', () => {
-    const name = "CanDeleteStylesheet";
-    const fileName = name + ".css";
+    const name = 'CanDeleteStylesheet';
+    const fileName = name + '.css';
 
     cy.umbracoEnsureStylesheetNameNotExists(fileName);
 
@@ -55,24 +55,24 @@ context('Stylesheets', () => {
  
      navigateToSettings();
 
-     cy.umbracoTreeItem("settings", ["Stylesheets", fileName]).rightclick();
-     cy.umbracoContextMenuAction("action-delete").click();
-     cy.umbracoButtonByLabelKey("general_ok").click();
+     cy.umbracoTreeItem('settings', ['Stylesheets', fileName]).rightclick();
+     cy.umbracoContextMenuAction('action-delete').click();
+     cy.umbracoButtonByLabelKey('general_ok').click();
 
      cy.contains(fileName).should('not.exist');
      cy.umbracoStylesheetExists(fileName).should('be.false');
    });
 
    it('Can update style sheet', () => {
-     const name = "CanUpdateStylesheet";
-     const nameEdit = "Edited";
-     let fileName = name + ".css";
+     const name = 'CanUpdateStylesheet';
+     const nameEdit = 'Edited';
+     let fileName = name + '.css';
 
      cy.umbracoEnsureScriptNameNotExists(fileName);
 
-     const originalContent = ".h1{ color: red;}\n";
-     const edit = ".h2{{} color: purple;{}}";
-     const expected = originalContent + ".h2{ color: purple;}";
+     const originalContent = '.h1{ color: red;}\n';
+     const edit = '.h2{{} color: purple;{}}';
+     const expected = originalContent + '.h2{ color: purple;}';
 
      const style = new StylesheetBuilder()
        .withName(name)
@@ -81,14 +81,14 @@ context('Stylesheets', () => {
      cy.saveStylesheet(style);
 
      navigateToSettings();
-     cy.umbracoTreeItem("settings", ["Stylesheets", fileName]).click();
+     cy.umbracoTreeItem('settings', ['Stylesheets', fileName]).click();
      
      cy.get('.ace_text-input').type(edit, { force: true });
 
      // Since scripts has no alias it should be safe to not use umbracoEditorHeaderName
      // umbracoEditorHeaderName does not like {backspace}
-     cy.get('#headerName').type("{backspace}{backspace}{backspace}{backspace}" + nameEdit).should('have.value', name+nameEdit);
-     fileName = name + nameEdit + ".css";
+     cy.get('#headerName').type('{backspace}{backspace}{backspace}{backspace}' + nameEdit).should('have.value', name+nameEdit);
+     fileName = name + nameEdit + '.css';
      cy.get('.btn-success').click()
      
      cy.umbracoSuccessNotification().should('be.visible');
