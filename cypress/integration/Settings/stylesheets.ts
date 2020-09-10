@@ -40,7 +40,7 @@ context('Stylesheets', () => {
     cy.umbracoEnsureStylesheetNameNotExists(fileName);
    });
 
-   it('Can delete style sheet', () => {
+  it('Can delete style sheet', () => {
     const name = 'CanDeleteStylesheet';
     const fileName = name + '.css';
 
@@ -51,53 +51,55 @@ context('Stylesheets', () => {
       .withContent('')
       .build();
 
-     cy.saveStylesheet(stylesheet);
+    cy.saveStylesheet(stylesheet);
  
-     navigateToSettings();
+    navigateToSettings();
 
-     cy.umbracoTreeItem('settings', ['Stylesheets', fileName]).rightclick();
-     cy.umbracoContextMenuAction('action-delete').click();
-     cy.umbracoButtonByLabelKey('general_ok').click();
+    cy.umbracoTreeItem('settings', ['Stylesheets', fileName]).rightclick();
+    cy.umbracoContextMenuAction('action-delete').click();
+    cy.umbracoButtonByLabelKey('general_ok').click();
 
-     cy.contains(fileName).should('not.exist');
-     cy.umbracoStylesheetExists(fileName).should('be.false');
-   });
+    cy.contains(fileName).should('not.exist');
+    cy.umbracoStylesheetExists(fileName).should('be.false');
 
-   it('Can update style sheet', () => {
-     const name = 'CanUpdateStylesheet';
-     const nameEdit = 'Edited';
-     let fileName = name + '.css';
+    cy.umbracoEnsureStylesheetNameNotExists(fileName);
+  });
 
-     cy.umbracoEnsureStylesheetNameNotExists(fileName);
+  it('Can update style sheet', () => {
+    const name = 'CanUpdateStylesheet';
+    const nameEdit = 'Edited';
+    let fileName = name + '.css';
 
-     const originalContent = '.h1{ color: red;}\n';
-     const edit = '.h2{{} color: purple;{}}';
-     const expected = originalContent + '.h2{ color: purple;}';
+    cy.umbracoEnsureStylesheetNameNotExists(fileName);
 
-     const style = new StylesheetBuilder()
-       .withName(name)
-       .withContent(originalContent)
-       .build();
-     cy.saveStylesheet(style);
+    const originalContent = '.h1{ color: red;}\n';
+    const edit = '.h2{{} color: purple;{}}';
+    const expected = originalContent + '.h2{ color: purple;}';
 
-     navigateToSettings();
-     cy.umbracoTreeItem('settings', ['Stylesheets', fileName]).click();
-     
-     cy.get('.ace_text-input').type(edit, { force: true });
+    const style = new StylesheetBuilder()
+      .withName(name)
+      .withContent(originalContent)
+      .build();
+    cy.saveStylesheet(style);
 
-     // Since scripts has no alias it should be safe to not use umbracoEditorHeaderName
-     // umbracoEditorHeaderName does not like {backspace}
-     cy.get('#headerName').type('{backspace}{backspace}{backspace}{backspace}' + nameEdit).should('have.value', name+nameEdit);
-     fileName = name + nameEdit + '.css';
-     cy.get('.btn-success').click()
-     
-     cy.umbracoSuccessNotification().should('be.visible');
-     cy.umbracoVerifyStylesheetContent(fileName, expected).should('be.true');
+    navigateToSettings();
+    cy.umbracoTreeItem('settings', ['Stylesheets', fileName]).click();
 
-     cy.umbracoEnsureStylesheetNameNotExists(fileName);
-   });
+    cy.get('.ace_text-input').type(edit, { force: true });
+
+    // Since scripts has no alias it should be safe to not use umbracoEditorHeaderName
+    // umbracoEditorHeaderName does not like {backspace}
+    cy.get('#headerName').type('{backspace}{backspace}{backspace}{backspace}' + nameEdit).should('have.value', name+nameEdit);
+    fileName = name + nameEdit + '.css';
+    cy.get('.btn-success').click()
+
+    cy.umbracoSuccessNotification().should('be.visible');
+    cy.umbracoVerifyStylesheetContent(fileName, expected).should('be.true');
+
+    cy.umbracoEnsureStylesheetNameNotExists(fileName);
+  });
   
-   it('Can Delete folder', () => {
+  it('Can Delete folder', () => {
     const folderName = "TestFolder";
 
     // The way scripts and folders are fetched and deleted are identical
@@ -115,5 +117,4 @@ context('Stylesheets', () => {
 
     cy.umbracoEnsureScriptNameNotExists(folderName);
   });
-
 });
