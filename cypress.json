@@ -4,7 +4,7 @@
   "viewportWidth": 1200,
   "env": {
     "username": "bmb@umbraco.dk",
-    "password": "123456789012"
+    "password": "1234567890"
   },
   "ignoreTestFiles": ["**/Forms/*.ts"]
 }

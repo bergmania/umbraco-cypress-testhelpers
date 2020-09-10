@@ -36,7 +36,7 @@ context('Partial Views', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.true; });
+    cy.umbracoPartialViewExists(fileName).should('be.true')
 
     //Clean up
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -63,7 +63,7 @@ context('Partial Views', () => {
 
     // Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.true; });
+    cy.umbracoPartialViewExists(fileName).should('be.true')
 
     // Clean up
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -74,6 +74,10 @@ context('Partial Views', () => {
 
     cy.umbracoContextMenuAction("action-create").click();
     cy.get('.menu-label').first().click();
+
+    // The test would fail intermittently, most likely because the editor didn't have time to load
+    // This should ensure that the editor is loaded and the test should no longer fail unexpectedly. 
+    cy.get('.ace_content', {timeout: 5000}).should('exist');  
 
     // Click save
     cy.get('.btn-success').click();
@@ -105,7 +109,7 @@ context('Partial Views', () => {
 
     // Assert 
     cy.contains(fileName).should('not.exist');
-    cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.false; });
+    cy.umbracoPartialViewExists(fileName).should('be.false');
 
     // Clean 
     cy.umbracoEnsurePartialViewNameNotExists(fileName);
@@ -128,7 +132,7 @@ context('Partial Views', () => {
     // Open partial view
     cy.umbracoTreeItem("settings", ["Partial Views", fileName]).click();
     // Edit
-    cy.get('.ace_content').type("var num = 5;");
+    cy.get('.ace_text-input').type("var num = 5;", {force:true});
     cy.get('.btn-success').click();
 
     // Assert

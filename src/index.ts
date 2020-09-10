@@ -29,6 +29,8 @@ export { PartialViewMacroBuilder } from './cms/builders/partialViewMacros/partia
 /* PartialViewBuilders */
 export { PartialViewBuilder } from './cms/builders/partialViews/partialViewBuilder';
 
+export { ScriptBuilder } from './cms/builders/scriptbuilder';
+
 /* Contents */
 // export * from './cms/templates/'
 export { FormPickerTemplate } from './cms/templates/formPickerTemplate';

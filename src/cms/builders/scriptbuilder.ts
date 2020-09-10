@@ -1,8 +1,8 @@
-export class PartialViewBuilder {
-  name;
+export class ScriptBuilder {
   content;
-  filetype;
+  fileType;
   id;
+  name;
   notifications;
   path;
   snippet;
@@ -18,21 +18,16 @@ export class PartialViewBuilder {
     return this;
   }
 
-  withId(id: number) {
-    this.id = id;
-    return this;
-  }
-
   build() {
     return {
       name: this.name,
       content: this.content,
-      filetype: this.filetype || 'partialViews',
-      id: this.id || 0,
+      filetype: this.fileType || 'scripts',
+      id: this.id || '0',
       notifications: this.notifications || [],
       path: this.path || null,
       snippet: this.snippet || null,
-      virtualPath: this.virtualPath || '/Views/Partials/',
+      virtualPath: this.virtualPath || '/scripts/',
     };
   }
 }

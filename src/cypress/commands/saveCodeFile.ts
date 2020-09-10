@@ -1,19 +1,19 @@
 import CommandBase from './commandBase';
 
-export default class SavePartialViewMacro extends CommandBase {
-  commandName = 'savePartialViewMacro';
+export default class SaveCodeFile extends CommandBase {
+  commandName = 'saveCodeFile';
 
-  method(partialViewMacro) {
+  method(codeFile) {
     const cy = this.cy;
 
-    if (partialViewMacro == null) {
+    if (codeFile == null) {
       return;
     }
 
     return cy.umbracoApiRequest(
       this.relativeBackOfficePath + '/backoffice/UmbracoApi/CodeFile/PostSave',
       'POST',
-      partialViewMacro,
+      codeFile,
     );
   }
 }

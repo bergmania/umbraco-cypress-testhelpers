@@ -10,28 +10,28 @@ export default class PostFile extends CommandBase {
     const formData = new FormData();
 
     cy.fixture(fileName, 'base64').then((fileFixture) => {
-      Cypress.Blob.base64StringToBlob(fileFixture).then((blob) => {
-        const testFile = new File([blob], fileName);
-        formData.append('file', testFile);
-        cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
-          cy.server({
-            whitelist: (request) => {
-              return;
-            },
-          });
-          cy.route(method, url).as('postAdd');
-          cy.window()
-            .then((win) => {
-              const xhr = new win.XMLHttpRequest();
-              xhr.open(method, url);
-              xhr.setRequestHeader('X-UMB-XSRF-TOKEN', token.value);
-              xhr.send(formData);
-            })
-            .wait('@postAdd')
-            .then((res) => {
-              return JsonHelper.getBody(res.response);
-            });
+      const blob = Cypress.Blob.base64StringToBlob(fileFixture);
+      // @ts-ignore
+      const testFile = new File([blob], fileName);
+      formData.append('file', testFile);
+      cy.getCookie('UMB-XSRF-TOKEN').then((token) => {
+        cy.server({
+          ignore: (request) => {
+            return;
+          },
         });
+        cy.route(method, url).as('postAdd');
+        cy.window()
+          .then((win) => {
+            const xhr = new win.XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.setRequestHeader('X-UMB-XSRF-TOKEN', token.value);
+            xhr.send(formData);
+          })
+          .wait('@postAdd')
+          .then((res) => {
+            return JsonHelper.getBody(res.response);
+          });
       });
     });
   }

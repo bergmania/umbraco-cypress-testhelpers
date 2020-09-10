@@ -57,6 +57,19 @@ declare global {
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
+      umbracoScriptExists: (name: string) => Chainable<boolean>;
+      saveScript: (script: any) => Chainable<void>;
+      saveFolder: (section: string, folderName: string) => Chainable<void>;
+      umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
+      saveMacro: (name: string) => Chainable<any>;
+      umbracoPartialViewExists: (name: string) => Chainable<boolean>;
+      savePartialView: (view: any) => Chainable<void>;
+      umbracoErrorNotification: () => Chainable<any>;
+      umbracoMacroExists: (name: string) => Chainable<boolean>;
+      savePartialViewMacro: (macro: any) => Chainable<any>;
+      umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
+      editTemplate: (name: string, content: string) => Chainable<any>;
+      umbracoVerifyRenderedViewContent : (endpoint : string, expectedContent : string) => Chainable<boolean>;
     }
   }
 }

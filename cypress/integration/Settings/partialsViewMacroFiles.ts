@@ -39,7 +39,7 @@ context('Partial View Macro Files', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoMacroExists(name).then(exists => { expect(exists).to.be.true; });
+    cy.umbracoMacroExists(name).should('be.true');
 
     //Clean up
     cleanup(name);
@@ -62,7 +62,7 @@ context('Partial View Macro Files', () => {
 
     // Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoMacroExists(name).then(exists => { expect(exists).to.be.false; });
+    cy.umbracoMacroExists(name).should('be.false');
 
     // Clean
     cleanup(name);
@@ -88,7 +88,7 @@ context('Partial View Macro Files', () => {
 
     // Assert
     cy.umbracoSuccessNotification().should('be.visible');
-    cy.umbracoMacroExists(name).then(exists => { expect(exists).to.be.true; });
+    cy.umbracoMacroExists(name).should('be.true');
 
     // Clean
     cleanup(name);
@@ -142,7 +142,7 @@ context('Partial View Macro Files', () => {
     cy.umbracoTreeItem("settings", ["Partial View Macro Files", fullName]).click();
 
     // Type an edit
-    cy.get('.ace_content').type(" // test");
+    cy.get('.ace_text-input').type(" // test", {force:true});
     // Save
     cy.get('.btn-success').click();
 
