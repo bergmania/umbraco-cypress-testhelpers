@@ -64,7 +64,7 @@ export default class SaveMacroWithPartial extends CommandBase {
               },
             }).then((response) => {
               return JsonHelper.getBody(response);
-            })
+            });
           });
         });
       });

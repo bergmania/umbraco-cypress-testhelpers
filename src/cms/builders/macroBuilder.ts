@@ -48,5 +48,4 @@ export class MacroBuilder {
       partialView: this.partialViewMacro || null
     }
   }
-
 }
