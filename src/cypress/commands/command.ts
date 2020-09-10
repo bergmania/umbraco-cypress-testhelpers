@@ -66,6 +66,8 @@ import UmbracoScriptExists from './umbracoScriptExists';
 import UmbracoVerifyScriptContent from './umbracoVerifyScriptContent';
 import SaveFolder from './saveFolder';
 import UmbracoApiRequest from './umbracoApiRequest';
+import EditTemplate from './editTemplate';
+import UmbracoVerifyRenderedViewContent from './umbracoVerifyRenderedViewContent';
 import UmbracoStylesheetExists from './umbracoStylesheetExists';
 import SaveStylesheet from './saveStylesheet';
 import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
@@ -152,8 +154,5 @@ export class Command {
     new UmbracoVerifyScriptContent(relativeBackOfficePath).registerCommand();
     new SaveFolder(relativeBackOfficePath).registerCommand();
     new UmbracoApiRequest(relativeBackOfficePath).registerCommand();
-    new UmbracoStylesheetExists(relativeBackOfficePath).registerCommand();
-    new SaveStylesheet(relativeBackOfficePath).registerCommand();
-    new UmbracoVerifyStylesheetContent(relativeBackOfficePath).registerCommand();
   }
 }
