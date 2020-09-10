@@ -68,7 +68,7 @@ context('Stylesheets', () => {
      const nameEdit = 'Edited';
      let fileName = name + '.css';
 
-     cy.umbracoEnsureScriptNameNotExists(fileName);
+     cy.umbracoEnsureStylesheetNameNotExists(fileName);
 
      const originalContent = '.h1{ color: red;}\n';
      const edit = '.h2{{} color: purple;{}}';
@@ -94,6 +94,26 @@ context('Stylesheets', () => {
      cy.umbracoSuccessNotification().should('be.visible');
      cy.umbracoVerifyStylesheetContent(fileName, expected).should('be.true');
 
+     cy.umbracoEnsureStylesheetNameNotExists(fileName);
    });
+  
+   it('Can Delete folder', () => {
+    const folderName = "TestFolder";
+
+    // The way scripts and folders are fetched and deleted are identical
+    cy.umbracoEnsureScriptNameNotExists(folderName);
+    cy.saveFolder('stylesheets', folderName);
+
+    navigateToSettings()
+
+    cy.umbracoTreeItem("settings", ["Stylesheets", folderName]).rightclick();
+    cy.umbracoContextMenuAction("action-delete").click();
+    cy.umbracoButtonByLabelKey("general_ok").click();
+
+    cy.contains(folderName).should('not.exist');
+    cy.umbracoStylesheetExists(folderName).should('be.false')
+
+    cy.umbracoEnsureScriptNameNotExists(folderName);
+  });
 
 });
