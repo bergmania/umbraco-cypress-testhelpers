@@ -28,8 +28,9 @@ export { TemplateBuilder } from './cms/builders/templates/templateBuilder';
 export { PartialViewMacroBuilder } from './cms/builders/partialViewMacros/partialViewMacroBuilder';
 /* PartialViewBuilders */
 export { PartialViewBuilder } from './cms/builders/partialViews/partialViewBuilder';
+export { MacroBuilder } from './cms/builders/macroBuilder';
 
-export { ScriptBuilder } from './cms/builders/scriptbuilder';
+export { ScriptBuilder } from './cms/builders/scriptBuilder';
 
 /* Contents */
 // export * from './cms/templates/'
