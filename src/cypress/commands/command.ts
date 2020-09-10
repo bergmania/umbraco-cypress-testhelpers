@@ -154,5 +154,10 @@ export class Command {
     new UmbracoVerifyScriptContent(relativeBackOfficePath).registerCommand();
     new SaveFolder(relativeBackOfficePath).registerCommand();
     new UmbracoApiRequest(relativeBackOfficePath).registerCommand();
+    new EditTemplate(relativeBackOfficePath).registerCommand();
+    new UmbracoVerifyRenderedViewContent(relativeBackOfficePath).registerCommand();
+    new UmbracoStylesheetExists(relativeBackOfficePath).registerCommand();
+    new SaveStylesheet(relativeBackOfficePath).registerCommand();
+    new UmbracoVerifyStylesheetContent(relativeBackOfficePath).registerCommand();
   }
 }

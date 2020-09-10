@@ -1,4 +1,4 @@
-/// <reference types='Cypress' />
+/// <reference types="Cypress" />
 import{ StylesheetBuilder } from '../../../src';
 
 context('Stylesheets', () => {
