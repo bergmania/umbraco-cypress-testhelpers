@@ -7,32 +7,40 @@ context('Macros', () => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  it('Create macro', () => {
-    const name = "Test macro";
+  function refreshContentTree(){
+    // Refresh to update the tree
+    cy.get('li .umb-tree-root:contains("Content")').should("be.visible").rightclick();
+    cy.umbracoContextMenuAction("action-refreshNode").click();
+    // We have to wait in case the execution is slow, otherwise we'll try and click the item before it appears in the UI
+    cy.get('.umb-tree-item__inner').should('exist', {timeout: 10000});
+}
 
-    cy.umbracoEnsureMacroNameNotExists(name);
+  // it('Create macro', () => {
+  //   const name = "Test macro";
 
-    cy.umbracoSection('settings');
-    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+  //   cy.umbracoEnsureMacroNameNotExists(name);
 
-    cy.umbracoTreeItem("settings", ["Macros"]).rightclick();
+  //   cy.umbracoSection('settings');
+  //   cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-    cy.umbracoContextMenuAction("action-create").click();
+  //   cy.umbracoTreeItem("settings", ["Macros"]).rightclick();
 
-    cy.get('form[name="createMacroForm"]').within(($form) => {
-      cy.get('input[name="itemKey"]').type(name);
-      cy.get(".btn-primary").click();
-    });
+  //   cy.umbracoContextMenuAction("action-create").click();
 
-    cy.location().should((loc) => {
-      expect(loc.hash).to.include('#/settings/macros/edit/')
-    });
+  //   cy.get('form[name="createMacroForm"]').within(($form) => {
+  //     cy.get('input[name="itemKey"]').type(name);
+  //     cy.get(".btn-primary").click();
+  //   });
 
-    //Clean up
-    cy.umbracoEnsureMacroNameNotExists(name);
-  });
+  //   cy.location().should((loc) => {
+  //     expect(loc.hash).to.include('#/settings/macros/edit/')
+  //   });
 
-  it('Can insert macro into Grid and have the content displayed', () => {
+  //   //Clean up
+  //   cy.umbracoEnsureMacroNameNotExists(name);
+  // });
+
+  it('Can insert macro into RTE and have the content displayed', () => {
     const viewMacroName = 'Insert into RTE';
     const partialFileName = viewMacroName + '.cshtml';
 
@@ -97,6 +105,16 @@ context('Macros', () => {
         <p>@(Model.Value("text"))</p>
     }
 } `);
+    
+    refreshContentTree();
+    cy.umbracoTreeItem("content", [viewMacroName]).click();
+    cy.get('#mceu_13-button').click();
+    cy.get('.umb-card-grid-item').click();
+    cy.get('iframe', { timeout: 20000 }).then($iframe => {
+      debugger;
+      const $body = $iframe.contents().find('body');
+      cy.wrap($body).contains('Acceptance test');
+    });
     
     // cy.umbracoEnsureMacroNameNotExists(viewMacroName);
     // cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
