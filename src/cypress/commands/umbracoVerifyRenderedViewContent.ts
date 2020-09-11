@@ -19,6 +19,7 @@ export default class UmbracoVerifyRenderedViewContent extends CommandBase {
       }).then((response) => {
         let body = response.body;
         if(removeWhitespace){
+          expectedContent = expectedContent.replace(/\s/g, "");
           body = body.replace(/\s/g, "");
         }
         if (body === expectedContent) return true;

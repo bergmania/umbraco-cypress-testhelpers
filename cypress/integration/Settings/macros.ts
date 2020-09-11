@@ -130,7 +130,7 @@ context('Macros', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     // Ensure that the view gets rendered correctly
-    const expected = `<h1>Acceptance test</h1><p> </p>`.replace(/\s/g, "");
+    const expected = `<h1>Acceptance test</h1><p> </p>`;
     cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
 
     // Cleanup
@@ -237,8 +237,7 @@ context('Macros', () => {
             </div>
     </div>
                 </div>
-    </div>
-    `.replace(/\s/g, "");
+    </div>`
 
     cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
 
