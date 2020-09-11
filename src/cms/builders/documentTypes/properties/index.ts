@@ -3,3 +3,4 @@ export { TextBoxDocumentTypePropertyBuilder } from './textBoxDocumentTypePropert
 export { DropDownDocumentTypePropertyBuilder } from './dropDownDocumentTypePropertyBuilder';
 export { ContentPickerPropertyBuilder } from './contentPickerTypePropertyBuilder';
 export { RichTextDocumentTypePropertyEditor } from './richTextDocumentTypePropertyBuilder';
+export { CustomDocumentTypePropertyBuilder } from './customDocumentTypePropertyBuilder';

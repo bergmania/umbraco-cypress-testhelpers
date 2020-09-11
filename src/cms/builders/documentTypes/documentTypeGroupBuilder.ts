@@ -4,7 +4,7 @@ import { FormPickerDocumentTypePropertyBuilder } from './properties/formPickerDo
 import { TextBoxDocumentTypePropertyBuilder } from './properties/textBoxDocumentTypePropertyBuilder';
 import { DropDownDocumentTypePropertyBuilder } from './properties/dropDownDocumentTypePropertyBuilder';
 import { ContentPickerPropertyBuilder } from './properties/contentPickerTypePropertyBuilder';
-import { RichTextDocumentTypePropertyEditor } from './properties';
+import { RichTextDocumentTypePropertyEditor, CustomDocumentTypePropertyBuilder } from './properties';
 
 export default class DocumentTypeGroupBuilder {
   parentBuilder;
@@ -58,6 +58,12 @@ export default class DocumentTypeGroupBuilder {
 
   addRichTextProperty() {
     const builder = new RichTextDocumentTypePropertyEditor(this);
+    this.documentTypeGroupPropertyBuilders.push(builder);
+    return builder;
+  }
+
+  addCustomProperty(id){
+    const builder = new CustomDocumentTypePropertyBuilder(this, id);
     this.documentTypeGroupPropertyBuilders.push(builder);
     return builder;
   }

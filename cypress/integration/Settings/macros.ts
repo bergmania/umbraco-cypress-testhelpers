@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-import { PartialViewMacroBuilder, MacroBuilder, DocumentTypeBuilder, ContentBuilder, AliasHelper } from '../../../src';
+import { PartialViewMacroBuilder, MacroBuilder, DocumentTypeBuilder, ContentBuilder, AliasHelper, GridDataTypeBuilder } from '../../../src';
 
 context('Macros', () => {
 
@@ -135,5 +135,50 @@ context('Macros', () => {
     cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
     cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
     cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
+  });
+
+  it('Insert macro into grid', () => {
+    const name = 'Insert macro into grid';
+    
+    cy.umbracoEnsureDataTypeNameNotExists(name);
+    cy.umbracoEnsureDocumentTypeNameNotExists(name);
+    cy.umbracoEnsureTemplateNameNotExists(name);
+    cy.deleteAllContent();
+
+    const grid = new GridDataTypeBuilder()
+      .withName(name)
+      .withSimpleItems()
+      .withDefaultPrevalues()
+      .applyPreValues()
+      .build();
+
+    const alias = AliasHelper.toAlias(name);
+    // Save grid and get the ID 
+    cy.saveDataType(grid).then((dataType) => {
+      // Create a document type using the data type
+      const docType = new DocumentTypeBuilder()
+        .withName(name)
+        .withAlias(alias)
+        .withAllowAsRoot(true)
+        .withDefaultTemplate(alias)
+        .addGroup()
+        .addCustomProperty(dataType['id'])
+        .withAlias('grid')
+        .done()
+        .done()
+        .build();
+      
+      cy.saveDocumentType(docType).then((generatedDocType) => {
+        const contentNode = new ContentBuilder()
+          .withContentTypeAlias(generatedDocType["alias"])
+          .addVariant()
+          .withName(name)
+          .withSave(true)
+          .done()
+          .build();
+        
+          cy.saveContent(contentNode);
+      });
+    });
   });
 });
