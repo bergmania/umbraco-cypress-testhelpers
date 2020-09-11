@@ -122,7 +122,7 @@ context('Macros', () => {
     // Assert that it gets displayed in editor
     cy.get('iframe', { timeout: 20000 }).then($iframe => {
       const $body = $iframe.contents().find('body');
-      cy.wrap($body).contains('Acceptance test').should('be.visible');
+      cy.wrap($body).contains('Acceptance test', {timeout: 10000}).should('be.visible');
     });
 
     // Save and publish
@@ -210,7 +210,7 @@ context('Macros', () => {
     cy.get('.umb-card-grid-item').click();
 
     // Assert that it gets displayed in the grid
-    cy.get('.umb-editor-placeholder').contains('Acceptance test').should('be.visible');
+    cy.get('.umb-editor-placeholder').contains('Acceptance test', {timeout: 10000}).should('be.visible');
 
     // Save and publish
     cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
