@@ -558,7 +558,7 @@ context('Content', () => {
 
         cy.saveDocumentType(pickerDocType);
 
-        // Edit it the template to allow us to verify the rendered view.
+        // Edit the template to allow us to verify the rendered view.
         cy.editTemplate(pickerDocTypeName, `@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.ContentPickerType>
         @using ContentModels = Umbraco.Web.PublishedModels;
         @{

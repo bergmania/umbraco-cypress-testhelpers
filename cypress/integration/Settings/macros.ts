@@ -13,7 +13,24 @@ context('Macros', () => {
     cy.umbracoContextMenuAction("action-refreshNode").click();
     // We have to wait in case the execution is slow, otherwise we'll try and click the item before it appears in the UI
     cy.get('.umb-tree-item__inner').should('exist', {timeout: 10000});
-}
+  }
+  
+  function createSimpleMacro(name){
+    const insertMacro = new PartialViewMacroBuilder()
+    .withName(name)
+    .withContent(`@inherits Umbraco.Web.Macros.PartialViewMacroPage
+<h1>Acceptance test</h1>`)
+    .build();
+  
+  const macroWithPartial = new MacroBuilder()
+    .withName(name)
+    .withPartialViewMacro(insertMacro)
+    .withRenderInEditor()
+    .withUseInEditor()
+    .build();
+  
+  cy.saveMacroWithPartial(macroWithPartial);
+  }
 
   it('Create macro', () => {
     const name = "Test macro";
@@ -51,20 +68,7 @@ context('Macros', () => {
     cy.deleteAllContent();
 
     // First thing first we got to create the macro we will be inserting
-    const insertMacro = new PartialViewMacroBuilder()
-      .withName(viewMacroName)
-      .withContent(`@inherits Umbraco.Web.Macros.PartialViewMacroPage
-<h1>Acceptance test</h1>`)
-      .build();
-    
-    const macroWithPartial = new MacroBuilder()
-      .withName(viewMacroName)
-      .withPartialViewMacro(insertMacro)
-      .withRenderInEditor()
-      .withUseInEditor()
-      .build();
-    
-    cy.saveMacroWithPartial(macroWithPartial);
+    createSimpleMacro(viewMacroName);
 
     // Now we need to create a document type with a rich text editor where we can insert the macro
     // The document type must have a template as well in order to ensure that the content is displayed correctly
@@ -126,8 +130,7 @@ context('Macros', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     // Ensure that the view gets rendered correctly
-    const expected = `<h1>Acceptance test</h1>
-<p> </p>`
+    const expected = `<h1>Acceptance test</h1><p> </p>`.replace(/\s/g, "");
     cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
 
     // Cleanup
@@ -139,11 +142,17 @@ context('Macros', () => {
 
   it('Insert macro into grid', () => {
     const name = 'Insert macro into grid';
+    const macroName = 'Grid macro';
+    const macroFileName = macroName + '.cshtml';
     
     cy.umbracoEnsureDataTypeNameNotExists(name);
     cy.umbracoEnsureDocumentTypeNameNotExists(name);
     cy.umbracoEnsureTemplateNameNotExists(name);
+    cy.umbracoEnsureMacroNameNotExists(macroName);
+    cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
     cy.deleteAllContent();
+
+    createSimpleMacro(macroName);
 
     const grid = new GridDataTypeBuilder()
       .withName(name)
@@ -180,5 +189,64 @@ context('Macros', () => {
           cy.saveContent(contentNode);
       });
     });
+
+    // Edit the template to allow us to verify the rendered view
+    cy.editTemplate(name, `@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.InsertMacroIntoGrid>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+  Layout = null;
+}
+@Html.GetGridHtml(Model, "grid")`);
+
+    // Act
+    // Enter content
+    refreshContentTree();
+    cy.umbracoTreeItem("content", [name]).click();
+    // Click add
+    cy.get('.cell-tools-add').click();
+    // Click macro
+    cy.get(':nth-child(4) > .umb-card-grid-item > :nth-child(1)').click();
+    // Select the macro
+    cy.get('.umb-card-grid-item').click();
+
+    // Assert that it gets displayed in the grid
+    cy.get('.umb-editor-placeholder').contains('Acceptance test').should('be.visible');
+
+    // Save and publish
+    cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
+    cy.umbracoSuccessNotification().should('be.visible');
+
+    const expected = `
+    <div class="umb-grid">
+                <div class="grid-section">
+    <div >
+            <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div >
+                            
+    
+
+    
+        <h1>Acceptance test</h1>
+    
+
+
+                </div>
+            </div>        </div>
+            </div>
+    </div>
+                </div>
+    </div>
+    `.replace(/\s/g, "");
+
+    cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
+
+    // Clean 
+    cy.umbracoEnsureDataTypeNameNotExists(name);
+    cy.umbracoEnsureDocumentTypeNameNotExists(name);
+    cy.umbracoEnsureTemplateNameNotExists(name);
+    cy.umbracoEnsureMacroNameNotExists(macroName);
+    cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
   });
 });

@@ -3,7 +3,7 @@ import CommandBase from './commandBase';
 export default class UmbracoVerifyRenderedViewContent extends CommandBase {
   _commandName = 'umbracoVerifyRenderedViewContent';
 
-  method(endpoint, expectedContent, trim = false) {
+  method(endpoint, expectedContent, removeWhitespace = false) {
     const cy = this.cy;
 
     cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
@@ -18,8 +18,8 @@ export default class UmbracoVerifyRenderedViewContent extends CommandBase {
         log: false,
       }).then((response) => {
         let body = response.body;
-        if(trim){
-          body = body.trim();
+        if(removeWhitespace){
+          body = body.replace(/\s/g, "");
         }
         if (body === expectedContent) return true;
         return false;
