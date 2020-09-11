@@ -15,30 +15,30 @@ context('Macros', () => {
     cy.get('.umb-tree-item__inner').should('exist', {timeout: 10000});
 }
 
-  // it('Create macro', () => {
-  //   const name = "Test macro";
+  it('Create macro', () => {
+    const name = "Test macro";
 
-  //   cy.umbracoEnsureMacroNameNotExists(name);
+    cy.umbracoEnsureMacroNameNotExists(name);
 
-  //   cy.umbracoSection('settings');
-  //   cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
+    cy.umbracoSection('settings');
+    cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-  //   cy.umbracoTreeItem("settings", ["Macros"]).rightclick();
+    cy.umbracoTreeItem("settings", ["Macros"]).rightclick();
 
-  //   cy.umbracoContextMenuAction("action-create").click();
+    cy.umbracoContextMenuAction("action-create").click();
 
-  //   cy.get('form[name="createMacroForm"]').within(($form) => {
-  //     cy.get('input[name="itemKey"]').type(name);
-  //     cy.get(".btn-primary").click();
-  //   });
+    cy.get('form[name="createMacroForm"]').within(($form) => {
+      cy.get('input[name="itemKey"]').type(name);
+      cy.get(".btn-primary").click();
+    });
 
-  //   cy.location().should((loc) => {
-  //     expect(loc.hash).to.include('#/settings/macros/edit/')
-  //   });
+    cy.location().should((loc) => {
+      expect(loc.hash).to.include('#/settings/macros/edit/')
+    });
 
-  //   //Clean up
-  //   cy.umbracoEnsureMacroNameNotExists(name);
-  // });
+    //Clean up
+    cy.umbracoEnsureMacroNameNotExists(name);
+  });
 
   it('Can insert macro into RTE and have the content displayed', () => {
     const viewMacroName = 'Insert into RTE';
@@ -95,6 +95,7 @@ context('Macros', () => {
       cy.saveContent(contentNode);
     });
 
+    // Edit the macro template in order to have something to verify on when rendered.
     cy.editTemplate(viewMacroName, `@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.InsertIntoRte>
 @using ContentModels = Umbraco.Web.PublishedModels;
 @{
@@ -102,24 +103,37 @@ context('Macros', () => {
 }
 @{
     if (Model.HasValue("text")){
-        <p>@(Model.Value("text"))</p>
+        @(Model.Value("text"))
     }
 } `);
     
+    // Enter content
     refreshContentTree();
     cy.umbracoTreeItem("content", [viewMacroName]).click();
+
+    // Insert macro
     cy.get('#mceu_13-button').click();
     cy.get('.umb-card-grid-item').click();
-    cy.get('iframe', { timeout: 20000 }).then($iframe => {
-      debugger;
-      const $body = $iframe.contents().find('body');
-      cy.wrap($body).contains('Acceptance test');
-    });
     
-    // cy.umbracoEnsureMacroNameNotExists(viewMacroName);
-    // cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
-    // cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
-    // cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
+    // Assert that it gets displayed in editor
+    cy.get('iframe', { timeout: 20000 }).then($iframe => {
+      const $body = $iframe.contents().find('body');
+      cy.wrap($body).contains('Acceptance test').should('be.visible');
+    });
 
+    // Save and publish
+    cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
+    cy.umbracoSuccessNotification().should('be.visible');
+
+    // Ensure that the view gets rendered correctly
+    const expected = `<h1>Acceptance test</h1>
+<p> </p>`
+    cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
+
+    // Cleanup
+    cy.umbracoEnsureMacroNameNotExists(viewMacroName);
+    cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
+    cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
+    cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
   });
 });
