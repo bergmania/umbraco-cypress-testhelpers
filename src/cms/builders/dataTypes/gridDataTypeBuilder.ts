@@ -2,7 +2,6 @@ import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
 import { GridTemplateBuilder } from './gridBuilders/gridTemplateBuilder';
 import { GridLayoutBuilder } from './gridBuilders/gridLayoutBuilder';
-import { template } from 'cypress/types/lodash';
 
 export class GridDataTypeBuilder extends DataTypeBuilder {
   preValues = [];
