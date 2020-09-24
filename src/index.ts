@@ -11,7 +11,7 @@ export { FormPickerDataTypeBuilder } from './cms/builders/dataTypes/formPickerDa
 export { LabelDataTypeBuilder } from './cms/builders/dataTypes/labelDataTypeBuilder';
 export { TextBoxDataTypeBuilder } from './cms/builders/dataTypes/textBoxDataTypeBuilder';
 export { DropDownDataTypeBuilder } from './cms/builders/dataTypes/dropDownDataTypeBuilder';
-export { GridDataTypeBuilder } from './cms/builders/dataTypes/gridTypeBuilder';
+export { GridDataTypeBuilder } from './cms/builders/dataTypes/gridDataTypeBuilder';
 
 /* DocumentTypes  builders */
 // export * from './cms/builders/documentTypes/';

@@ -1,11 +1,32 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
+import { GridTemplateBuilder } from './gridBuilders/gridTemplateBuilder';
 
 export class GridDataTypeBuilder extends DataTypeBuilder {
   preValues = [];
+  layoutBuilders;
+  templateBuilders;
+  columns = 12;
 
   constructor(private gridDataType: GridDataType = new GridDataType()){
     super(gridDataType);
+    this.templateBuilders = [];
+    this.layoutBuilders = [];
+  }
+
+  withColumns(columns: number){
+    this.columns = columns;
+    return this
+  }
+
+  addTemplate(templateBuilder?: GridTemplateBuilder){
+    const builder = 
+      templateBuilder === null || templateBuilder === undefined
+      ? new GridTemplateBuilder(this)
+      : templateBuilder;
+    
+      this.templateBuilders.push(builder)
+      return builder;
   }
 
   withSimpleItems(){
@@ -36,6 +57,24 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
         ],
       },
     };
+    this.preValues.push(items);
+    return this;
+  }
+
+  apply(){
+    const items = {
+      key: 'items',
+      value: {
+        columns: this.columns || 12,
+        config: [],
+        layouts: [],
+        styles: [],
+        templates: this.templateBuilders.map((builder) => {
+          return builder.build();
+        })
+      }
+    }
+
     this.preValues.push(items);
     return this;
   }
