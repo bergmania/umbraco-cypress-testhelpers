@@ -6,7 +6,7 @@ export class GridTemplateBuilder {
   name;
   sectionBuilders;
 
-  constructor(parrentBuilder){
+  constructor(parrentBuilder : GridDataTypeBuilder){
     this.parentBuilder = parrentBuilder;
     this.sectionBuilders = [];
   }
@@ -33,7 +33,7 @@ export class GridTemplateBuilder {
     return this;
   }
 
-  done(){
+  done() : GridDataTypeBuilder {
     return this.parentBuilder;
   }
 

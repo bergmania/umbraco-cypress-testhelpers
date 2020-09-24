@@ -1,10 +1,12 @@
+import { GridTemplateBuilder } from './gridTemplateBuilder';
+
 export class SectionBuilder{
   parrentBuilder;
   allowAll;
   grid;
   allowed;
 
-  constructor(parrentBuilder){
+  constructor(parrentBuilder : GridTemplateBuilder){
     this.parrentBuilder = parrentBuilder;
     this.allowed = [];
   }
@@ -24,7 +26,7 @@ export class SectionBuilder{
     return this
   }
 
-  done(){
+  done() : GridTemplateBuilder {
     return this.parrentBuilder;
   }
 

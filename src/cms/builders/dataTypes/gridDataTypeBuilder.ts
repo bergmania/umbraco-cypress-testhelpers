@@ -1,6 +1,8 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
 import { GridTemplateBuilder } from './gridBuilders/gridTemplateBuilder';
+import { GridLayoutBuilder } from './gridBuilders/gridLayoutBuilder';
+import { template } from 'cypress/types/lodash';
 
 export class GridDataTypeBuilder extends DataTypeBuilder {
   preValues = [];
@@ -8,7 +10,7 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
   templateBuilders;
   columns = 12;
 
-  constructor(private gridDataType: GridDataType = new GridDataType()){
+  constructor(private gridDataType: GridDataType = new GridDataType()) {
     super(gridDataType);
     this.templateBuilders = [];
     this.layoutBuilders = [];
@@ -19,7 +21,17 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return this
   }
 
-  addTemplate(templateBuilder?: GridTemplateBuilder){
+  addLayout(layoutBuilder?: GridLayoutBuilder) {
+    const builder = 
+      layoutBuilder === null || layoutBuilder === undefined
+      ? new GridLayoutBuilder(this)
+      : layoutBuilder;
+
+    this.layoutBuilders.push(builder);
+    return builder;
+  }
+
+  addTemplate(templateBuilder?: GridTemplateBuilder) {
     const builder = 
       templateBuilder === null || templateBuilder === undefined
       ? new GridTemplateBuilder(this)
@@ -67,7 +79,9 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
       value: {
         columns: this.columns || 12,
         config: [],
-        layouts: [],
+        layouts: this.layoutBuilders.map((builder) => {
+          return builder.build();
+        }),
         styles: [],
         templates: this.templateBuilders.map((builder) => {
           return builder.build();
@@ -76,7 +90,7 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     }
 
     this.preValues.push(items);
-    return this;
+    return this.applyPreValues();
   }
 
   withDefaultPrevalues(){
