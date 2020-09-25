@@ -1,4 +1,4 @@
-import { GridLayoutBuilder } from './gridLayoutBuilder';
+import { GridRowConfigBuilder } from './gridRowConfigBuilder';
 
 export class GridAreaBuilder {
   parentBuilder;
@@ -7,7 +7,7 @@ export class GridAreaBuilder {
   allowed;
   maxItems;
 
-  constructor(parentBuilder: GridLayoutBuilder) {
+  constructor(parentBuilder: GridRowConfigBuilder) {
     this.parentBuilder = parentBuilder;
     this.editors = [];
     this.allowed = [];
@@ -63,7 +63,7 @@ export class GridAreaBuilder {
     return this;
   }
 
-  done(): GridLayoutBuilder {
+  done(): GridRowConfigBuilder {
     return this.parentBuilder;
   }
 

@@ -2,7 +2,7 @@ import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
 import { 
   GridTemplateBuilder, 
-  GridLayoutBuilder, 
+  GridRowConfigBuilder, 
   GridRteBuilder, 
   GridSettingsbuilder, 
   GridStylesBuilder 
@@ -42,8 +42,11 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return this;
   }
 
-  addLayout(layoutBuilder?: GridLayoutBuilder) {
-    const builder = layoutBuilder === null || layoutBuilder === undefined ? new GridLayoutBuilder(this) : layoutBuilder;
+  addRowConfiguration(gridRowConfigBuilder?: GridRowConfigBuilder) {
+    const builder = 
+      gridRowConfigBuilder === null || gridRowConfigBuilder === undefined
+      ? new GridRowConfigBuilder(this)
+      : gridRowConfigBuilder;
 
     this.layoutBuilders.push(builder);
     return builder;

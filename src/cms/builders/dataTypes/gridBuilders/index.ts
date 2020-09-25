@@ -1,6 +1,6 @@
 export { GridTemplateBuilder } from './gridTemplateBuilder';
 export { SectionBuilder } from './sectionBuilder';
-export { GridLayoutBuilder } from './gridLayoutBuilder';
+export { GridRowConfigBuilder } from './gridRowConfigBuilder';
 export { GridAreaBuilder } from './gridAreaBuilder';
 export { GridRteBuilder } from './gridRteBuilder'
 export { RteToolbarOptionsBuilder } from './rteToolbarOptionsBuilder';

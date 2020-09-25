@@ -1,7 +1,7 @@
 import { GridDataTypeBuilder } from '../gridDataTypeBuilder';
 import { GridAreaBuilder } from './gridAreaBuilder';
 
-export class GridLayoutBuilder {
+export class GridRowConfigBuilder {
   parentBuilder;
   label;
   name;
