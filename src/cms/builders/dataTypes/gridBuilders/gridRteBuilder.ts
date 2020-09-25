@@ -37,7 +37,12 @@ export class GridRteBuilder {
     return this;
   }
 
-  withToolBarOptions(optionsBuilder?: RteToolbarOptionsBuilder) {
+  withStylesheet(virtualPath : string) {
+    this.stylesheets.push(virtualPath);
+    return this;
+  }
+
+  addToolBarOptions(optionsBuilder?: RteToolbarOptionsBuilder) {
     const builder = 
       optionsBuilder === null || optionsBuilder === undefined
       ? new RteToolbarOptionsBuilder(this)

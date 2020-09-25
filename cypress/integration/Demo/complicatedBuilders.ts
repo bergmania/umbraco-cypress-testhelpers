@@ -8,7 +8,7 @@ context('Demo', () => {
   });
 
   it('Test', () => {
-    const gridName = "TestGrid";
+    const gridName = "ComplicatedGrid";
 
     cy.umbracoEnsureDataTypeNameNotExists(gridName);
 
@@ -48,7 +48,8 @@ context('Demo', () => {
       .addRte()
         .withDimensions(1000, 800)
         .withDistractionFreeMode()
-        .withToolBarOptions()
+        .withStylesheet("/css/testStyle.css")
+        .addToolBarOptions()
           .withSourceCodeEditor()
           .withBold()
           .withNumberedList()
