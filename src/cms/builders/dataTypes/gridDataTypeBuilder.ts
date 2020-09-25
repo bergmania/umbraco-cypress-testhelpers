@@ -15,32 +15,27 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     this.layoutBuilders = [];
   }
 
-  withColumns(columns: number){
+  withColumns(columns: number) {
     this.columns = columns;
-    return this
+    return this;
   }
 
   addLayout(layoutBuilder?: GridLayoutBuilder) {
-    const builder = 
-      layoutBuilder === null || layoutBuilder === undefined
-      ? new GridLayoutBuilder(this)
-      : layoutBuilder;
+    const builder = layoutBuilder === null || layoutBuilder === undefined ? new GridLayoutBuilder(this) : layoutBuilder;
 
     this.layoutBuilders.push(builder);
     return builder;
   }
 
   addTemplate(templateBuilder?: GridTemplateBuilder) {
-    const builder = 
-      templateBuilder === null || templateBuilder === undefined
-      ? new GridTemplateBuilder(this)
-      : templateBuilder;
-    
-      this.templateBuilders.push(builder)
-      return builder;
+    const builder =
+      templateBuilder === null || templateBuilder === undefined ? new GridTemplateBuilder(this) : templateBuilder;
+
+    this.templateBuilders.push(builder);
+    return builder;
   }
 
-  withSimpleItems(){
+  withSimpleItems() {
     // TODO: Maybe make builders for this?
     const items = {
       key: 'items',
@@ -63,7 +58,7 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
         templates: [
           {
             name: '1 column layout',
-            sections: [ {grid: 12}, ],
+            sections: [{ grid: 12 }],
           },
         ],
       },
@@ -72,7 +67,7 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return this;
   }
 
-  apply(){
+  apply() {
     const items = {
       key: 'items',
       value: {
@@ -84,15 +79,15 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
         styles: [],
         templates: this.templateBuilders.map((builder) => {
           return builder.build();
-        })
-      }
-    }
+        }),
+      },
+    };
 
     this.preValues.push(items);
     return this.applyPreValues();
   }
 
-  withDefaultPrevalues(){
+  withDefaultPrevalues() {
     const defaultRtePreValue = {
       key: 'rte',
       value: {
@@ -103,12 +98,12 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
       },
     };
     this.preValues.push(defaultRtePreValue);
-    this.preValues.push({key: 'ignoreUserStartNodes', value: false});
-    this.preValues.push({key: 'mediaParentId', value: null});
+    this.preValues.push({ key: 'ignoreUserStartNodes', value: false });
+    this.preValues.push({ key: 'mediaParentId', value: null });
     return this;
   }
 
-  applyPreValues(){
+  applyPreValues() {
     this.dataType.addPrevalues(this.preValues);
     return this;
   }

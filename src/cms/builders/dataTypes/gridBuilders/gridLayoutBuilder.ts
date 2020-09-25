@@ -23,49 +23,44 @@ export class GridLayoutBuilder {
     return this;
   }
 
-  withAllowed(allowed : boolean) {
+  withAllowed(allowed: boolean) {
     this.allowed = allowed;
     return this;
   }
 
   addArea(areaBuilder?: GridAreaBuilder) {
-    const builder = 
-    areaBuilder === null || areaBuilder === undefined
-      ? new GridAreaBuilder(this)
-      : areaBuilder;
-    
-      this.areas.push(builder);
-      return builder;
+    const builder = areaBuilder === null || areaBuilder === undefined ? new GridAreaBuilder(this) : areaBuilder;
+
+    this.areas.push(builder);
+    return builder;
   }
 
-  withSimpleArea(gridSize : number) {
-    this.addArea()
-      .withGridSize(gridSize)
-      .done();
+  withSimpleArea(gridSize: number) {
+    this.addArea().withGridSize(gridSize).done();
     return this;
   }
 
-  done() : GridDataTypeBuilder {
+  done(): GridDataTypeBuilder {
     return this.parentBuilder;
   }
 
   build() {
-    if(this.allowed) {
+    if (this.allowed) {
       return {
         allowed: this.allowed,
         name: this.name,
         label: this.label || this.name,
-        areas: this.areas.map( (builder) => {
+        areas: this.areas.map((builder) => {
           return builder.build();
-        })
-      }
+        }),
+      };
     }
     return {
       name: this.name,
       label: this.label || this.name,
-      areas: this.areas.map( (builder) => {
+      areas: this.areas.map((builder) => {
         return builder.build();
-      })
-    }
+      }),
+    };
   }
 }

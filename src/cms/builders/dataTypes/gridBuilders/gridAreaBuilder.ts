@@ -5,34 +5,33 @@ export class GridAreaBuilder {
   gridSize;
   editors;
 
-  constructor(parentBuilder: GridLayoutBuilder){
+  constructor(parentBuilder: GridLayoutBuilder) {
     this.parentBuilder = parentBuilder;
-    this.editors = []
+    this.editors = [];
   }
 
-  withGridSize(gridSize : Number){
-    this.gridSize = gridSize
+  withGridSize(gridSize: number) {
+    this.gridSize = gridSize;
     return this;
   }
 
-  withEditors(editor){
+  withEditors(editor) {
     this.editors.push(editor);
     return this;
   }
 
-  done() : GridLayoutBuilder {
+  done(): GridLayoutBuilder {
     return this.parentBuilder;
   }
 
-  build(){
-    if(this.editors.length > 0) {
+  build() {
+    if (this.editors.length > 0) {
       return {
         grid: this.gridSize,
         editors: this.editors,
-      }
-    }
-    else {
-      return { grid: this.gridSize }
+      };
+    } else {
+      return { grid: this.gridSize };
     }
   }
 }
