@@ -2,7 +2,6 @@ import { GridTemplateBuilder } from './gridTemplateBuilder';
 
 export class SectionBuilder {
   parrentBuilder;
-  allowAll;
   grid;
   allowed;
 
@@ -16,8 +15,8 @@ export class SectionBuilder {
     return this;
   }
 
-  withAllowAll(allowAll: boolean) {
-    this.allowAll = allowAll;
+  withAllowAll() {
+    this.allowed = []
     return this;
   }
 
@@ -31,17 +30,16 @@ export class SectionBuilder {
   }
 
   build() {
-    if (this.allowAll) {
-      return {
-        allowAll: this.allowAll || true,
-        grid: this.grid,
-      };
-    } else {
-      return {
-        allowAll: this.allowAll || false,
-        allowed: this.allowed,
-        grid: this.grid,
-      };
+    const grid = { 
+      grid: this.grid,
+      allowAll: true, 
+    };
+
+    if(this.allowed.length > 0){
+      Object.assign(grid, { allowed: this.allowed });
+      grid.allowAll = false;
     }
+
+    return grid;
   }
 }

@@ -23,7 +23,7 @@ export class GridTemplateBuilder {
   }
 
   withSimpleSection(gridSize: number) {
-    this.addSection().withAllowAll(true).withGridSize(gridSize).done();
+    this.addSection().withGridSize(gridSize).done();
     return this;
   }
 

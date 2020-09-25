@@ -68,21 +68,21 @@ export class GridAreaBuilder {
   }
 
   build() {
-    let area = { grid: this.gridSize }
+    const area = { grid: this.gridSize };
 
     if(this.editors.length > 0) {
-      Object.assign(area, {editors: this.editors});
+      Object.assign(area, { editors: this.editors });
     }
 
     if(this.allowed.length > 0) {
       Object.assign(area, {
         allowAll: false,
         allowed: this.allowed,
-      })
+      });
     }
 
     if(this.maxItems) {
-      Object.assign(area, { maxItems : this.maxItems})
+      Object.assign(area, { maxItems : this.maxItems});
     }
 
     return area;

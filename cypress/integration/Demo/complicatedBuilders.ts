@@ -51,7 +51,6 @@ context('Demo', () => {
         .withSimpleSection(4)
         .addSection()
           .withGridSize(4)
-          .withAllowAll(false)
           .withAllowed("Headline")
         .done()
       .done()

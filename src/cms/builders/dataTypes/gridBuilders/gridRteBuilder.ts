@@ -57,20 +57,17 @@ export class GridRteBuilder {
   }
 
   build() {
-    if(this.dimensions){
-      return {
-        maxImageSize : this.maxImageSize || 500,
-        dimensions : this.dimensions,
-        mode : this.mode || "classic",
-        stylesheets : this.stylesheets,
-        toolbar : this.toolbarOptionsBuilder.build(),
-      };
-    }
-    return {
+    const RTE = {
       maxImageSize : this.maxImageSize || 500,
       mode : this.mode || "classic",
       stylesheets : this.stylesheets,
       toolbar : this.toolbarOptionsBuilder.build(),
     };
+
+    if(this.dimensions){
+      Object.assign(RTE, { dimensions : this.dimensions });
+    }
+    
+    return RTE
   }
 }
