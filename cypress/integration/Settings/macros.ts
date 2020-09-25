@@ -122,7 +122,7 @@ context('Macros', () => {
     // Assert that it gets displayed in editor
     cy.get('iframe', { timeout: 20000 }).then($iframe => {
       const $body = $iframe.contents().find('body');
-      cy.wrap($body).contains('Acceptance test', {timeout: 10000}).should('be.visible');
+      cy.wrap($body).contains('Acceptance test', {timeout: 20000}).should('be.visible');
     });
 
     // Save and publish
@@ -156,9 +156,7 @@ context('Macros', () => {
 
     const grid = new GridDataTypeBuilder()
       .withName(name)
-      .withSimpleItems()
-      .withDefaultPrevalues()
-      .applyPreValues()
+      .withDefaultGrid()
       .build();
 
     const alias = AliasHelper.toAlias(name);
@@ -203,14 +201,16 @@ context('Macros', () => {
     refreshContentTree();
     cy.umbracoTreeItem("content", [name]).click();
     // Click add
-    cy.get('.cell-tools-add').click();
+    cy.get(':nth-child(2) > .preview-row > .preview-col > .preview-cell').click();
+    cy.get('.umb-column > .templates-preview > :nth-child(2) > .preview-overlay').click();
+    cy.get('.umb-cell-placeholder').click();
     // Click macro
     cy.get(':nth-child(4) > .umb-card-grid-item > :nth-child(1)').click();
     // Select the macro
     cy.get('.umb-card-grid-item').click();
 
     // Assert that it gets displayed in the grid
-    cy.get('.umb-editor-placeholder').contains('Acceptance test', {timeout: 10000}).should('be.visible');
+    cy.get('.umb-editor-placeholder').contains('Acceptance test', {timeout: 20000}).should('be.visible');
 
     // Save and publish
     cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
