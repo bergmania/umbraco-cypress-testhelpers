@@ -1,13 +1,19 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
-import { GridTemplateBuilder } from './gridBuilders/gridTemplateBuilder';
-import { GridLayoutBuilder } from './gridBuilders/gridLayoutBuilder';
-import { GridRteBuilder } from './gridBuilders/gridRteBuilder';
+import { 
+  GridTemplateBuilder, 
+  GridLayoutBuilder, 
+  GridRteBuilder, 
+  GridSettingsbuilder, 
+  GridStylesBuilder 
+} from './gridBuilders';
 
 export class GridDataTypeBuilder extends DataTypeBuilder {
   preValues = [];
   layoutBuilders;
   templateBuilders;
+  settingsBuilders;
+  styleBuilders;
   rteBuilder;
   columns = 12;
   ignoreUserStartNodes;
@@ -17,6 +23,8 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     super(gridDataType);
     this.templateBuilders = [];
     this.layoutBuilders = [];
+    this.settingsBuilders = [];
+    this.styleBuilders = [];
   }
 
   withColumns(columns: number) {
@@ -61,6 +69,26 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return builder;
   }
 
+  addSetting(settingsBuilder?: GridSettingsbuilder) {
+    const builder = 
+      settingsBuilder === null || settingsBuilder === undefined
+      ? new GridSettingsbuilder(this)
+      : settingsBuilder;
+    
+      this.settingsBuilders.push(builder);
+      return builder;
+  }
+
+  addStyle(styleBuilder?: GridStylesBuilder) {
+    const builder = 
+      styleBuilder === null || styleBuilder === undefined
+      ? new GridStylesBuilder(this)
+      : styleBuilder;
+    
+      this.styleBuilders.push(builder);
+      return builder;
+  }
+
   withSimpleItems() {
     // TODO: Maybe make builders for this?
     const items = {
@@ -99,11 +127,15 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
       key: 'items',
       value: {
         columns: this.columns || 12,
-        config: [],
+        config: this.settingsBuilders.map((builder) => {
+          return builder.build();
+        }),
         layouts: this.layoutBuilders.map((builder) => {
           return builder.build();
         }),
-        styles: [],
+        styles: this.styleBuilders.map((builder) => {
+          return builder.build();
+        }),
         templates: this.templateBuilders.map((builder) => {
           return builder.build();
         }),
