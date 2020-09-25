@@ -2,12 +2,16 @@ import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
 import { GridTemplateBuilder } from './gridBuilders/gridTemplateBuilder';
 import { GridLayoutBuilder } from './gridBuilders/gridLayoutBuilder';
+import { GridRteBuilder } from './gridBuilders/gridRteBuilder';
 
 export class GridDataTypeBuilder extends DataTypeBuilder {
   preValues = [];
   layoutBuilders;
   templateBuilders;
+  rteBuilder;
   columns = 12;
+  ignoreUserStartNodes;
+  imageUploadFolder;
 
   constructor(private gridDataType: GridDataType = new GridDataType()) {
     super(gridDataType);
@@ -20,6 +24,16 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return this;
   }
 
+  withIgnoreUserStartNodes(ignore: boolean) {
+    this.ignoreUserStartNodes = ignore;
+    return this;
+  }
+
+  withImageUploadFolder(folderPath : string) {
+    this.imageUploadFolder = folderPath;
+    return this;
+  }
+
   addLayout(layoutBuilder?: GridLayoutBuilder) {
     const builder = layoutBuilder === null || layoutBuilder === undefined ? new GridLayoutBuilder(this) : layoutBuilder;
 
@@ -29,9 +43,21 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
 
   addTemplate(templateBuilder?: GridTemplateBuilder) {
     const builder =
-      templateBuilder === null || templateBuilder === undefined ? new GridTemplateBuilder(this) : templateBuilder;
+      templateBuilder === null || templateBuilder === undefined 
+      ? new GridTemplateBuilder(this) 
+      : templateBuilder;
 
     this.templateBuilders.push(builder);
+    return builder;
+  }
+
+  addRte(rteBuilder?: GridRteBuilder) {
+    const builder = 
+      rteBuilder === null || rteBuilder === undefined
+      ? new GridRteBuilder(this)
+      : rteBuilder;
+
+    this.rteBuilder = builder;
     return builder;
   }
 
@@ -68,6 +94,7 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
   }
 
   apply() {
+    // Add items
     const items = {
       key: 'items',
       value: {
@@ -82,25 +109,27 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
         }),
       },
     };
-
     this.preValues.push(items);
-    return this.applyPreValues();
-  }
 
-  withDefaultPrevalues() {
-    const defaultRtePreValue = {
+    // Add RTE
+    const rtePrevalue = {
       key: 'rte',
-      value: {
-        maxImageSize: 500,
-        mode: 'classic',
-        stylesheets: [],
-        toolbar: ['umbmacro'],
-      },
+      value: this.rteBuilder.build(),
     };
-    this.preValues.push(defaultRtePreValue);
-    this.preValues.push({ key: 'ignoreUserStartNodes', value: false });
-    this.preValues.push({ key: 'mediaParentId', value: null });
-    return this;
+    this.preValues.push(rtePrevalue);
+
+    this.preValues.push({
+      key: 'ignoreUserStartNodes',
+      value: this.ignoreUserStartNodes || false,
+    });
+
+    // Add Image upload folder
+    this.preValues.push({
+      key: 'mediaParentId',
+      value: this.imageUploadFolder || null
+    });
+
+    return this.applyPreValues();
   }
 
   applyPreValues() {

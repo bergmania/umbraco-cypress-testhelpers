@@ -15,6 +15,8 @@ context('Demo', () => {
     // debugger;
     const grid = new GridDataTypeBuilder()
       .withName(gridName)
+      .withIgnoreUserStartNodes(true)
+      .withImageUploadFolder("umb://media/ba01c61801234f9496eee617c0c813c0")
       .addLayout()
         .withName("Article")
         .withSimpleArea(4)
@@ -43,10 +45,19 @@ context('Demo', () => {
         .withSimpleSection(8)
         .withSimpleSection(4)
       .done()
-      .withDefaultPrevalues()
+      .addRte()
+        .withDimensions(1000, 800)
+        .withDistractionFreeMode()
+        .withToolBarOptions()
+          .withSourceCodeEditor()
+          .withBold()
+          .withNumberedList()
+          .withMacro()
+        .done()
+      .done()
       .apply()
       .build()
-    
+
     cy.saveDataType(grid);
   });
 });

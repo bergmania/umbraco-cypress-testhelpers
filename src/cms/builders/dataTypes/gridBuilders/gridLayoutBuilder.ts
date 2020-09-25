@@ -29,7 +29,10 @@ export class GridLayoutBuilder {
   }
 
   addArea(areaBuilder?: GridAreaBuilder) {
-    const builder = areaBuilder === null || areaBuilder === undefined ? new GridAreaBuilder(this) : areaBuilder;
+    const builder = 
+      areaBuilder === null || areaBuilder === undefined 
+      ? new GridAreaBuilder(this) 
+      : areaBuilder;
 
     this.areas.push(builder);
     return builder;
