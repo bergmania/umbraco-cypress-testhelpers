@@ -92,86 +92,6 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
       return builder;
   }
 
-  withSimpleItems() {
-    // TODO: Maybe make builders for this?
-    const items = {
-      key: 'items',
-      value: {
-        columns: 12,
-        config: [],
-        layouts: [
-          {
-            label: 'Headline',
-            name: 'Headline',
-            areas: [
-              {
-                grid: 12,
-                editors: ['headline'],
-              },
-            ],
-          },
-        ],
-        styles: [],
-        templates: [
-          {
-            name: '1 column layout',
-            sections: [{ grid: 12 }],
-          },
-        ],
-      },
-    };
-    this.preValues.push(items);
-    return this;
-  }
-
-  apply() {
-    // Add items
-    const items = {
-      key: 'items',
-      value: {
-        columns: this.columns || 12,
-        config: this.settingsBuilders.map((builder) => {
-          return builder.build();
-        }),
-        layouts: this.layoutBuilders.map((builder) => {
-          return builder.build();
-        }),
-        styles: this.styleBuilders.map((builder) => {
-          return builder.build();
-        }),
-        templates: this.templateBuilders.map((builder) => {
-          return builder.build();
-        }),
-      },
-    };
-    this.preValues.push(items);
-
-    // Add RTE
-    const rtePrevalue = {
-      key: 'rte',
-      value: this.rteBuilder.build(),
-    };
-    this.preValues.push(rtePrevalue);
-
-    this.preValues.push({
-      key: 'ignoreUserStartNodes',
-      value: this.ignoreUserStartNodes || false,
-    });
-
-    // Add Image upload folder
-    this.preValues.push({
-      key: 'mediaParentId',
-      value: this.imageUploadFolder || null
-    });
-
-    return this.applyPreValues();
-  }
-
-  applyPreValues() {
-    this.dataType.addPrevalues(this.preValues);
-    return this;
-  }
-
   withDefaultGrid() {
     this.addSetting()
       .withDescription('Set a css class')
@@ -237,5 +157,48 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     .done()
 
     return this;
+  }
+
+  build() {
+    const items = {
+      key: 'items',
+      value: {
+        columns: this.columns || 12,
+        config: this.settingsBuilders.map((builder) => {
+          return builder.build();
+        }),
+        layouts: this.layoutBuilders.map((builder) => {
+          return builder.build();
+        }),
+        styles: this.styleBuilders.map((builder) => {
+          return builder.build();
+        }),
+        templates: this.templateBuilders.map((builder) => {
+          return builder.build();
+        }),
+      },
+    };
+    this.preValues.push(items);
+
+    // Add RTE
+    const rtePrevalue = {
+      key: 'rte',
+      value: this.rteBuilder.build(),
+    };
+    this.preValues.push(rtePrevalue);
+
+    this.preValues.push({
+      key: 'ignoreUserStartNodes',
+      value: this.ignoreUserStartNodes || false,
+    });
+
+    // Add Image upload folder
+    this.preValues.push({
+      key: 'mediaParentId',
+      value: this.imageUploadFolder || null
+    });
+
+    this.dataType.addPrevalues(this.preValues);
+    return super.build();
   }
 }

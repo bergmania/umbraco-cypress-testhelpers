@@ -70,7 +70,6 @@ context('Demo', () => {
           .withMacro()
         .done()
       .done()
-      .apply()
       .build()
 
     cy.saveDataType(grid);
@@ -84,7 +83,6 @@ context('Demo', () => {
     const grid = new GridDataTypeBuilder()
       .withName(gridName)
       .withDefaultGrid()
-      .apply()
       .build()
     
     cy.saveDataType(grid);
