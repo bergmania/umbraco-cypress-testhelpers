@@ -7,7 +7,7 @@ context('Demo', () => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  it('Test', () => {
+  it('Complicated grid', () => {
     const gridName = "ComplicatedGrid";
 
     cy.umbracoEnsureDataTypeNameNotExists(gridName);
@@ -18,15 +18,15 @@ context('Demo', () => {
       .withIgnoreUserStartNodes(true)
       .withImageUploadFolder("umb://media/ba01c61801234f9496eee617c0c813c0")
       .addSetting()
-        .withDescription("Set a css class")
+        .withDescription("Demo setting")
         .withKey("class")
-        .withLabel("Class")
+        .withLabel("Demo setting")
         .withView("textstring")
       .done()
       .addStyle()
-        .withDescription("Set a row background")
+        .withDescription("Demo style")
         .withKey("background-image")
-        .withLabel("Set a background image")
+        .withLabel("Demo style")
         .withModifier("url({0}")
         .withView("imagepicker")
       .done()
@@ -45,7 +45,7 @@ context('Demo', () => {
           .withMaxItems(1)
         .done()
       .done()
-      .addTemplate()
+      .addLayout()
         .withName("Test")
         .withSimpleSection(4)
         .withSimpleSection(4)
@@ -54,7 +54,7 @@ context('Demo', () => {
           .withAllowed("Headline")
         .done()
       .done()
-      .addTemplate()
+      .addLayout()
         .withName("SimpleTemplate")
         .withSimpleSection(8)
         .withSimpleSection(4)
@@ -73,6 +73,20 @@ context('Demo', () => {
       .apply()
       .build()
 
+    cy.saveDataType(grid);
+  });
+
+  it('Default Grid', () => {
+    const gridName = "Default Grid";
+
+    cy.umbracoEnsureDataTypeNameNotExists(gridName);
+
+    const grid = new GridDataTypeBuilder()
+      .withName(gridName)
+      .withDefaultGrid()
+      .apply()
+      .build()
+    
     cy.saveDataType(grid);
   });
 });

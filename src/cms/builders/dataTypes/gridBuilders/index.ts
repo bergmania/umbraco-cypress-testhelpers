@@ -1,4 +1,4 @@
-export { GridTemplateBuilder } from './gridTemplateBuilder';
+export { GridLayoutBuilder } from './gridLayoutBuilder';
 export { SectionBuilder } from './sectionBuilder';
 export { GridRowConfigBuilder } from './gridRowConfigBuilder';
 export { GridAreaBuilder } from './gridAreaBuilder';

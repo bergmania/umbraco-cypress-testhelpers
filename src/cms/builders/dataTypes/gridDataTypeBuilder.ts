@@ -1,7 +1,7 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
 import { 
-  GridTemplateBuilder, 
+  GridLayoutBuilder, 
   GridRowConfigBuilder, 
   GridRteBuilder, 
   GridSettingsbuilder, 
@@ -52,10 +52,10 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return builder;
   }
 
-  addTemplate(templateBuilder?: GridTemplateBuilder) {
+  addLayout(templateBuilder?: GridLayoutBuilder) {
     const builder =
       templateBuilder === null || templateBuilder === undefined 
-      ? new GridTemplateBuilder(this) 
+      ? new GridLayoutBuilder(this) 
       : templateBuilder;
 
     this.templateBuilders.push(builder);
@@ -169,6 +169,73 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
 
   applyPreValues() {
     this.dataType.addPrevalues(this.preValues);
+    return this;
+  }
+
+  withDefaultGrid() {
+    this.addSetting()
+      .withDescription('Set a css class')
+      .withKey('class')
+      .withLabel('Class')
+      .withView('textstring')
+    .done();
+
+    this.addRowConfiguration()
+      .withLabel('Headline')
+      .withName('Headline')
+      .addArea()
+        .withGridSize(12)
+        .withEditor('headline')
+      .done()
+      
+    this.addRowConfiguration()
+      .withName('Article')
+      .withLabel('Article')
+      .withSimpleArea(4)
+      .withSimpleArea(8)
+    .done()
+
+    this.addStyle()
+      .withDescription("Set a row background")
+      .withKey("background-image")
+      .withLabel("Set a background image")
+      .withModifier("url({0})")
+      .withView("imagepicker")
+    .done()
+
+    this.addLayout()
+      .withName("1 column layout")
+      .withSimpleSection(12)
+    .done()
+
+    this.addLayout()
+      .withName("2 column layout")
+      .withSimpleSection(4)
+      .withSimpleSection(8)
+    .done()
+
+    this.addRte()
+      .withMaxImageSize(500)
+      .withClassicMode()
+      .addToolBarOptions()
+        .withSourceCodeEditor()
+        .withStyleSelect()
+        .withBold()
+        .withItalic()
+        .withJustifyLeft()
+        .withJustifyCenter()
+        .withJustifyRight()
+        .withBulletList()
+        .withNumberedList()
+        .withDecreaseIndent()
+        .withIncreaseIndent()
+        .withInsertLink()
+        .withImage()
+        .withMacro()
+        .withEmbed()
+      .done()
+    .done()
+
     return this;
   }
 }

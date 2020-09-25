@@ -1,7 +1,7 @@
 import { GridDataTypeBuilder } from './../gridDataTypeBuilder';
 import { SectionBuilder } from './sectionBuilder';
 
-export class GridTemplateBuilder {
+export class GridLayoutBuilder {
   parentBuilder: GridDataTypeBuilder;
   name;
   sectionBuilders;
