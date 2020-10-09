@@ -79,9 +79,9 @@ context('Macros', () => {
       .withAllowAsRoot(true)
       .withDefaultTemplate(alias)
       .addGroup()
-      .addRichTextProperty()
-      .withAlias('text')
-      .done()
+        .addRichTextProperty()
+          .withAlias('text')
+        .done()
       .done()
       .build();
     
@@ -91,8 +91,8 @@ context('Macros', () => {
         .withContentTypeAlias(generatedDocType["alias"])
         .withAction('saveNew')
         .addVariant()
-        .withName(viewMacroName)
-        .withSave(true)
+          .withName(viewMacroName)
+          .withSave(true)
         .done()
         .build();
       
@@ -117,7 +117,7 @@ context('Macros', () => {
 
     // Insert macro
     cy.get('#mceu_13-button').click();
-    cy.get('.umb-card-grid-item').click();
+    cy.get('.umb-card-grid-item').contains(viewMacroName).click();
     
     // Assert that it gets displayed in editor
     cy.get('iframe', { timeout: 20000 }).then($iframe => {
@@ -168,10 +168,10 @@ context('Macros', () => {
         .withAlias(alias)
         .withAllowAsRoot(true)
         .withDefaultTemplate(alias)
-        .addGroup()
-        .addCustomProperty(dataType['id'])
-        .withAlias('grid')
-        .done()
+          .addGroup()
+            .addCustomProperty(dataType['id'])
+              .withAlias('grid')
+          .done()
         .done()
         .build();
       
@@ -179,8 +179,8 @@ context('Macros', () => {
         const contentNode = new ContentBuilder()
           .withContentTypeAlias(generatedDocType["alias"])
           .addVariant()
-          .withName(name)
-          .withSave(true)
+            .withName(name)
+            .withSave(true)
           .done()
           .build();
         
@@ -207,7 +207,7 @@ context('Macros', () => {
     // Click macro
     cy.get(':nth-child(4) > .umb-card-grid-item > :nth-child(1)').click();
     // Select the macro
-    cy.get('.umb-card-grid-item').click();
+    cy.get('.umb-card-grid-item').contains(macroName).click();
 
     // Assert that it gets displayed in the grid
     cy.get('.umb-editor-placeholder').contains('Acceptance test', {timeout: 20000}).should('be.visible');
