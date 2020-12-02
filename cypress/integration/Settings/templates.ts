@@ -45,17 +45,17 @@ context('Templates', () => {
 
     //Clean up
     cy.umbracoEnsureTemplateNameNotExists(name);
-});
+  });
 
-it('Unsaved changes stay', () => {
+  it('Unsaved changes stay', () => {
     const name = "Templates Unsaved Changes Stay test";
     const edit = "var num = 5;";
     cy.umbracoEnsureTemplateNameNotExists(name);
 
     const template = new TemplateBuilder()
-        .withName(name)
-        .withContent('@inherits Umbraco.Web.Mvc.UmbracoViewPage\n')
-        .build();
+      .withName(name)
+      .withContent('@inherits Umbraco.Web.Mvc.UmbracoViewPage\n')
+      .build();
 
     cy.saveTemplate(template);
 
@@ -77,18 +77,18 @@ it('Unsaved changes stay', () => {
     cy.get('.ace_content').contains(edit);
 
     cy.umbracoEnsureTemplateNameNotExists(name);
-});
+  });
 
-it('Discard unsaved changes', () => {
+  it('Discard unsaved changes', () => {
     const name = "Discard changes test";
     const edit = "var num = 5;";
 
     cy.umbracoEnsureTemplateNameNotExists(name);
 
     const template = new TemplateBuilder()
-        .withName(name)
-        .withContent('@inherits Umbraco.Web.Mvc.UmbracoViewPage\n')
-        .build();
+      .withName(name)
+      .withContent('@inherits Umbraco.Web.Mvc.UmbracoViewPage\n')
+      .build();
 
     cy.saveTemplate(template);
 
@@ -110,18 +110,18 @@ it('Discard unsaved changes', () => {
     cy.get('.ace_content').should('not.contain', edit);
     // cy.umbracoPartialViewExists(fileName).then(exists => { expect(exists).to.be.false; }); TODO: Switch to template
     cy.umbracoEnsureTemplateNameNotExists(name);
-});
+  });
 
-it('Insert macro', () => {
+  it('Insert macro', () => {
     const name = 'InsertMacroTest';
 
     cy.umbracoEnsureTemplateNameNotExists(name);
     cy.umbracoEnsureMacroNameNotExists(name);
 
     const template = new TemplateBuilder()
-        .withName(name)
-        .withContent('')
-        .build();
+      .withName(name)
+      .withContent('')
+      .build();
 
     cy.saveTemplate(template);
 
@@ -140,17 +140,17 @@ it('Insert macro', () => {
     // Clean
     cy.umbracoEnsureTemplateNameNotExists(name);
     cy.umbracoEnsureMacroNameNotExists(name);
-});
+  });
 
-it('Insert value', () => {
+  it('Insert value', () => {
     const name = 'Insert Value Test';
 
     cy.umbracoEnsureTemplateNameNotExists(name);
 
     const partialView = new TemplateBuilder()
-        .withName(name)
-        .withContent('')
-        .build();
+      .withName(name)
+      .withContent('')
+      .build();
 
     cy.saveTemplate(partialView);
 
@@ -168,6 +168,6 @@ it('Insert value', () => {
 
     // Clean
     cy.umbracoEnsureTemplateNameNotExists(name);
-});
+  });
 
 });
