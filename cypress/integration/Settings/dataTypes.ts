@@ -9,7 +9,7 @@ context('Data Types', () => {
   it('Create data type', () => {
     const name = "Test data type";
 
-   cy.umbracoEnsureDataTypeNameNotExists(name);
+    cy.umbracoEnsureDataTypeNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");

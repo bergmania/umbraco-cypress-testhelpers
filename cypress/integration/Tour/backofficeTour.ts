@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 context('Backoffice Tour', () => {
-  var timeout = 60000;
+  const timeout = 60000;
   beforeEach(() => {
       //arrange
       cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
@@ -45,7 +45,7 @@ function getPercentage(percentage, timeout) {
 }
 
 function resetTourData() {
-  var tourStatus =
+  const tourStatus =
   {
       "alias": "umbIntroIntroduction",
       "completed": false,
