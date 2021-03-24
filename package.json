@@ -70,7 +70,7 @@
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "cypress": "^5.1.0",
+    "cypress": "^6.8.0",
     "cross-env": "^7.0.2",
     "ncp": "^2.0.0"
   },

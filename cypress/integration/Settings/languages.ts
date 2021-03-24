@@ -6,9 +6,9 @@ context('Languages', () => {
   });
 
   it('Add language', () => {
-    const name = "Neddersass’sch (Nedderlannen)"; // Must be an option in the select box
+    const name = "Kyrgyz (Kyrgyzstan)"; // Must be an option in the select box
 
-     cy.umbracoEnsureLanguageNameNotExists(name);
+    cy.umbracoEnsureLanguageNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");

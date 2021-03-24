@@ -72,8 +72,8 @@ context('Content', () => {
                     .withContentTypeAlias(rootDocTypeAlias)
                     .withAction("saveNew")
                     .addVariant()
-                    .withName(nodeName)
-                    .withSave(true)
+                        .withName(nodeName)
+                        .withSave(true)
                     .done()
                     .build();
 
@@ -84,8 +84,8 @@ context('Content', () => {
                         .withAction("saveNew")
                         .withParent(contentNode["id"])
                         .addVariant()
-                        .withName(childNodeName)
-                        .withSave(true)
+                            .withName(childNodeName)
+                            .withSave(true)
                         .done()
                         .build();
 
@@ -96,8 +96,8 @@ context('Content', () => {
                     .withContentTypeAlias(rootDocTypeAlias)
                     .withAction("saveNew")
                     .addVariant()
-                    .withName(anotherNodeName)
-                    .withSave(true)
+                        .withName(anotherNodeName)
+                        .withSave(true)
                     .done()
                     .build();
 
@@ -156,8 +156,8 @@ context('Content', () => {
                     .withContentTypeAlias(rootDocTypeAlias)
                     .withAction("saveNew")
                     .addVariant()
-                    .withName(nodeName)
-                    .withSave(true)
+                        .withName(nodeName)
+                        .withSave(true)
                     .done()
                     .build();
 
@@ -168,8 +168,8 @@ context('Content', () => {
                         .withAction("saveNew")
                         .withParent(contentNode["id"])
                         .addVariant()
-                        .withName(childNodeName)
-                        .withSave(true)
+                            .withName(childNodeName)
+                            .withSave(true)
                         .done()
                         .build();
 
@@ -180,8 +180,8 @@ context('Content', () => {
                     .withContentTypeAlias(rootDocTypeAlias)
                     .withAction("saveNew")
                     .addVariant()
-                    .withName(anotherNodeName)
-                    .withSave(true)
+                        .withName(anotherNodeName)
+                        .withSave(true)
                     .done()
                     .build();
 
@@ -239,8 +239,8 @@ context('Content', () => {
                     .withContentTypeAlias(generatedRootDocType["alias"])
                     .withAction("saveNew")
                     .addVariant()
-                    .withName(nodeName)
-                    .withSave(true)
+                        .withName(nodeName)
+                        .withSave(true)
                     .done()
                     .build();
 
@@ -253,8 +253,8 @@ context('Content', () => {
                         .withAction("saveNew")
                         .withParent(parentId)
                         .addVariant()
-                        .withName(firstChildNodeName)
-                        .withSave(true)
+                            .withName(firstChildNodeName)
+                            .withSave(true)
                         .done()
                         .build();
 
@@ -266,8 +266,8 @@ context('Content', () => {
                         .withAction("saveNew")
                         .withParent(parentId)
                         .addVariant()
-                        .withName(secondChildNodeName)
-                        .withSave(true)
+                            .withName(secondChildNodeName)
+                            .withSave(true)
                         .done()
                         .build();
 
@@ -317,8 +317,8 @@ context('Content', () => {
             const rootContentNode = new ContentBuilder()
                 .withContentTypeAlias(generatedRootDocType["alias"])
                 .addVariant()
-                .withName(initialNodeName)
-                .withSave(true)
+                    .withName(initialNodeName)
+                    .withSave(true)
                 .done()
                 .build();
 
@@ -372,9 +372,9 @@ context('Content', () => {
             .withName(rootDocTypeName)
             .withAllowAsRoot(true)
             .addGroup()
-            .addTextBoxProperty()
-            .withLabel(labelName)
-            .done()
+                .addTextBoxProperty()
+                    .withLabel(labelName)
+                .done()
             .done()
             .build();
 
@@ -385,8 +385,8 @@ context('Content', () => {
             const rootContentNode = new ContentBuilder()
                 .withContentTypeAlias(generatedRootDocType["alias"])
                 .addVariant()
-                .withName(nodeName)
-                .withSave(true)
+                    .withName(nodeName)
+                    .withSave(true)
                 .done()
                 .build();
 
@@ -426,8 +426,8 @@ context('Content', () => {
                 .withContentTypeAlias(generatedRootDocType["alias"])
                 .withAction("saveNew")
                 .addVariant()
-                .withName(nodeName)
-                .withSave(true)
+                    .withName(nodeName)
+                    .withSave(true)
                 .done()
                 .build();
 
@@ -464,8 +464,8 @@ context('Content', () => {
                 .withContentTypeAlias(generatedRootDocType["alias"])
                 .withAction("saveNew")
                 .addVariant()
-                .withName(nodeName)
-                .withSave(true)
+                    .withName(nodeName)
+                    .withSave(true)
                 .done()
                 .build();
 
@@ -504,8 +504,8 @@ context('Content', () => {
             const rootContentNode = new ContentBuilder()
                 .withContentTypeAlias(generatedRootDocType["alias"])
                 .addVariant()
-                .withName(nodeName)
-                .withSave(true)
+                    .withName(nodeName)
+                    .withSave(true)
                 .done()
                 .build();
 
@@ -540,9 +540,9 @@ context('Content', () => {
             .withName(pickedDocTypeName)
             .withAllowAsRoot(true)
             .addGroup()
-            .addTextBoxProperty()
-            .withAlias('text')
-            .done()
+                .addTextBoxProperty()
+                    .withAlias('text')
+                .done()
             .done()
             .build();
 
@@ -555,8 +555,8 @@ context('Content', () => {
                 .withSave(true)
                 .withPublish(true)
                 .addProperty()
-                .withAlias('text')
-                .withValue('Acceptance test')
+                    .withAlias('text')
+                    .withValue('Acceptance test')
                 .done()
                 .withSave(true)
                 .withPublish(true)
@@ -572,10 +572,10 @@ context('Content', () => {
             .withAllowAsRoot(true)
             .withDefaultTemplate(pickerDocTypeAlias)
             .addGroup()
-            .withName('ContentPickerGroup')
-            .addContentPickerProperty()
-            .withAlias('picker')
-            .done()
+                .withName('ContentPickerGroup')
+                .addContentPickerProperty()
+                    .withAlias('picker')
+                .done()
             .done()
             .build();
 
