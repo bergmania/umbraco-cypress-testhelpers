@@ -1,11 +1,11 @@
-import { GridTemplateBuilder } from './gridTemplateBuilder';
+import { GridLayoutBuilder } from './gridLayoutBuilder';
 
 export class SectionBuilder {
   parrentBuilder;
   grid;
   allowed;
 
-  constructor(parrentBuilder: GridTemplateBuilder) {
+  constructor(parrentBuilder: GridLayoutBuilder) {
     this.parrentBuilder = parrentBuilder;
     this.allowed = [];
   }
@@ -16,7 +16,7 @@ export class SectionBuilder {
   }
 
   withAllowAll() {
-    this.allowed = []
+    this.allowed = [];
     return this;
   }
 
@@ -25,17 +25,17 @@ export class SectionBuilder {
     return this;
   }
 
-  done(): GridTemplateBuilder {
+  done(): GridLayoutBuilder {
     return this.parrentBuilder;
   }
 
   build() {
-    const grid = { 
+    const grid = {
       grid: this.grid,
-      allowAll: true, 
+      allowAll: true,
     };
 
-    if(this.allowed.length > 0){
+    if (this.allowed.length > 0) {
       Object.assign(grid, { allowed: this.allowed });
       grid.allowAll = false;
     }
