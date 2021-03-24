@@ -773,25 +773,19 @@ context('Content', () => {
 
         const expected = `
     <div class="umb-grid">
-                <div class="grid-section">
-    <div >
-            <div class="container">
-        <div class="row clearfix">
-            <div class="col-md-12 column">
-                <div >
-
-
-
-
-        <h1>Acceptance test</h1>
-
-
-
+      <div class="grid-section">
+        <div>
+          <div class="container">
+            <div class="row clearfix">
+              <div class="col-md-12 column">
+                <div>
+                  <h1>Acceptance test</h1>
                 </div>
-            </div>        </div>
+              </div>        
             </div>
-    </div>
-                </div>
+          </div>
+        </div>
+      </div>
     </div>`
 
         cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
