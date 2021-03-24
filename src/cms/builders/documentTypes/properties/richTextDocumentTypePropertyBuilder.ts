@@ -1,8 +1,8 @@
 import { DocumentTypePropertyBuilder } from './documentTypePropertyBuilder';
 
-export class ContentPickerPropertyBuilder extends DocumentTypePropertyBuilder {
+export class RichTextDocumentTypePropertyEditor extends DocumentTypePropertyBuilder {
   constructor(parentBuilder) {
     super(parentBuilder);
-    this.dataTypeId = 1046;
+    this.dataTypeId = -87;
   }
 }

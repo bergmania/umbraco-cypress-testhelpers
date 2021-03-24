@@ -12,7 +12,7 @@ export default class UmbracoEditorHeaderName extends CommandBase {
       displayName: 'Umbraco Editor Header Name',
     });
 
-    cy.get('#headerName', { log: false }).type(typedText, {timeout: 10000}).should('have.value', typedText);
+    cy.get('#headerName', { log: false }).type(typedText, { timeout: 10000 }).should('have.value', typedText);
 
     cy.get('.umb-editor-header__name-wrapper').then(($wrapper) => {
       if ($wrapper.find('[name="lockedFieldForm"]').length > 0) {
