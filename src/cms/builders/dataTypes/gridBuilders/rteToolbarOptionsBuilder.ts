@@ -6,175 +6,175 @@ export class RteToolbarOptionsBuilder {
 
   constructor(parentBuilder: GridRteBuilder) {
     this.parentBuilder = parentBuilder;
-    this.options = []
+    this.options = [];
   }
 
   withSourceCodeEditor() {
-    this.options.push("ace");
+    this.options.push('ace');
     return this;
-  } 
+  }
 
-  withRemoveFormat(){
-    this.options.push("removeformat");
+  withRemoveFormat() {
+    this.options.push('removeformat');
   }
 
   withUndo() {
-    this.options.push("undo");
+    this.options.push('undo');
     return this;
   }
 
   withRedo() {
-    this.options.push("redo");
+    this.options.push('redo');
     return this;
   }
 
   withCut() {
-    this.options.push("cut");
+    this.options.push('cut');
     return this;
   }
 
-  withCopy(){
-    this.options.push("copy");
+  withCopy() {
+    this.options.push('copy');
     return this;
   }
 
   withPaste() {
-    this.options.push("paste");
+    this.options.push('paste');
     return this;
   }
 
   withStyleSelect() {
-    this.options.push("styleselect");
+    this.options.push('styleselect');
     return this;
   }
 
   withBold() {
-    this.options.push("bold");
+    this.options.push('bold');
     return this;
   }
 
   withItalic() {
-    this.options.push("italic");
+    this.options.push('italic');
     return this;
   }
 
   withUnderline() {
-    this.options.push("underline");
+    this.options.push('underline');
     return this;
   }
 
   withStrikethrough() {
-    this.options.push("strikethrough");
+    this.options.push('strikethrough');
     return this;
   }
 
   withJustifyLeft() {
-    this.options.push("alignleft");
+    this.options.push('alignleft');
     return this;
   }
 
   withJustifyCenter() {
-    this.options.push("aligncenter");
+    this.options.push('aligncenter');
     return this;
   }
 
   withJustifyRight() {
-    this.options.push("alignright");
+    this.options.push('alignright');
     return this;
   }
 
   withJustifyFull() {
-    this.options.push("alignjustify");
+    this.options.push('alignjustify');
     return this;
   }
 
   withBulletList() {
-    this.options.push("bullist");
+    this.options.push('bullist');
     return this;
   }
 
   withNumberedList() {
-    this.options.push("numlist");
+    this.options.push('numlist');
     return this;
   }
 
   withDecreaseIndent() {
-    this.options.push("outdent");
+    this.options.push('outdent');
     return this;
   }
 
   withIncreaseIndent() {
-    this.options.push("indent");
+    this.options.push('indent');
     return this;
   }
 
   withInsertLink() {
-    this.options.push("link");
+    this.options.push('link');
     return this;
   }
 
   withRemoveLink() {
-    this.options.push("unlink");
+    this.options.push('unlink');
     return this;
   }
 
   withAnchor() {
-    this.options.push("anchor");
+    this.options.push('anchor');
     return this;
   }
 
   withImage() {
-    this.options.push("umbmediapicker");
+    this.options.push('umbmediapicker');
     return this;
   }
 
   withMacro() {
-    this.options.push("umbmacro");
+    this.options.push('umbmacro');
     return this;
   }
 
   withTable() {
-    this.options.push("table");
+    this.options.push('table');
     return this;
   }
 
   withEmbed() {
-    this.options.push("umbembeddialog");
+    this.options.push('umbembeddialog');
     return this;
   }
 
   withHorizontalRule() {
-    this.options.push("hr");
+    this.options.push('hr');
     return this;
   }
 
   withSubscript() {
-    this.options.push("subscript");
+    this.options.push('subscript');
     return this;
   }
 
   withSuperscript() {
-    this.options.push("superscript");
+    this.options.push('superscript');
     return this;
   }
 
   withcharacterMap() {
-    this.options.push("charmap");
+    this.options.push('charmap');
     return this;
   }
 
   withRightToLeft() {
-    this.options.push("rtl");
+    this.options.push('rtl');
     return this;
   }
-  
+
   withLeftToRight() {
-    this.options.push("ltr");
+    this.options.push('ltr');
     return this;
   }
 
   withFullScreen() {
-    this.options.push("fullscreen");
+    this.options.push('fullscreen');
     return this;
   }
 

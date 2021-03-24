@@ -18,9 +18,9 @@ export class GridAreaBuilder {
     return this;
   }
 
-  withMaxItems(maxItems : number) {
+  withMaxItems(maxItems: number) {
     this.maxItems = maxItems;
-    return this
+    return this;
   }
 
   withEditor(editor) {
@@ -70,19 +70,19 @@ export class GridAreaBuilder {
   build() {
     const area = { grid: this.gridSize };
 
-    if(this.editors.length > 0) {
+    if (this.editors.length > 0) {
       Object.assign(area, { editors: this.editors });
     }
 
-    if(this.allowed.length > 0) {
+    if (this.allowed.length > 0) {
       Object.assign(area, {
         allowAll: false,
         allowed: this.allowed,
       });
     }
 
-    if(this.maxItems) {
-      Object.assign(area, { maxItems : this.maxItems});
+    if (this.maxItems) {
+      Object.assign(area, { maxItems: this.maxItems });
     }
 
     return area;

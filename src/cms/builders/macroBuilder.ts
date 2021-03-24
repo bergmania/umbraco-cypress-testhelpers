@@ -1,6 +1,6 @@
 import { AliasHelper } from '../../helpers/aliasHelper';
 
-export class MacroBuilder { 
+export class MacroBuilder {
   name;
   renderInEditor;
   useInEditor;
@@ -10,7 +10,7 @@ export class MacroBuilder {
 
   withName(name) {
     this.name = name;
-    return this; 
+    return this;
   }
 
   withRenderInEditor() {
@@ -45,7 +45,7 @@ export class MacroBuilder {
       useInEditor: this.useInEditor || false,
       cacheByPage: this.cacheByPage || false,
       cacheByUser: this.cacheByUser || false,
-      partialView: this.partialViewMacro || null
-    }
+      partialView: this.partialViewMacro || null,
+    };
   }
 }

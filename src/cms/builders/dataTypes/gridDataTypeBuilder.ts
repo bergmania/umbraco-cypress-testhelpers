@@ -1,11 +1,11 @@
 import { DataTypeBuilder } from './dataTypeBuilder';
 import { GridDataType } from '../../models/dataTypes/gridDataType';
-import { 
-  GridLayoutBuilder, 
-  GridRowConfigBuilder, 
-  GridRteBuilder, 
-  GridSettingsbuilder, 
-  GridStylesBuilder 
+import {
+  GridLayoutBuilder,
+  GridRowConfigBuilder,
+  GridRteBuilder,
+  GridSettingsbuilder,
+  GridStylesBuilder,
 } from './gridBuilders';
 
 export class GridDataTypeBuilder extends DataTypeBuilder {
@@ -37,16 +37,16 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     return this;
   }
 
-  withImageUploadFolder(folderPath : string) {
+  withImageUploadFolder(folderPath: string) {
     this.imageUploadFolder = folderPath;
     return this;
   }
 
   addRowConfiguration(gridRowConfigBuilder?: GridRowConfigBuilder) {
-    const builder = 
+    const builder =
       gridRowConfigBuilder === null || gridRowConfigBuilder === undefined
-      ? new GridRowConfigBuilder(this)
-      : gridRowConfigBuilder;
+        ? new GridRowConfigBuilder(this)
+        : gridRowConfigBuilder;
 
     this.layoutBuilders.push(builder);
     return builder;
@@ -54,42 +54,32 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
 
   addLayout(templateBuilder?: GridLayoutBuilder) {
     const builder =
-      templateBuilder === null || templateBuilder === undefined 
-      ? new GridLayoutBuilder(this) 
-      : templateBuilder;
+      templateBuilder === null || templateBuilder === undefined ? new GridLayoutBuilder(this) : templateBuilder;
 
     this.templateBuilders.push(builder);
     return builder;
   }
 
   addRte(rteBuilder?: GridRteBuilder) {
-    const builder = 
-      rteBuilder === null || rteBuilder === undefined
-      ? new GridRteBuilder(this)
-      : rteBuilder;
+    const builder = rteBuilder === null || rteBuilder === undefined ? new GridRteBuilder(this) : rteBuilder;
 
     this.rteBuilder = builder;
     return builder;
   }
 
   addSetting(settingsBuilder?: GridSettingsbuilder) {
-    const builder = 
-      settingsBuilder === null || settingsBuilder === undefined
-      ? new GridSettingsbuilder(this)
-      : settingsBuilder;
-    
-      this.settingsBuilders.push(builder);
-      return builder;
+    const builder =
+      settingsBuilder === null || settingsBuilder === undefined ? new GridSettingsbuilder(this) : settingsBuilder;
+
+    this.settingsBuilders.push(builder);
+    return builder;
   }
 
   addStyle(styleBuilder?: GridStylesBuilder) {
-    const builder = 
-      styleBuilder === null || styleBuilder === undefined
-      ? new GridStylesBuilder(this)
-      : styleBuilder;
-    
-      this.styleBuilders.push(builder);
-      return builder;
+    const builder = styleBuilder === null || styleBuilder === undefined ? new GridStylesBuilder(this) : styleBuilder;
+
+    this.styleBuilders.push(builder);
+    return builder;
   }
 
   withDefaultGrid() {
@@ -98,63 +88,51 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
       .withKey('class')
       .withLabel('Class')
       .withView('textstring')
-    .done();
+      .done();
 
     this.addRowConfiguration()
       .withLabel('Headline')
       .withName('Headline')
       .addArea()
-        .withGridSize(12)
-        .withEditor('headline')
-      .done()
-      
-    this.addRowConfiguration()
-      .withName('Article')
-      .withLabel('Article')
-      .withSimpleArea(4)
-      .withSimpleArea(8)
-    .done()
+      .withGridSize(12)
+      .withEditor('headline')
+      .done();
+
+    this.addRowConfiguration().withName('Article').withLabel('Article').withSimpleArea(4).withSimpleArea(8).done();
 
     this.addStyle()
-      .withDescription("Set a row background")
-      .withKey("background-image")
-      .withLabel("Set a background image")
-      .withModifier("url({0})")
-      .withView("imagepicker")
-    .done()
+      .withDescription('Set a row background')
+      .withKey('background-image')
+      .withLabel('Set a background image')
+      .withModifier('url({0})')
+      .withView('imagepicker')
+      .done();
 
-    this.addLayout()
-      .withName("1 column layout")
-      .withSimpleSection(12)
-    .done()
+    this.addLayout().withName('1 column layout').withSimpleSection(12).done();
 
-    this.addLayout()
-      .withName("2 column layout")
-      .withSimpleSection(4)
-      .withSimpleSection(8)
-    .done()
+    this.addLayout().withName('2 column layout').withSimpleSection(4).withSimpleSection(8).done();
 
     this.addRte()
       .withMaxImageSize(500)
       .withClassicMode()
       .addToolBarOptions()
-        .withSourceCodeEditor()
-        .withStyleSelect()
-        .withBold()
-        .withItalic()
-        .withJustifyLeft()
-        .withJustifyCenter()
-        .withJustifyRight()
-        .withBulletList()
-        .withNumberedList()
-        .withDecreaseIndent()
-        .withIncreaseIndent()
-        .withInsertLink()
-        .withImage()
-        .withMacro()
-        .withEmbed()
+      .withSourceCodeEditor()
+      .withStyleSelect()
+      .withBold()
+      .withItalic()
+      .withJustifyLeft()
+      .withJustifyCenter()
+      .withJustifyRight()
+      .withBulletList()
+      .withNumberedList()
+      .withDecreaseIndent()
+      .withIncreaseIndent()
+      .withInsertLink()
+      .withImage()
+      .withMacro()
+      .withEmbed()
       .done()
-    .done()
+      .done();
 
     return this;
   }
@@ -195,7 +173,7 @@ export class GridDataTypeBuilder extends DataTypeBuilder {
     // Add Image upload folder
     this.preValues.push({
       key: 'mediaParentId',
-      value: this.imageUploadFolder || null
+      value: this.imageUploadFolder || null,
     });
 
     this.dataType.addPrevalues(this.preValues);

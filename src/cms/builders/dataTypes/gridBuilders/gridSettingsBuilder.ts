@@ -25,13 +25,13 @@ export class GridSettingsbuilder {
     this.label = label;
     return this;
   }
-  
+
   withView(view: string) {
     this.view = view;
     return this;
   }
 
-  done() : GridDataTypeBuilder {
+  done(): GridDataTypeBuilder {
     return this.parentBuilder;
   }
 

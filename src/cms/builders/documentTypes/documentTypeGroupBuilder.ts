@@ -23,7 +23,7 @@ export default class DocumentTypeGroupBuilder {
 
   withName(name) {
     this.name = name;
-    return this; 
+    return this;
   }
 
   addFormPickerProperty() {
@@ -62,7 +62,7 @@ export default class DocumentTypeGroupBuilder {
     return builder;
   }
 
-  addCustomProperty(id){
+  addCustomProperty(id) {
     const builder = new CustomDocumentTypePropertyBuilder(this, id);
     this.documentTypeGroupPropertyBuilders.push(builder);
     return builder;

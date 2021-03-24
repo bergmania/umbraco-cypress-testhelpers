@@ -15,21 +15,21 @@ export class GridRteBuilder {
   }
 
   withClassicMode() {
-    this.mode = "classic";
+    this.mode = 'classic';
     return this;
   }
 
   withDistractionFreeMode() {
-    this.mode = "distraction-free";
+    this.mode = 'distraction-free';
     return this;
   }
 
-  withMaxImageSize(imageSize : number) {
+  withMaxImageSize(imageSize: number) {
     this.maxImageSize = imageSize;
     return this;
   }
 
-  withDimensions(width : number, height: number){
+  withDimensions(width: number, height: number) {
     this.dimensions = {
       width: width,
       height: height,
@@ -37,17 +37,15 @@ export class GridRteBuilder {
     return this;
   }
 
-  withStylesheet(virtualPath : string) {
+  withStylesheet(virtualPath: string) {
     this.stylesheets.push(virtualPath);
     return this;
   }
 
   addToolBarOptions(optionsBuilder?: RteToolbarOptionsBuilder) {
-    const builder = 
-      optionsBuilder === null || optionsBuilder === undefined
-      ? new RteToolbarOptionsBuilder(this)
-      : optionsBuilder;
-    
+    const builder =
+      optionsBuilder === null || optionsBuilder === undefined ? new RteToolbarOptionsBuilder(this) : optionsBuilder;
+
     this.toolbarOptionsBuilder = builder;
     return builder;
   }
@@ -58,16 +56,16 @@ export class GridRteBuilder {
 
   build() {
     const RTE = {
-      maxImageSize : this.maxImageSize || 500,
-      mode : this.mode || "classic",
-      stylesheets : this.stylesheets,
-      toolbar : this.toolbarOptionsBuilder.build(),
+      maxImageSize: this.maxImageSize || 500,
+      mode: this.mode || 'classic',
+      stylesheets: this.stylesheets,
+      toolbar: this.toolbarOptionsBuilder.build(),
     };
 
-    if(this.dimensions){
-      Object.assign(RTE, { dimensions : this.dimensions });
+    if (this.dimensions) {
+      Object.assign(RTE, { dimensions: this.dimensions });
     }
-    
-    return RTE
+
+    return RTE;
   }
 }
