@@ -71,6 +71,7 @@ import UmbracoVerifyRenderedViewContent from './umbracoVerifyRenderedViewContent
 import UmbracoStylesheetExists from './umbracoStylesheetExists';
 import SaveStylesheet from './saveStylesheet';
 import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
+import SaveMacroWithPartial from './saveMacroWithPartial';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -159,5 +160,6 @@ export class Command {
     new UmbracoStylesheetExists(relativeBackOfficePath).registerCommand();
     new SaveStylesheet(relativeBackOfficePath).registerCommand();
     new UmbracoVerifyStylesheetContent(relativeBackOfficePath).registerCommand();
+    new SaveMacroWithPartial(relativeBackOfficePath).registerCommand();
   }
 }

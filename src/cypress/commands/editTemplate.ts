@@ -3,7 +3,7 @@ import { ResponseHelper } from '../../helpers/responseHelper';
 import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEditTemplate extends CommandBase {
-  _commandName = "editTemplate";
+  _commandName = 'editTemplate';
 
   method(name, content) {
     const cy = this.cy;
@@ -30,7 +30,7 @@ export default class UmbracoEditTemplate extends CommandBase {
             }
           }
 
-          if(templateId !== null) {
+          if (templateId !== null) {
             // Template found, find details of that template
             cy.request({
               method: 'GET',
@@ -48,7 +48,7 @@ export default class UmbracoEditTemplate extends CommandBase {
             });
           }
         }
-      }); 
+      });
     });
   }
 }

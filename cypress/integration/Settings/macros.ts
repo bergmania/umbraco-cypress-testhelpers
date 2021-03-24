@@ -1,9 +1,19 @@
 /// <reference types="Cypress" />
+import { PartialViewMacroBuilder, MacroBuilder, DocumentTypeBuilder, ContentBuilder, AliasHelper, GridDataTypeBuilder } from '../../../src';
+
 context('Macros', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
+
+  function refreshContentTree(){
+    // Refresh to update the tree
+    cy.get('li .umb-tree-root:contains("Content")').should("be.visible").rightclick();
+    cy.umbracoContextMenuAction("action-refreshNode").click();
+    // We have to wait in case the execution is slow, otherwise we'll try and click the item before it appears in the UI
+    cy.get('.umb-tree-item__inner').should('exist', {timeout: 10000});
+  }
 
   it('Create macro', () => {
     const name = "Test macro";
@@ -28,6 +38,5 @@ context('Macros', () => {
 
     //Clean up
     cy.umbracoEnsureMacroNameNotExists(name);
-   });
-
+  });
 });
