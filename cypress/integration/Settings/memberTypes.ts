@@ -1,23 +1,21 @@
 /// <reference types="Cypress" />
-context('Media Types', () => {
+context('Member Types', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  it('Create media type', () => {
-    const name = "Test media type";
+  it('Create member type', () => {
+    const name = "Test member type";
 
-    cy.umbracoEnsureMediaTypeNameNotExists(name);
+    cy.umbracoEnsureMemberTypeNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-    cy.umbracoTreeItem("settings", ["Media Types"]).rightclick();
+    cy.umbracoTreeItem("settings", ["Member Types"]).rightclick();
 
     cy.umbracoContextMenuAction("action-create").click();
-    cy.get('.menu-label').first().click(); // TODO: Fucked we cant use something like cy.umbracoContextMenuAction("action-mediaType").click();
-
 
     //Type name
     cy.umbracoEditorHeaderName(name);
@@ -46,7 +44,7 @@ context('Media Types', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
-    cy.umbracoEnsureMediaTypeNameNotExists(name);
+    cy.umbracoEnsureMemberTypeNameNotExists(name);
   });
 
 });
