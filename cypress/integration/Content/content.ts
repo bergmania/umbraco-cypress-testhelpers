@@ -606,7 +606,7 @@ context('Content', () => {
         // Should really try and find a better way to do this, but umbracoTreeItem tries to click the content pane in the background
         cy.get('[ng-if="vm.treeReady"] > .umb-tree > [ng-if="!tree.root.containsGroups"] > .umb-animated > .umb-tree-item__inner').click();
         // We have to wait for the picked content to show up or it wont be added.
-        cy.get('.umb-node-preview__description').should('be.visible');
+        cy.get('.umb-node-preview__description', {timeout: 5000}).should('be.visible');
         //save and publish
         cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
         cy.umbracoSuccessNotification().should('be.visible');

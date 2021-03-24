@@ -1,21 +1,23 @@
 /// <reference types="Cypress" />
-context('Member Types', () => {
+context('Media Types', () => {
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
   });
 
-  it('Create member type', () => {
-    const name = "Test member type";
+  it('Create media type', () => {
+    const name = "Test media type";
 
-    cy.umbracoEnsureMemberTypeNameNotExists(name);
+    cy.umbracoEnsureMediaTypeNameNotExists(name);
 
     cy.umbracoSection('settings');
     cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
 
-    cy.umbracoTreeItem("settings", ["Member Types"]).rightclick();
+    cy.umbracoTreeItem("settings", ["Media Types"]).rightclick();
 
     cy.umbracoContextMenuAction("action-create").click();
+    cy.get('.menu-label').first().click(); // TODO: Fucked we cant use something like cy.umbracoContextMenuAction("action-mediaType").click();
+
 
     //Type name
     cy.umbracoEditorHeaderName(name);
@@ -29,7 +31,7 @@ context('Member Types', () => {
     cy.get('[data-element="editor-add"]').click();
 
     //Search for textstring
-    cy.get('.umb-search-field').type('Textstring');
+    cy.get('#datatype-search').type('Textstring');
 
     // Choose first item
     cy.get('ul.umb-card-grid li [title="Textstring"]').closest("li").click();
@@ -44,7 +46,7 @@ context('Member Types', () => {
     cy.umbracoSuccessNotification().should('be.visible');
 
     //Clean up
-    cy.umbracoEnsureMemberTypeNameNotExists(name);
-   });
+    cy.umbracoEnsureMediaTypeNameNotExists(name);
+  });
 
 });
