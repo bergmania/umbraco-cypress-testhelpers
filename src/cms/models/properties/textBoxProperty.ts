@@ -1,5 +1,4 @@
 import { BaseProperty } from './baseProperty';
-import { threadId } from 'worker_threads';
 
 export class TextBoxProperty extends BaseProperty {
   public value: string;

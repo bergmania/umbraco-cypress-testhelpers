@@ -1,3 +1,6 @@
+/**
+ * Used to generate a new PartialViewMacro 
+ */
 export class PartialViewMacro {
   public name = '';
   public content = '';

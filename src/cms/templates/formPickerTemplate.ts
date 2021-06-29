@@ -1,7 +1,17 @@
 import { AliasHelper } from '../../helpers/aliasHelper';
 
 export class FormPickerTemplate {
-  public get(formPickerModel: string, model = '', properties?: { name: string; alias: string }[]): string {
+  
+  /**
+   * Generates a HTML Razor View to use with Umbraco Forms.
+   * Adds the Umbraco Forms Macro to the template with the 
+   * 
+   * @param  {string} formPickerModel Doctype Property Name that contains the Form Picker
+   * @param  {string} model Name of model to use in HTML Razor View template. Default value is empty string
+   * @param  {{name:string;alias:string}[]} properties Optional array of objects containing `name` and `alias` which will use to print out the Document type property values in the view
+   * @returns string  A basic HTML Razor view with Umbraco Forms macro added to the page, with the correct model for the doctype and prints out values for each property
+   */
+  public get(formPickerModel: string, model:string = '', properties?: { name: string; alias: string }[]): string {
     if (model.length > 0) model = `<${AliasHelper.capitalize(model)}>`;
     let template = `@inherits Umbraco.Web.Mvc.UmbracoViewPage${model}\n                 
             @using ContentModels = Umbraco.Web.PublishedModels;\n
