@@ -123,6 +123,14 @@ declare global {
        * @param  {string} id The id of the datatype to delete
        */
       deleteDataTypeById: (id: string) => Chainable<void>;
+      
+      /**
+       * Edit/update a template/view with specific HTML
+       * 
+       * @param  {string} name The name of the template/view to edit
+       * @param  {string} content The HTML contents to set for that template/view
+       */
+      editTemplate: (name: string, content: string) => Chainable<any>;
 
       /**
        * Gets the global AngularJS library found on the window object
@@ -234,14 +242,10 @@ declare global {
        */
       saveTemplate: (template: any) => Chainable<any>;
 
+      umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
+      umbracoButtonByLabelKey: (name: string) => Chainable<void>;
       umbracoContextMenuAction: (name: string) => Chainable<void>;
-      umbracoGlobalHelp: (name: string) => Chainable<void>;
-      umbracoGlobalUser: (name: string) => Chainable<void>;
-      umbracoInstall: (username: string, password: string, connectionString: string) => Chainable<void>;
-      umbracoLogin: (name: string, password: string, umbracoLogin: boolean) => Chainable<void>;
-      umbracoSection: (name: string) => Chainable<void>;
-      umbracoSuccessNotification: () => Chainable<void>;
-      umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
+      umbracoEditorHeaderName: (name: string) => Chainable<void>;
       umbracoEnsureUserEmailNotExists: (name: string) => Chainable<void>;
       umbracoEnsureMemberEmailNotExists: (name: string) => Chainable<void>;
       umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
@@ -256,16 +260,23 @@ declare global {
       umbracoEnsureTemplateNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsurePartialViewNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsurePartialViewMacroFileNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
-      umbracoButtonByLabelKey: (name: string) => Chainable<void>;
-      umbracoEditorHeaderName: (name: string) => Chainable<void>;
-      upload(fileOrArray, processingOpts?): Chainable<Subject>;
+      umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
+      umbracoErrorNotification: () => Chainable<any>;
+      umbracoGlobalHelp: (name: string) => Chainable<void>;
+      umbracoGlobalUser: (name: string) => Chainable<void>;
+      umbracoInstall: (username: string, password: string, connectionString: string) => Chainable<void>;
+      umbracoLogin: (name: string, password: string, umbracoLogin: boolean) => Chainable<void>;
+      umbracoMacroExists: (name: string) => Chainable<boolean>;
+      umbracoPartialViewExists: (name: string) => Chainable<boolean>;
       umbracoScriptExists: (name: string) => Chainable<boolean>;
+      umbracoSection: (name: string) => Chainable<void>;
       umbracoStylesheetExists: (name: string) => Chainable<boolean>;
-
+      umbracoSuccessNotification: () => Chainable<void>;
+      umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
+      umbracoVerifyRenderedViewContent: (endpoint: string, expectedContent: string, removeWhiteSpace: boolean) => Chainable<boolean>;
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
-
+      
       /**
        * This verifies a specific Umbraco CSS file contents
        *
@@ -273,17 +284,8 @@ declare global {
        * @param  {string} expected Expected contents of CSS file
        * @returns {boolean} A boolean if expected CSS matches requested file
        */
-      umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;
-      umbracoPartialViewExists: (name: string) => Chainable<boolean>;
-      umbracoErrorNotification: () => Chainable<any>;
-      umbracoMacroExists: (name: string) => Chainable<boolean>;
-      umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
-      editTemplate: (name: string, content: string) => Chainable<any>;
-      umbracoVerifyRenderedViewContent: (
-        endpoint: string,
-        expectedContent: string,
-        removeWhiteSpace: boolean,
-      ) => Chainable<boolean>;
+      umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;      
+      upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
 }
