@@ -8,11 +8,11 @@ export class ResponseHelper {
    * as it checks for its presence of the data 
    * 
    * @param response The raw HTTP response from the server
-   * @returns {object} The JSON data in the body of the response as an object 
+   * @returns The JSON data in the body of the response as an object 
    * @deprecated Please use jsonHelper.getBody instead
    * @see jsonHelper.getBody()
    */
-  static getResponseBody(response):object {
+  static getResponseBody(response) {
     return JSON.parse(response.body.substr(6));
   }
 }
