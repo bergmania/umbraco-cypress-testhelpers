@@ -63,7 +63,6 @@ declare global {
       /**
        * Deletes document type by its id
        * @param  {string} id The id of the document type to delete
-       * @example cy.deleteDocumentTypeById('');
        */
       deleteDocumentTypeById: (id: string) => Chainable<void>;
 
@@ -81,21 +80,93 @@ declare global {
        */
       deleteForm: (name: string) => Chainable<void>;
 
-      deleteFormByGuid: (name: string) => Chainable<void>;
+      /**
+       * Deletes a specific Umbraco Form type by its ID
+       * @param  {string} id The id of the Umbraco Form to delete 
+       */
+      deleteFormByGuid: (id: string) => Chainable<void>;
+
+      /**
+       * Deletes Umbraco Forms that start with a certain prefix for its name
+       * @param  {string} name The prefix used for the name of Umbraco Forms that you wish to delete
+       * @example cy.deleteFormsByNamePrefix('Campaign');
+       */
       deleteFormsByNamePrefix: (name: string) => Chainable<void>;
+
+      /**
+       * Deletes Umbraco Forms PreValue Source by its ID
+       * @param  {string} id The ID of the Umbraco Forms PreValue source you wish to delete
+       */
       deletePreValueSourceByGuid: (id: string) => Chainable<void>;
-      deleteTemplateById: (name: string) => Chainable<void>;
+
+      /**
+       * Deletes Umbraco Template/View by its id
+       * @param  {string} id The ID of the Umbraco Template/view you wish to delete
+       */
+      deleteTemplateById: (id: string) => Chainable<void>;
+
+      /**
+       * Deletes Umbraco Templates/views that start with a certain prefix for its name
+       * @param  {string} name The prefix used for the name of Umbraco templates/views that you wish to delete
+       * @example cy.deleteTemplatesByNamePrefix('blog');
+       */
       deleteTemplatesByNamePrefix: (name: string) => Chainable<void>;
+
+      /**
+       * Deletes Umbraco DataTypes that start with a certain prefix for its name
+       * @param  {string} name The prefix used for the name of Umbraco content datatypes that you wish to delete
+       * @example cy.deleteDataTypesByNamePrefix('home');
+       */
       deleteDataTypesByNamePrefix: (name: string) => Chainable<void>;
-      deleteDataTypeById: (name: string) => Chainable<void>;
+
+      /**
+       * Deletes Umbraco DataType by its id
+       * @param  {string} id The id of the datatype to delete
+       */
+      deleteDataTypeById: (id: string) => Chainable<void>;
+
+      /**
+       * Gets the global AngularJS library found on the window object
+       * So that it can be used
+       */
       getAngular: () => Chainable<any>;
+
+      /**
+       * Upload a file to a specific URL endpoint relative to Umbraco backoffice
+       * @param  {string} fileName This filename is for a file located in the cypress fixture folder `fixturesFolder` which by default is `cypress/fixtures/`
+       * @param  {string} url The URL to POST the file to
+       * @example cy.postFile('prevaluesource.txt', '/backoffice/UmbracoForms/PreValueFile/PostAddFile')
+       * @returns This returns the JSON body from the POST request
+       */
       postFile: (fileName: string, url: string) => Chainable<any>;
+      
+      /**
+       * Makes a HTTP POST request to a specific URL endpoint relative to Umbraco backoffice
+       * @param  {string} url The URL to POST the data to
+       * @param  {any} payload The data to POST to the URL such as simple string or JSON object
+       * @example cy.postRequest('/backoffice/UmbracoForms/PreValueSource/PostSave', {name: 'Some Name'});
+       * @returns This returns the JSON body from the POST request
+       */
       postRequest: (url: string, payload: any) => Chainable<any>;
-      saveContent: (param: any) => Chainable<any>;
-      saveDataType: (param: any) => Chainable<any>;
-      saveDocumentType: (param: any) => Chainable<any>;
+      
+      /**
+       * Save Umbraco Content Node
+       * **Note** This must be the entire content object that gets sent to the server
+       * @param  {any} content The JSON object for the entire content node
+       * @see ContentBuilder to help create the object you need
+       */
+      saveContent: (content: any) => Chainable<any>;
+
+      /**
+       * @param  {any} datatype
+       */
+      saveDataType: (datatype: any) => Chainable<any>;
+
+      saveDocumentType: (doctype: any) => Chainable<any>;
+
       saveForm: (param: any) => Chainable<any>;
       saveTemplate: (param: any) => Chainable<any>;
+
       umbracoContextMenuAction: (name: string) => Chainable<void>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
