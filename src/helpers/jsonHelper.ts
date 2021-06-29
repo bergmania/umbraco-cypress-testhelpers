@@ -7,7 +7,7 @@ export class JsonHelper {
    * and return the correct JSON data as an object
    * 
    * @param response The raw HTTP response from the server
-   * @returns The JSON data in the body of the response as an object
+   * @returns {object} The JSON data in the body of the response as an object
    */
   static getBody(response):object {
     const junk = ")]}',\n";
