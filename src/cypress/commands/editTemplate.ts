@@ -1,6 +1,5 @@
+import { JsonHelper } from 'src/helpers/jsonHelper';
 import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
-import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEditTemplate extends CommandBase {
   _commandName = 'editTemplate';
@@ -21,7 +20,7 @@ export default class UmbracoEditTemplate extends CommandBase {
         log: false,
         // Find template by name
       }).then((resonse) => {
-        const searchBody = ResponseHelper.getResponseBody(resonse);
+        const searchBody = JsonHelper.getBody(resonse);
         if (searchBody.length > 0) {
           let templateId = null;
           for (const sb of searchBody) {

@@ -1,5 +1,5 @@
 import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from 'src/helpers/jsonHelper';
 
 export default class UmbracoLogin extends CommandBase {
   _commandName = 'umbracoLogin';
@@ -39,7 +39,7 @@ export default class UmbracoLogin extends CommandBase {
               log: false,
             }).then((getToursResponse) => {
               if (!skipCheckTours) {
-                const getUserToursBody = ResponseHelper.getResponseBody(getToursResponse);
+                const getUserToursBody = JsonHelper.getBody(getToursResponse);
                 let umbEmailMarketingDisabled = false;
                 if (getUserToursBody.length === 0) {
                   // If length == 0, then the user has not disabled any tours => Tours will be shown

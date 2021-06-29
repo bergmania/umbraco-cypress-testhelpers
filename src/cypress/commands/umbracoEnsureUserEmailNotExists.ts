@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from 'src/helpers/jsonHelper';
 
 export default class UmbracoEnsureUserEmailNotExists extends CommandBase {
   _commandName = 'umbracoEnsureUserEmailNotExists';
@@ -21,7 +21,7 @@ export default class UmbracoEnsureUserEmailNotExists extends CommandBase {
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody.totalItems >= 1) {
           const userId = searchBody.items[0].id;
           cy.request({

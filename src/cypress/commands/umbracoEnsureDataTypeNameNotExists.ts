@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from 'src/helpers/jsonHelper';
 
 export default class UmbracoEnsureDataTypeNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsureDataTypeNameNotExists';
@@ -18,7 +18,7 @@ export default class UmbracoEnsureDataTypeNameNotExists extends CommandBase {
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody != null) {
           const dataTypeId = searchBody.id;
 

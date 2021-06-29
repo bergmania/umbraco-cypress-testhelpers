@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from 'src/helpers/jsonHelper';
 
 export default class UmbracoEnsureStylesheetNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsureStylesheetNameNotExists';
@@ -18,7 +18,7 @@ export default class UmbracoEnsureStylesheetNameNotExists extends CommandBase {
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody.length > 0) {
           let partialViewId = null;
           for (const sb of searchBody) {
