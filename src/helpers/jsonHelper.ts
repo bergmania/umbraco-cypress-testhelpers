@@ -1,15 +1,13 @@
 export class JsonHelper {
-
-  
   /**
    * Expects the HTTP body response to be JSON
    * This will remove the `)]}',\n` if present
    * and return the correct JSON data as an object
-   * 
+   *
    * @param response The raw HTTP response from the server
-   * @returns {object} The JSON data in the body of the response as an object
+   * @returns The JSON data in the body of the response as an object
    */
-  static getBody(response):object {
+  static getBody(response) {
     const junk = ")]}',\n";
     let json = response.body;
 
