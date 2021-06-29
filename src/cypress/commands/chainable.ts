@@ -158,15 +158,57 @@ declare global {
       saveContent: (content: any) => Chainable<any>;
 
       /**
-       * @param  {any} datatype
+       * Save Umbraco DataType
+       * @param  {any} datatype The datatype object to save
+       * @see DataTypesBuilderHelper
        */
       saveDataType: (datatype: any) => Chainable<any>;
-
+      
+      /**
+       * Save Umbraco Document Type
+       * @param  {any} doctype The doctype object to save
+       * @see DocumentTypeBuilder
+       */
       saveDocumentType: (doctype: any) => Chainable<any>;
 
-      saveForm: (param: any) => Chainable<any>;
-      saveTemplate: (param: any) => Chainable<any>;
+      /**
+       * Creates a folder in either Stylesheets or Scripts
+       * @param  {string} section This should be set to 'scripts' or 'stylesheets'
+       * @param  {string} folderName The name of the folder you wish to create
+       * @example cy.saveFolder('scripts', 'my-awesome-js-code');
+       */
+      saveFolder: (section: string, folderName: string) => Chainable<void>;
+      
+      /**
+       * Save an Umbraco Form
+       * @param  {any} form The Umbraco Form object to save
+       * @see FormBuilder
+       */
+      saveForm: (form: any) => Chainable<any>;
 
+      /**
+       * Saves an Umbraco Macro
+       * @param  {string} name A name to give the new Umbraco macro
+       * @example cy.saveMacro('InsertMacroTest');
+       */
+      saveMacro: (name: string) => Chainable<any>;
+
+      
+      /**
+       * Save an Umbraco Macro with a parital
+       * @param  {any} macro The Umbraco macro object to save containing the partial view
+       * @see MacroBuilder
+       */
+      saveMacroWithPartial: (macro: any) => Chainable<any>;
+
+      savePartialView: (view: any) => Chainable<void>;
+      
+      savePartialViewMacro: (macro: any) => Chainable<any>;
+      saveScript: (script: any) => Chainable<void>;
+      saveStylesheet: (stylesheet: any) => Chainable<void>;
+      saveTemplate: (param: any) => Chainable<any>;
+      
+      
       umbracoContextMenuAction: (name: string) => Chainable<void>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
@@ -196,9 +238,7 @@ declare global {
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
       umbracoScriptExists: (name: string) => Chainable<boolean>;
       umbracoStylesheetExists: (name: string) => Chainable<boolean>;
-      saveScript: (script: any) => Chainable<void>;
-      saveStylesheet: (stylesheet: any) => Chainable<void>;
-      saveFolder: (section: string, folderName: string) => Chainable<void>;
+      
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
 
       /**
@@ -209,26 +249,14 @@ declare global {
        * @returns {boolean} A boolean if expected CSS matches requested file
        */
       umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;
-      
-      saveMacro: (name: string) => Chainable<any>;
-
       umbracoPartialViewExists: (name: string) => Chainable<boolean>;
-
-      savePartialView: (view: any) => Chainable<void>;
-
       umbracoErrorNotification: () => Chainable<any>;
-
       umbracoMacroExists: (name: string) => Chainable<boolean>;
-
-      savePartialViewMacro: (macro: any) => Chainable<any>;
-
       umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
-
       editTemplate: (name: string, content: string) => Chainable<any>;
-
       umbracoVerifyRenderedViewContent: (endpoint: string, expectedContent: string, removeWhiteSpace: boolean) => Chainable<boolean>;
       
-      saveMacroWithPartial: (macro: any) => Chainable<any>;
+      
     }
   }
 }
