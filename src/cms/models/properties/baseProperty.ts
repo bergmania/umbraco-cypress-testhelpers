@@ -1,6 +1,6 @@
 /**
  * Creates a property object used in document types etc
- * 
+ *
  * @param  {string} name Name of the property
  * @param  {string} alias Optional alias of the property
  */

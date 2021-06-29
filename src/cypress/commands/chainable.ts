@@ -2,17 +2,16 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable<Subject> {
-      
       addTextToUsernameInput: (name: string) => Chainable<void>;
 
       cycleHackWorkaroundForPureLiveIssue: (name: string) => Chainable<void>;
 
       /**
        * Select a HTML element in the Umbraco backoffice that has a HTML data attribute
-       * `<div data-umb="something"></div>` 
-       * 
+       * `<div data-umb="something"></div>`
+       *
        * If the optional child param is sent then it will return that item as the selcted DOM element
-       * 
+       *
        * @param  {string} value Value to search for inside the `data-umb` attribute to select the DOM element
        * @param  {string} child Optional HTML element to find inside the element with the data-umb selector such as `h1`
        * @example cy.dataUmb('forms-add-question').click()
@@ -21,19 +20,19 @@ declare global {
       dataUmb(value: string, child?: string): Chainable<Element>;
 
       dataUmbScope(value: string, child?: string): Chainable<Element>;
-      
+
       /**
        * This will iterate over all top level content nodes in Umbraco and delete them & their children
        * @example cy.deleteAllContent();
        */
       deleteAllContent: () => Chainable<void>;
-      
+
       /**
        * This will iterate over all Forms in Umbraco Forms and delete them
        * @example cy.deleteAllForms();
        */
       deleteAllForms: () => Chainable<void>;
-      
+
       /**
        * This will interate over all Umbraco Forms Datasources and delete them
        * @example cy.deleteAllDataSources();
@@ -52,10 +51,10 @@ declare global {
        * @example cy.deleteContentById('1234');
        */
       deleteContentById: (id: number) => Chainable<void>;
-      
+
       /**
        * Deletes a specific document type by either its Key or Alias
-       * @param  {string} id The `key` or `alias` of the document type to delete 
+       * @param  {string} id The `key` or `alias` of the document type to delete
        * @example cy.deleteDocumentType('myDocType');
        */
       deleteDocumentType: (id: string) => Chainable<void>;
@@ -75,14 +74,14 @@ declare global {
 
       /**
        * Deletes a specific Umbraco Form type by either its Key or Name
-       * @param  {string} name The `key` or `name` of the Umbraco Form to delete 
+       * @param  {string} name The `key` or `name` of the Umbraco Form to delete
        * @example cy.deleteForm('Newsletter');
        */
       deleteForm: (name: string) => Chainable<void>;
 
       /**
        * Deletes a specific Umbraco Form type by its ID
-       * @param  {string} id The id of the Umbraco Form to delete 
+       * @param  {string} id The id of the Umbraco Form to delete
        */
       deleteFormByGuid: (id: string) => Chainable<void>;
 
@@ -139,7 +138,7 @@ declare global {
        * @returns This returns the JSON body from the POST request
        */
       postFile: (fileName: string, url: string) => Chainable<any>;
-      
+
       /**
        * Makes a HTTP POST request to a specific URL endpoint relative to Umbraco backoffice
        * @param  {string} url The URL to POST the data to
@@ -148,7 +147,7 @@ declare global {
        * @returns This returns the JSON body from the POST request
        */
       postRequest: (url: string, payload: any) => Chainable<any>;
-      
+
       /**
        * Save Umbraco Content Node
        * **Note** This must be the entire content object that gets sent to the server
@@ -163,7 +162,7 @@ declare global {
        * @see DataTypesBuilderHelper
        */
       saveDataType: (datatype: any) => Chainable<any>;
-      
+
       /**
        * Save Umbraco Document Type
        * @param  {any} doctype The doctype object to save
@@ -178,7 +177,7 @@ declare global {
        * @example cy.saveFolder('scripts', 'my-awesome-js-code');
        */
       saveFolder: (section: string, folderName: string) => Chainable<void>;
-      
+
       /**
        * Save an Umbraco Form
        * @param  {any} form The Umbraco Form object to save
@@ -193,7 +192,6 @@ declare global {
        */
       saveMacro: (name: string) => Chainable<any>;
 
-      
       /**
        * Save an Umbraco Macro with a parital
        * @param  {any} macro The Umbraco macro object to save containing the partial view
@@ -202,13 +200,12 @@ declare global {
       saveMacroWithPartial: (macro: any) => Chainable<any>;
 
       savePartialView: (view: any) => Chainable<void>;
-      
+
       savePartialViewMacro: (macro: any) => Chainable<any>;
       saveScript: (script: any) => Chainable<void>;
       saveStylesheet: (stylesheet: any) => Chainable<void>;
       saveTemplate: (param: any) => Chainable<any>;
-      
-      
+
       umbracoContextMenuAction: (name: string) => Chainable<void>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
@@ -238,12 +235,12 @@ declare global {
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
       umbracoScriptExists: (name: string) => Chainable<boolean>;
       umbracoStylesheetExists: (name: string) => Chainable<boolean>;
-      
+
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
 
       /**
        * This verifies a specific Umbraco CSS file contents
-       * 
+       *
        * @param  {string} name Filename to request
        * @param  {string} expected Expected contents of CSS file
        * @returns {boolean} A boolean if expected CSS matches requested file
@@ -254,9 +251,11 @@ declare global {
       umbracoMacroExists: (name: string) => Chainable<boolean>;
       umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
       editTemplate: (name: string, content: string) => Chainable<any>;
-      umbracoVerifyRenderedViewContent: (endpoint: string, expectedContent: string, removeWhiteSpace: boolean) => Chainable<boolean>;
-      
-      
+      umbracoVerifyRenderedViewContent: (
+        endpoint: string,
+        expectedContent: string,
+        removeWhiteSpace: boolean,
+      ) => Chainable<boolean>;
     }
   }
 }

@@ -1,6 +1,6 @@
 /**
- * An Umbraco Document Type 
- * 
+ * An Umbraco Document Type
+ *
  * @param  {string} name Name of Document Type
  * @param  {string} alias Alias of Document type
  * @param  {number} id Optional integer ID of document type

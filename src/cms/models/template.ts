@@ -4,7 +4,7 @@ import camelize from 'camelize';
 /**
  * Used to generate a new template
  * Will generate name, key and alias and virtualPath for view as random UUID
- * 
+ *
  */
 export class Template {
   public id = 0;

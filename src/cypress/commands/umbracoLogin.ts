@@ -1,5 +1,5 @@
 import CommandBase from './commandBase';
-import { JsonHelper } from 'src/helpers/jsonHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoLogin extends CommandBase {
   _commandName = 'umbracoLogin';

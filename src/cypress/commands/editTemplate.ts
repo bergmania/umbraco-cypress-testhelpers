@@ -1,4 +1,4 @@
-import { JsonHelper } from 'src/helpers/jsonHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 import CommandBase from './commandBase';
 
 export default class UmbracoEditTemplate extends CommandBase {

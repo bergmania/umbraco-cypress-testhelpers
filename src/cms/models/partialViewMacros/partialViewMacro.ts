@@ -1,5 +1,5 @@
 /**
- * Used to generate a new PartialViewMacro 
+ * Used to generate a new PartialViewMacro
  */
 export class PartialViewMacro {
   public name = '';

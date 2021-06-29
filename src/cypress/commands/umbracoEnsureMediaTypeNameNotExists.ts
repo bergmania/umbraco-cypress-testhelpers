@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { JsonHelper } from 'src';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEnsureMediaTypeNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsureMediaTypeNameNotExists';
