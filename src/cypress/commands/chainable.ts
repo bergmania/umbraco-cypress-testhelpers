@@ -193,18 +193,46 @@ declare global {
       saveMacro: (name: string) => Chainable<any>;
 
       /**
-       * Save an Umbraco Macro with a parital
+       * Save an Umbraco Macro with a partial
        * @param  {any} macro The Umbraco macro object to save containing the partial view
        * @see MacroBuilder
        */
       saveMacroWithPartial: (macro: any) => Chainable<any>;
 
+      /**
+       * Save a Partial View 
+       * @param  {any} view The Umbraco partial view object to save
+       * @see PartialViewBuilder
+       */
       savePartialView: (view: any) => Chainable<void>;
-
+     
+      /**
+       * Save a Partial View Macro
+       * @param  {any} macro The Umbraco Partial View Macro object to save
+       * @see PartialViewMacroBuilder 
+       */
       savePartialViewMacro: (macro: any) => Chainable<any>;
+      
+      /**
+       * Save Javascript file
+       * @param  {any} script The Umbraco Javascript object to save
+       * @see ScriptBuilder
+       */
       saveScript: (script: any) => Chainable<void>;
+      
+      /**
+       * Save CSS Stylesheet
+       * @param  {any} stylesheet The Umbraco Stylesheet object to save
+       * @see StylesheetBuilder
+       */
       saveStylesheet: (stylesheet: any) => Chainable<void>;
-      saveTemplate: (param: any) => Chainable<any>;
+      
+      /**
+       * Save Umbraco Template/View
+       * @param  {any} template The Umbraco template/view object to save
+       * @see TemplateBuilder
+       */
+      saveTemplate: (template: any) => Chainable<any>;
 
       umbracoContextMenuAction: (name: string) => Chainable<void>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
