@@ -406,30 +406,131 @@ declare global {
        */
       umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
       
+      /**
+       * This checks for the presense of Umbraco error notification banners
+       * Will wait upto 6000ms as we may be waiting for a server response
+       * @example cy.umbracoErrorNotification().should('be.visible');
+       */
       umbracoErrorNotification: () => Chainable<any>;
-      umbracoGlobalHelp: (name: string) => Chainable<void>;
-      umbracoGlobalUser: (name: string) => Chainable<void>;
+      
+      /**
+       * A handy shortcut to help select the Umbraco global help
+       * @example cy.umbracoGlobalHelp().should("be.visible");
+       * cy.umbracoGlobalHelp().click();
+       */
+      umbracoGlobalHelp: () => Chainable<void>;
+      
+      /**
+       * A handy shortcut to help select the Umbraco global user
+       * @example cy.umbracoGlobalUser().click()
+       */
+      umbracoGlobalUser: () => Chainable<void>;
+
+      /**
+       * Clicks its way through the Umbraco installer UI providing username, password and DB connection string
+       * @param  {string} username Username for install - fallsback to Cypress.ENV('username')
+       * @param  {string} password Password for install - fallsback to Cypress.ENV('password')
+       * @param  {string} connectionString Database connection string to use for install - fallsback to Cypress.ENV('connectionString')
+       */
       umbracoInstall: (username: string, password: string, connectionString: string) => Chainable<void>;
-      umbracoLogin: (name: string, password: string, umbracoLogin: boolean) => Chainable<void>;
+
+      /**
+       * Perform a login to the Umbraco backoffice
+       * Mostly used in beforeEach of cypress intergration tests
+       * @param  {string} username Username of Umbraco backoffice login
+       * @param  {string} password Passowrd of Umbraco backoffice login
+       * @param  {boolean} skipCheckTours Will skip tour prompt on first login - Defaults to false
+       * @example cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
+       */
+      umbracoLogin: (username: string, password: string, skipCheckTours: boolean) => Chainable<void>;
+      
+      /**
+       * Checks to see if Macro with specified name exists
+       * @param  {string} name Name of Macro to check for
+       * @example cy.umbracoMacroExists('TestPartialViewMacro').should('be.true');
+       */
       umbracoMacroExists: (name: string) => Chainable<boolean>;
-      umbracoPartialViewExists: (name: string) => Chainable<boolean>;
-      umbracoScriptExists: (name: string) => Chainable<boolean>;
+
+      /**
+       * Checks to see if Partial View with specified name exists
+       * @param  {string} filename Name of PartialView to check for
+       * @example cy.umbracoPartialViewExists('TestPartialView.cshtml').should('be.true');
+       */
+      umbracoPartialViewExists: (filename: string) => Chainable<boolean>;
+
+       /**
+       * Checks to see if Partial View with specified name exists
+       * @param  {string} filename Name of Javascript to check for
+       * @example cy.umbracoScriptExists('TestScript.js').should('be.true');
+       */
+      umbracoScriptExists: (filename: string) => Chainable<boolean>;
+
+      /**
+       * Automatically clicks the Umbraco section in the backoffice to navigate to it
+       * @param  {string} name The name/alias of the section found in [data-element="section-xx"] html selector
+       * @example cy.umbracoSection('member');
+       * cy.umbracoSection('settings');
+       * cy.umbracoSection('users');
+       */
       umbracoSection: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if CSS file with specified name exists
+       * @param  {string} filename Name of CSS file to check for
+       * @example cy.umbracoStylesheetExists('TestStylesheet.css').should('be.true');
+       */
       umbracoStylesheetExists: (name: string) => Chainable<boolean>;
+
+      /**
+       * This checks for the presense of Umbraco success notification banners
+       * Will wait upto 6000ms as we may be waiting for a server response
+       * @example cy.umbracoSuccessNotification().should('be.visible');
+       */
       umbracoSuccessNotification: () => Chainable<void>;
-      umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
+
+      /**
+       * Find an Umbraco tree node to expand and then use to click, rightclick etc
+       * @param  {string} treeName Name of tree root to use
+       * @param  {string[]} itemNamePathArray A string array of names of nodes to help click through and expand
+       * @example cy.umbracoTreeItem("content", ["Home"]).click();
+       * cy.umbracoTreeItem("content", ["A-Home", "A-Child"]).click();
+       * cy.umbracoTreeItem("settings", ["Data Types"]).rightclick();
+       */
+      umbracoTreeItem: (treeName: string, itemNamePathArray: string[]) => Chainable<void>;
+
+      /**
+       * Visits a page on the public website and compares the HTML output
+       * 
+       * @param  {string} endpoint URL of frontend page to view and verify content
+       * @param  {string} expectedContent Content you expect to be in rendered view on frontend of site
+       * @param  {boolean} removeWhiteSpace Boolean to indicate if whitespace should be removed
+       * @example const expected = `<h1>Acceptance test</h1><p> </p>`;
+        cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
+       */
       umbracoVerifyRenderedViewContent: (endpoint: string, expectedContent: string, removeWhiteSpace: boolean) => Chainable<boolean>;
-      umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
+      
+      /**
+       * This verifies a specific Umbraco JS file contents
+       *
+       * @param  {string} fileName JS Filename to request
+       * @param  {string} expected Expected contents of JS file
+       * @returns {boolean} A boolean if expected JS matches requested file
+       * @example const expected = '.h1{ color: red;}\n';
+       * cy.umbracoVerifyScriptContent("test.js", expected).should('be.true');
+       */
+      umbracoVerifyScriptContent: (fileName: string, expected: string) => Chainable<boolean>;
 
       /**
        * This verifies a specific Umbraco CSS file contents
        *
-       * @param  {string} name Filename to request
+       * @param  {string} fileName CSS Filename to request
        * @param  {string} expected Expected contents of CSS file
        * @returns {boolean} A boolean if expected CSS matches requested file
+       * @example 
+       * cy.umbracoVerifyStylesheetContent('styles.css', expected).should('be.true');
        */
-      umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;
-
+      umbracoVerifyStylesheetContent: (fileName: string, expected: string) => Chainable<boolean>;
+      
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
