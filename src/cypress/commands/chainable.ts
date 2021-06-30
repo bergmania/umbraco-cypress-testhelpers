@@ -123,10 +123,9 @@ declare global {
        * @param  {string} id The id of the datatype to delete
        */
       deleteDataTypeById: (id: string) => Chainable<void>;
-      
+
       /**
        * Edit/update a template/view with specific HTML
-       * 
        * @param  {string} name The name of the template/view to edit
        * @param  {string} content The HTML contents to set for that template/view
        */
@@ -208,33 +207,33 @@ declare global {
       saveMacroWithPartial: (macro: any) => Chainable<any>;
 
       /**
-       * Save a Partial View 
+       * Save a Partial View
        * @param  {any} view The Umbraco partial view object to save
        * @see PartialViewBuilder
        */
       savePartialView: (view: any) => Chainable<void>;
-     
+
       /**
        * Save a Partial View Macro
        * @param  {any} macro The Umbraco Partial View Macro object to save
-       * @see PartialViewMacroBuilder 
+       * @see PartialViewMacroBuilder
        */
       savePartialViewMacro: (macro: any) => Chainable<any>;
-      
+
       /**
        * Save Javascript file
        * @param  {any} script The Umbraco Javascript object to save
        * @see ScriptBuilder
        */
       saveScript: (script: any) => Chainable<void>;
-      
+
       /**
        * Save CSS Stylesheet
        * @param  {any} stylesheet The Umbraco Stylesheet object to save
        * @see StylesheetBuilder
        */
       saveStylesheet: (stylesheet: any) => Chainable<void>;
-      
+
       /**
        * Save Umbraco Template/View
        * @param  {any} template The Umbraco template/view object to save
@@ -242,26 +241,171 @@ declare global {
        */
       saveTemplate: (template: any) => Chainable<any>;
 
+      /**
+       * Make HTTP requests to Umbraco Backoffice APIs
+       * This will remove the junk JSON data & return a nice object
+       * @param  {string} url The Url to make the HTTP request for
+       * @param  {string} method Such as POST/PUT/GET etc
+       * @param  {any} body The body of the request to send in the HTTP request
+       * @returns JSON from the API response
+       * @example cy.umbracoApiRequest(this.relativeBackOfficePath + '/backoffice/UmbracoApi/ContentType/PostSave', 'POST', docType);
+       */
       umbracoApiRequest: (url: string, method: string, body: any) => Chainable<any>;
+
+      /**
+       * Gets an Umbraco button HTML element for clicking etc
+       * It selects umb-button elements with label-key for the HTML data attribute
+       *
+       * @param  {string} name The transaltion label-key the button has
+       * @example cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
+       */
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
-      umbracoContextMenuAction: (name: string) => Chainable<void>;
+
+      /**
+       * Gets a HTML element of a context menu action for clicking etc
+       * It selects li.umb-action with data-element attribute
+       * @param  {string} actionName The action name key to look for in the [data-element] attribute on li.umb-action
+       * @example cy.umbracoContextMenuAction("action-refreshNode").click();
+       */
+      umbracoContextMenuAction: (actionName: string) => Chainable<void>;
+
+      /**
+       * Gets the umbEditorHeader types in the name into the textbox and verifies the alias generated
+       * Is in the format we expect it to be generated
+       *
+       * @param  {string} name The text we want to enter in the name of the umbracoEditorHeader
+       * @example cy.umbracoEditorHeaderName('Test member type');
+       */
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
-      umbracoEnsureUserEmailNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureMemberEmailNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureRelationTypeNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureDocumentTypeNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureMediaTypeNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureMemberTypeNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureMemberGroupNameNotExists: (name: string) => Chainable<void>;
+      
+      /**
+       * Checks to see if DataType with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of DataType to delete
+       * @example cy.umbracoEnsureDataTypeNameNotExists('Content with macro in grid');
+       */
       umbracoEnsureDataTypeNameNotExists: (name: string) => Chainable<void>;
+      
+      /**
+       * Checks to see if DocumentType with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of DocumentType to delete
+       * @example cy.umbracoEnsureDocumentTypeNameNotExists('Home');
+       */
+      umbracoEnsureDocumentTypeNameNotExists: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Language with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Language to delete
+       * @example cy.umbracoEnsureLanguageNameNotExists('Kyrgyz (Kyrgyzstan)');
+       */
       umbracoEnsureLanguageNameNotExists: (name: string) => Chainable<void>;
+      
+      /**
+       * Checks to see if Macro with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Macro to delete
+       * @example cy.umbracoEnsureMacroNameNotExists('Content with macro in RTE');
+       */
       umbracoEnsureMacroNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureTemplateNameNotExists: (name: string) => Chainable<void>;
+      
+      /**
+       * Checks to see if MediaType with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of MediaType to delete
+       * @example cy.umbracoEnsureMediaTypeNameNotExists('Test media type');
+       */
+      umbracoEnsureMediaTypeNameNotExists: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Member with specified email address does not exist
+       * If it does it will automatically delete it
+       * @param  {string} email Email address of Member to delete
+       * @example cy.umbracoEnsureMemberEmailNotExists('alice-bobson@acceptancetest.umbraco');
+       */
+      umbracoEnsureMemberEmailNotExists: (email: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Member Group with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Member Group to delete
+       * @example cy.umbracoEnsureMemberGroupNameNotExists('Test Group');
+       */
+      umbracoEnsureMemberGroupNameNotExists: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Member Type with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Member Type to delete
+       * @example cy.umbracoEnsureMemberTypeNameNotExists('Test member type');
+       */
+      umbracoEnsureMemberTypeNameNotExists: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Partial View Macro File with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} filename Filename of Partial View Macro File to delete
+       * @example cy.umbracoEnsurePartialViewMacroFileNameNotExists('RTE.cshtml');
+       */
+      umbracoEnsurePartialViewMacroFileNameNotExists: (filename: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Partial View File with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} filename Filename of Partial View File to delete
+       * @example cy.umbracoEnsurePartialViewNameNotExists('navi.cshtml');
+       */
       umbracoEnsurePartialViewNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsurePartialViewMacroFileNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
-      umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Relation Type with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Relation Type to delete
+       * @example cy.umbracoEnsureRelationTypeNameNotExists('Test relation type');
+       */
+      umbracoEnsureRelationTypeNameNotExists: (name: string) => Chainable<void>; 
+
+      /**
+       * Checks to see if Javascript file with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} filename Filename of Javascript File to delete
+       * @example cy.umbracoEnsureScriptNameNotExists('TestScript.js');
+       */
+      umbracoEnsureScriptNameNotExists: (filename: string) => Chainable<void>;
+
+      /**
+       * Checks to see if CSS file with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} filename Filename of Javascript File to delete
+       * @example cy.umbracoEnsureStylesheetNameNotExists('TestStylesheet.css');
+       */
+      umbracoEnsureStylesheetNameNotExists: (filename: string) => Chainable<void>;
+
+      /**
+       * Checks to see if Template/View file with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} filename Filename of Javascript File to delete
+       * @example cy.umbracoEnsureTemplateNameNotExists('Content with macro in RTE');
+       */
+      umbracoEnsureTemplateNameNotExists: (name: string) => Chainable<void>;
+      
+      /**
+       * Checks to see if backoffice User with specified email address does not exist
+       * If it does it will automatically delete it
+       * @param  {string} email Email address of User to delete
+       * @example cy.umbracoEnsureUserEmailNotExists('alice-bobson@acceptancetest.umbraco');
+       */
+      umbracoEnsureUserEmailNotExists: (email: string) => Chainable<void>;
+
+      /**
+       * Checks to see if User Group with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of User Group to delete
+       * @example cy.umbracoEnsureUserGroupNameNotExists('Test Group');
+       */
+      umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
+      
       umbracoErrorNotification: () => Chainable<any>;
       umbracoGlobalHelp: (name: string) => Chainable<void>;
       umbracoGlobalUser: (name: string) => Chainable<void>;
@@ -276,7 +420,7 @@ declare global {
       umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
       umbracoVerifyRenderedViewContent: (endpoint: string, expectedContent: string, removeWhiteSpace: boolean) => Chainable<boolean>;
       umbracoVerifyScriptContent: (name: string, expected: string) => Chainable<boolean>;
-      
+
       /**
        * This verifies a specific Umbraco CSS file contents
        *
@@ -284,7 +428,8 @@ declare global {
        * @param  {string} expected Expected contents of CSS file
        * @returns {boolean} A boolean if expected CSS matches requested file
        */
-      umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;      
+      umbracoVerifyStylesheetContent: (name: string, expected: string) => Chainable<boolean>;
+
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
