@@ -5,6 +5,7 @@ import { TextBoxDocumentTypePropertyBuilder } from './properties/textBoxDocument
 import { DropDownDocumentTypePropertyBuilder } from './properties/dropDownDocumentTypePropertyBuilder';
 import { ContentPickerPropertyBuilder } from './properties/contentPickerTypePropertyBuilder';
 import { RichTextDocumentTypePropertyEditor, CustomDocumentTypePropertyBuilder } from './properties';
+import { UrlPickerPropertyBuilder } from './properties/urlPickerTypePropertyBuilder';
 
 export default class DocumentTypeGroupBuilder {
   parentBuilder;
@@ -52,6 +53,12 @@ export default class DocumentTypeGroupBuilder {
 
   addContentPickerProperty() {
     const builder = new ContentPickerPropertyBuilder(this);
+    this.documentTypeGroupPropertyBuilders.push(builder);
+    return builder;
+  }
+
+  addUrlPickerProperty() {
+    const builder = new UrlPickerPropertyBuilder(this);
     this.documentTypeGroupPropertyBuilders.push(builder);
     return builder;
   }
