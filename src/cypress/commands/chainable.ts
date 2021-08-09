@@ -38,6 +38,7 @@ declare global {
       umbracoSection: (name: string) => Chainable<void>;
       umbracoSuccessNotification: () => Chainable<void>;
       umbracoTreeItem: (name: string, param: string[]) => Chainable<void>;
+      umbracoCreateDocTypeWithContent: (name: string, alias: string, param) => Chainable<void>
       umbracoEnsureUserEmailNotExists: (name: string) => Chainable<void>;
       umbracoEnsureMemberEmailNotExists: (name: string) => Chainable<void>;
       umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
@@ -54,6 +55,7 @@ declare global {
       umbracoEnsurePartialViewMacroFileNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureStylesheetNameNotExists: (name: string) => Chainable<void>;
       umbracoEnsureScriptNameNotExists: (name: string) => Chainable<void>;
+      umbracoRefreshContentTree: () => Chainable<void>;
       umbracoButtonByLabelKey: (name: string) => Chainable<void>;
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
       upload(fileOrArray, processingOpts?): Chainable<Subject>;

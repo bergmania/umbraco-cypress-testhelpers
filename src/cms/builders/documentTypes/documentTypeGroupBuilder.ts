@@ -26,7 +26,6 @@ export default class DocumentTypeGroupBuilder {
     this.name = name;
     return this;
   }
-
   addFormPickerProperty() {
     const builder = new FormPickerDocumentTypePropertyBuilder(this);
 

@@ -10,7 +10,7 @@ import {
 context('Content', () => {
 
     beforeEach(() => {
-        cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
+        cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
     });
 
     function refreshContentTree(){

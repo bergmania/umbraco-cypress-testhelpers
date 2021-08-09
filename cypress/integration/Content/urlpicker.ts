@@ -1,5 +1,4 @@
 /// <reference types="Cypress" />
-import { exists } from 'fs';
 import {
     DocumentTypeBuilder,
     ContentBuilder,
@@ -9,7 +8,7 @@ import {
 context('Url Picker', () => {
 
     beforeEach(() => {
-        cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
+        cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
       });
 
     it('Test Url Picker', () => {
@@ -60,10 +59,25 @@ context('Url Picker', () => {
         //Assert
         cy.get('.umb-notifications__notifications > .alert-error').should('not.exist');
 
+
+
+        //Editing template with some content
+        cy.editTemplate(urlPickerDocTypeName, '@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.UrlPickerTest>' +
+        '\n@using ContentModels = Umbraco.Web.PublishedModels;' +
+        '\n@{' +
+        '\n    Layout = null;' +
+        '\n}' +
+        '\n@foreach(var link in @Model.Picker)' +
+        '\n{' +
+        '\n    <a href="@link.Url">@link.Name</a>' +
+        '\n}');
+        
+        //Testing if the edits match the expected results
+        const expected = '<a href="/">UrlPickerContent</a>';
+        cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');        
         //clean
         cy.umbracoEnsureDocumentTypeNameNotExists(urlPickerDocTypeName);
         cy.umbracoEnsureTemplateNameNotExists(urlPickerDocTypeName);
-
 
     })
 
