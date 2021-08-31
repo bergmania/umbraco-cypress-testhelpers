@@ -1,5 +1,6 @@
 import faker from 'faker';
 import DocumentTypeGroupBuilder from './documentTypeGroupBuilder';
+import DocumentTypeTabBuilder from './documentTypeTabBuilder';
 import { AliasHelper } from '../../../helpers/aliasHelper';
 
 export class DocumentTypeBuilder {
@@ -64,10 +65,19 @@ export class DocumentTypeBuilder {
     this.documentTypeGroupBuilders.push(builder);
     return builder;
   }
+  addTab(documentTypeTabBuilder?: DocumentTypeTabBuilder) {
+    const builder =
+    documentTypeTabBuilder === null || documentTypeTabBuilder === undefined
+        ? new DocumentTypeTabBuilder(this)
+        : documentTypeTabBuilder;
+    this.documentTypeGroupBuilders.push(builder);
+    return builder;
+  }
   withId(id: number) {
     this.id = id;
     return this;
   }
+
 
   build() {
     const key = this.key || faker.random.uuid();

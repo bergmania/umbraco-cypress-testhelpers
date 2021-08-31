@@ -37,15 +37,11 @@ export class DocumentTypePropertyBuilder {
     return this.parentBuilder;
   }
 
-  appendOnBuild(result){
-
-  }
-
   build() {
     const label = this.label || faker.random.uuid();
     const alias = this.alias || 'a' + camelize(label);
 
-    let result = {
+    return {
       alias,
       value: this.value || '',
       allowCultureVariant: this.allowCultureVariant || false,
@@ -54,9 +50,5 @@ export class DocumentTypePropertyBuilder {
       sortOrder: this.sortOrder || 0,
       validation: this.validation || { mandatory: false, pattern: null },
     };
-
-    this.appendOnBuild(result);
-
-    return result;
   }
 }
