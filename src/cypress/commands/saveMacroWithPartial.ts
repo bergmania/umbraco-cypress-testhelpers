@@ -1,5 +1,4 @@
 import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
 import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class SaveMacroWithPartial extends CommandBase {
@@ -30,7 +29,7 @@ export default class SaveMacroWithPartial extends CommandBase {
           },
         }).then((response) => {
           // Get Macro  by ID
-          const macroID = ResponseHelper.getResponseBody(response);
+          const macroID = JsonHelper.getBody(response);
           cy.request({
             method: 'GET',
             url: this._relativeBackOfficePath + '/backoffice/UmbracoApi/Macros/GetById?id=' + macroID,
