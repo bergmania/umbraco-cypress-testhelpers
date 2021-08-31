@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEnsureRelationTypeNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsureRelationTypeNameNotExists';
@@ -18,7 +18,7 @@ export default class UmbracoEnsureRelationTypeNameNotExists extends CommandBase 
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody.length > 0) {
           let relationTypeId = null;
           for (const sb of searchBody) {
