@@ -13,6 +13,7 @@ context('Url Picker', () => {
 
     it('Test Url Picker', () => {
 
+        cy.deleteAllContent();
         const urlPickerDocTypeName = 'Url Picker Test';
         const pickerDocTypeAlias = AliasHelper.toAlias(urlPickerDocTypeName); 
 

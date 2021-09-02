@@ -12,7 +12,8 @@ context('Approved Colour Picker', () => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
       });
 
-      it('Tests Approved Colors', () => {
+    it('Tests Approved Colors', () => {
+        cy.deleteAllContent();
         const name = 'Approved Colour Test';
         const alias = AliasHelper.toAlias(name);
 
@@ -20,9 +21,9 @@ context('Approved Colour Picker', () => {
         cy.umbracoEnsureDataTypeNameNotExists(name);
 
         const pickerDataType = new ApprovedColorPickerDataTypeBuilder()
-        .withName(name)
-        .withPrevalues(['000000', 'FF0000'])
-        .build()
+            .withName(name)
+            .withPrevalues(['000000', 'FF0000'])
+            .build()
 
         //umbracoMakeDocTypeWithDataTypeAndContent(name, alias, pickerDataType);
         cy.umbracoCreateDocTypeWithContent(name, alias, pickerDataType);
@@ -38,13 +39,13 @@ context('Approved Colour Picker', () => {
         cy.umbracoSuccessNotification().should('be.visible');
         //Editing template with some content
         cy.editTemplate(name, '@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.ApprovedColourTest>' +
-        '\n@using ContentModels = Umbraco.Web.PublishedModels;' +
-        '\n@{' +
-        '\n    Layout = null;' +
-        '\n}' +
-        '\n<p style="color:@Model.UmbracoTest">Lorem ipsum dolor sit amet</p>');
+            '\n@using ContentModels = Umbraco.Web.PublishedModels;' +
+            '\n@{' +
+            '\n    Layout = null;' +
+            '\n}' +
+            '\n<p style="color:@Model.UmbracoTest">Lorem ipsum dolor sit amet</p>');
         //Assert
-        const expected = '<p style="color:000000">Lorem ipsum dolor sit amet</p>';
+        const expected = `<p style="color:000000" > Lorem ipsum dolor sit amet </p>`;
         cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
 
         //Pick another colour to verify both work
