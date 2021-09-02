@@ -18,6 +18,7 @@ context('Tabs', () => {
         cy.umbracoSection('settings');
         cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
         cy.get('.umb-tree-item__inner > .umb-tree-item__arrow').eq(0).click();
+        cy.wait(1000);
     }
     function CreateDocWithTabAndNavigate(){
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
@@ -38,7 +39,8 @@ context('Tabs', () => {
           .build();
         cy.saveDocumentType(tabsDocType);
         OpenDocTypeFolder();
-        cy.get('.umb-tree-item__inner > .umb-tree-item__label').contains('Tabs Test Document').click();
+        // cy.umbracoTreeItem("settings", [tabsDocTypeName]).click(); should work on a faster computer
+        cy.get('.umb-tree-item__inner > .umb-tree-item__label').contains(tabsDocTypeName).click();
     }
       it('Create tab', () => { 
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
@@ -60,27 +62,33 @@ context('Tabs', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
         cy.saveDocumentType(tabsDocType);
         OpenDocTypeFolder();
-        // cy.umbracoSection('settings');
-        // cy.umbracoTreeItem('Document Types', 'Tabs Test Document');
+        // cy.umbracoTreeItem("settings", [tabsDocTypeName]).click(); should work on a faster computer
         cy.get('.umb-tree-item__inner > .umb-tree-item__label').contains(tabsDocTypeName).click();
         cy.get('.umb-group-builder__tabs__add-tab > .umb-button > .btn').click();
         cy.get('ng-form.ng-invalid > .umb-group-builder__group-title-input').type('Tab 1');
-        
         //Create a 2nd tab manually
         cy.get('.umb-group-builder__tabs__add-tab > .umb-button > .btn').click();
         cy.get('ng-form.ng-invalid > .umb-group-builder__group-title-input').type('Tab 2');
-        //Create a textarea property
-        cy.get('[ng-transclude=""][aria-hidden="false"] > .umb-box-content > .umb-group-builder__group-add-property').click();
-        cy.get('.editor-label').type('TextProperty')
-        cy.get('.editor-wrapper > .btn-reset').click();
-        cy.get('[data-element="datatype-Textarea"] > .btn-reset > :nth-child(1) > .umb-icon > .umb-icon__inner > ng-transclude > .ng-binding > svg').click();
-        cy.get(':nth-child(1) > li.ng-scope > .btn-reset').click();
-        cy.get('[alias="submit"] > .umb-button > .btn > .umb-button__content').click();
+        //Create a textstring property
+        cy.get('[aria-hidden="false"] > .umb-box-content > .umb-group-builder__group-add-property').click();
+        // This is how we do it in doctypetest, but doesn't work in tabs cause we have multiple buttons that are inactive cy.get('[data-element="property-add"]').last().click();
+        cy.get('.editor-label').type('property name');
+        cy.get('[data-element="editor-add"]').click();
+
+        //Search for textstring
+        cy.get('#datatype-search').type('Textstring');
+
+        // Choose first item
+        cy.get('ul.umb-card-grid li [title="Textstring"]').closest("li").click();
+
+        // Save property
+        cy.get('.btn-success').last().click();
         cy.umbracoButtonByLabelKey('buttons_save').click();
+        //Reload page to make sure tabs are saved
         cy.reload();
         //Assert
-        cy.get('ng-form.ng-valid-required > .umb-group-builder__group-title-input').eq(0).should('be.visible');
-        cy.get('ng-form.ng-valid-required > .umb-group-builder__group-title-input').eq(1).should('be.visible');
+        cy.get('.umb-group-builder__group-title-input').eq(0).invoke('attr', 'title').should('eq', 'tab1');
+        cy.get('.umb-group-builder__group-title-input').eq(1).invoke('attr', 'title').should('eq', 'tab2');
         //Clean
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
@@ -88,13 +96,13 @@ context('Tabs', () => {
       it('Delete tabs', () => { 
         CreateDocWithTabAndNavigate();
         //Check if there are tabs
-        cy.get('ng-form.ng-valid-required > .umb-group-builder__group-title-input').should('be.visible');
+        cy.get('.umb-group-builder__group-title-input').should('be.visible');
         //Delete a tab
-        cy.get('umb-content-type-tab.ng-isolate-scope > .umb-group-builder__tab > .umb-group-builder__tab-remove > .btn-reset > .icon-trash').eq(0).click();
-        cy.get('.umb-overlay-drawer__align-right > .ng-scope.ng-isolate-scope > .umb-button > .btn').click();
+        cy.get('.btn-reset > .icon-trash').click();
+        cy.get('.umb-button > .btn').last().click();
         cy.umbracoButtonByLabelKey('buttons_save').click();
         //Assert
-        cy.get('ng-form.ng-valid-required > .umb-group-builder__group-title-input').should('not.exist');
+        cy.get('.umb-group-builder__group-title-input').should('not.exist');
         //Clean
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
@@ -120,13 +128,13 @@ context('Tabs', () => {
             .build();
         cy.saveDocumentType(tabsDocType);
         OpenDocTypeFolder();
-        cy.get('.umb-tree-item__inner > .umb-tree-item__label').contains(tabsDocTypeName).click();
-        cy.get(':nth-child(2) > umb-content-type-property.ng-scope > .umb-group-builder__property > .umb-group-builder__property-actions > [ng-if="!vm.property.inherited"] > .umb-group-builder__property-action.ng-scope > .btn-icon').click();
+        cy.get('.umb-tree-item__label').contains(tabsDocTypeName).click();
+        cy.get('.umb-group-builder__property-action.ng-scope > .btn-icon').last().click();
         cy.umbracoButtonByLabelKey('actions_delete').click();
         //Assert
         cy.get('.umb-group-builder__property').eq(0).should('exist');
         cy.get('.umb-group-builder__property').eq(1).should('not.exist');
-        cy.get('ng-form.ng-valid-required > .umb-group-builder__group-title-input').invoke('attr', 'title').should('eq', 'aTab 1')
+        cy.get('.umb-group-builder__group-title-input').invoke('attr', 'title').should('eq', 'aTab 1')
         //Clean
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
 
