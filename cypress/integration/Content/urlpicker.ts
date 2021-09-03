@@ -53,15 +53,11 @@ context('Url Picker', () => {
         
         cy.umbracoSuccessNotification().should('be.visible');
         //Waiting to ensure we have saved properly before leaving
-        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').contains('Save and publish');
-        //Navigate to Recycle bin and Back to Content
-        cy.get('[data-element="tree-item-Recycle Bin"] > .umb-tree-item__inner > .umb-tree-item__label').click();
-        cy.get('[data-element="tree-item-UrlPickerContent"] > .umb-tree-item__inner > .umb-tree-item__label').click();
+        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').contains('Save and publish')
+        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').should('be.visible');
+        cy.reload();
         //Assert
         cy.get('.umb-notifications__notifications > .alert-error').should('not.exist');
-
-
-
         //Editing template with some content
         cy.editTemplate(urlPickerDocTypeName, '@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.UrlPickerTest>' +
         '\n@using ContentModels = Umbraco.Web.PublishedModels;' +
