@@ -1,3 +1,5 @@
+import { DataType } from "src/cms/models/dataTypes/dataType";
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
@@ -268,7 +270,13 @@ declare global {
        * @example cy.umbracoContextMenuAction("action-refreshNode").click();
        */
       umbracoContextMenuAction: (actionName: string) => Chainable<void>;
-
+      /**
+       * Creates a document type and some content for that document type
+       * @param {string} name Name of the given doc type
+       * @param {string} alias Alias of the given doc type
+       * @param {DataType} dataType of the given doc tpye
+       */
+      umbracoCreateDocTypeWithContent: (name: string, alias: string, dataType: DataType) => Chainable<void>
       /**
        * Gets the umbEditorHeader types in the name into the textbox and verifies the alias generated
        * Is in the format we expect it to be generated
@@ -457,7 +465,10 @@ declare global {
        * @example cy.umbracoPartialViewExists('TestPartialView.cshtml').should('be.true');
        */
       umbracoPartialViewExists: (filename: string) => Chainable<boolean>;
-
+      /**
+       * 
+       */
+      umbracoRefreshContentTree: () => Chainable<void>
       /**
        * Checks to see if Partial View with specified name exists
        * @param  {string} filename Name of Javascript to check for
