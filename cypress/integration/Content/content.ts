@@ -620,84 +620,7 @@ context('Content', () => {
         cy.umbracoEnsureTemplateNameNotExists(pickerDocTypeName);
         cy.umbracoEnsureDocumentTypeNameNotExists(pickedDocTypeName);
     });
-
-    it('Content with macro in RTE', () => {
-        const viewMacroName = 'Content with macro in RTE';
-        const partialFileName = viewMacroName + '.cshtml';
-
-        cy.umbracoEnsureMacroNameNotExists(viewMacroName);
-        cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
-        cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
-        cy.deleteAllContent();
-
-        // First thing first we got to create the macro we will be inserting
-        createSimpleMacro(viewMacroName);
-
-        // Now we need to create a document type with a rich text editor where we can insert the macro
-        // The document type must have a template as well in order to ensure that the content is displayed correctly
-        const alias = AliasHelper.toAlias(viewMacroName);
-        const docType = new DocumentTypeBuilder()
-            .withName(viewMacroName)
-            .withAlias(alias)
-            .withAllowAsRoot(true)
-            .withDefaultTemplate(alias)
-            .addGroup()
-            .addRichTextProperty()
-            .withAlias('text')
-            .done()
-            .done()
-            .build();
-
-        cy.saveDocumentType(docType).then((generatedDocType) => {
-            // Might as wel initally create the content here, the less GUI work during the test the better
-            const contentNode = new ContentBuilder()
-                .withContentTypeAlias(generatedDocType["alias"])
-                .withAction('saveNew')
-                .addVariant()
-                .withName(viewMacroName)
-                .withSave(true)
-                .done()
-                .build();
-
-            cy.saveContent(contentNode);
-        });
-
-        // Edit the macro template in order to have something to verify on when rendered.
-        cy.editTemplate(viewMacroName, `@inherits Umbraco.Web.Mvc.UmbracoViewPage
-@using ContentModels = Umbraco.Web.PublishedModels;
-@{
-  Layout = null;
-}
-@{
-    if (Model.HasValue("text")){
-        @(Model.Value("text"))
-    }
-} `);
-
-        // Enter content
-        refreshContentTree();
-        cy.umbracoTreeItem("content", [viewMacroName]).click();
-
-        // Insert macro
-        cy.get('#mceu_13-button').click();
-        cy.get('.umb-card-grid-item').contains(viewMacroName).click();
-
-        // Save and publish
-        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
-        cy.umbracoSuccessNotification().should('be.visible');
-
-        // Ensure that the view gets rendered correctly
-        const expected = `<h1>Acceptance test</h1><p> </p>`;
-        cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
-
-        // Cleanup
-        cy.umbracoEnsureMacroNameNotExists(viewMacroName);
-        cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
-        cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
-    });
-
+    
     it('Content with macro in grid', () => {
         const name = 'Content with macro in grid';
         const macroName = 'Grid macro';
@@ -797,4 +720,83 @@ context('Content', () => {
         cy.umbracoEnsureMacroNameNotExists(macroName);
         cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
     });
+
+    it('Content with macro in RTE', () => {
+        const viewMacroName = 'Content with macro in RTE';
+        const partialFileName = viewMacroName + '.cshtml';
+
+        cy.umbracoEnsureMacroNameNotExists(viewMacroName);
+        cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
+        cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
+        cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
+        cy.deleteAllContent();
+
+        // First thing first we got to create the macro we will be inserting
+        createSimpleMacro(viewMacroName);
+
+        // Now we need to create a document type with a rich text editor where we can insert the macro
+        // The document type must have a template as well in order to ensure that the content is displayed correctly
+        const alias = AliasHelper.toAlias(viewMacroName);
+        const docType = new DocumentTypeBuilder()
+            .withName(viewMacroName)
+            .withAlias(alias)
+            .withAllowAsRoot(true)
+            .withDefaultTemplate(alias)
+            .addGroup()
+            .addRichTextProperty()
+            .withAlias('text')
+            .done()
+            .done()
+            .build();
+
+        cy.saveDocumentType(docType).then((generatedDocType) => {
+            // Might as wel initally create the content here, the less GUI work during the test the better
+            const contentNode = new ContentBuilder()
+                .withContentTypeAlias(generatedDocType["alias"])
+                .withAction('saveNew')
+                .addVariant()
+                .withName(viewMacroName)
+                .withSave(true)
+                .done()
+                .build();
+
+            cy.saveContent(contentNode);
+        });
+
+        // Edit the macro template in order to have something to verify on when rendered.
+        cy.editTemplate(viewMacroName, `@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+  Layout = null;
+}
+@{
+    if (Model.HasValue("text")){
+        @(Model.Value("text"))
+    }
+} `);
+
+        // Enter content
+        refreshContentTree();
+        cy.umbracoTreeItem("content", [viewMacroName]).click();
+
+        // Insert macro
+        cy.get('#mceu_13-button').click();
+        cy.get('.umb-card-grid-item').contains(viewMacroName).click();
+
+        // Save and publish
+        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
+        cy.umbracoSuccessNotification().should('be.visible');
+
+        // Ensure that the view gets rendered correctly
+        const expected = `<h1>Acceptance test</h1><p> </p>`;
+        cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
+
+        // Cleanup
+        cy.umbracoEnsureMacroNameNotExists(viewMacroName);
+        cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
+        cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
+        cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
+    });
+
+
 });
