@@ -293,7 +293,13 @@ declare global {
        * @example cy.umbracoEnsureDocumentTypeNameNotExists('Home');
        */
       umbracoEnsureDocumentTypeNameNotExists: (name: string) => Chainable<void>;
-
+      /**
+       * Checks to see if any document types with the specified array
+       *  of names does not exist, if it does it will automatically delete it
+       * @param {Array<string>} names Names of DocumentTypes to delete
+       * @example cy.umbracoEnsureMultipleDocumentTypeNameNotExists(['Home', 'About Us'])
+       */
+       umbracoEnsureMultipleDocumentTypeNameNotExists : (names: Array<string>) => Chainable<void>
       /**
        * Checks to see if Language with specified name does not exist
        * If it does it will automatically delete it

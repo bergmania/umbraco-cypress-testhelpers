@@ -29,6 +29,7 @@ import UmbracoTreeItem from './umbracoTreeItem';
 import UmbracoContextMenuAction from './umbracoContextMenuAction';
 import UmbracoEnsureRelationTypeNameNotExists from './umbracoEnsureRelationTypeNameNotExists';
 import UmbracoEnsureDocumentTypeNameNotExists from './umbracoEnsureDocumentTypeNameNotExists';
+import UmbracoEnsureMultipleDocumentTypeNameNotExists from './umbracoEnsureMultipleDocumentTypeNameNotExists';
 import UmbracoEnsureMediaTypeNameNotExists from './umbracoEnsureMediaTypeNameNotExists';
 import UmbracoEnsureMemberTypeNameNotExists from './umbracoEnsureMemberTypeNameNotExists';
 import UmbracoEnsureDataTypeNameNotExists from './umbracoEnsureDataTypeNameNotExists';
@@ -132,6 +133,7 @@ export class Command {
     new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMultipleDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberGroupNameNotExists(relativeBackOfficePath).registerCommand();
