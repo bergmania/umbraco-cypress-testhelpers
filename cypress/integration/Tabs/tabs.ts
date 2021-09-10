@@ -8,12 +8,15 @@ import {
     AliasHelper,
 } from '../../../src';
 const tabsDocTypeName = 'Tabs Test Document';
-const tabsDocTypeAlias = AliasHelper.toAlias(tabsDocTypeName); 
-context('Tabs', () => { 
+const tabsDocTypeAlias = AliasHelper.toAlias(tabsDocTypeName);
 
+context('Tabs', () => { 
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
       });
+    afterEach(() =>  {
+        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName)
+    });
     function OpenDocTypeFolder(){
         cy.umbracoSection('settings');
         cy.get('li .umb-tree-root:contains("Settings")').should("be.visible");
@@ -42,7 +45,7 @@ context('Tabs', () => {
     }
       it('Create tab', () => { 
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
-        
+        cy.deleteAllContent();
         const tabsDocType = new DocumentTypeBuilder()
             .withName(tabsDocTypeName)
             .withAlias(tabsDocTypeAlias)
@@ -55,9 +58,6 @@ context('Tabs', () => {
                 .done()
             .done()
             .build();
-
-        cy.deleteAllContent();
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
         cy.saveDocumentType(tabsDocType);
         OpenDocTypeFolder();
         //Create a tab
@@ -84,8 +84,6 @@ context('Tabs', () => {
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title="tab1"]').should('be.visible');
         cy.get('[title="tab2"]').should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
 
       it('Delete tabs', () => { 
@@ -130,8 +128,6 @@ context('Tabs', () => {
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title=urlPicker]').should('be.visible');
         cy.get('[title=picker]').should('not.exist');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
       it('Delete group in tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
@@ -166,8 +162,6 @@ context('Tabs', () => {
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title=picker]').should('be.visible');
         cy.get('[title=urlPicker]').should('not.exist');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
       it('Reorders tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
@@ -219,8 +213,6 @@ context('Tabs', () => {
         cy.get('.umb-group-builder__group-title-input').eq(0).invoke('attr', 'title').should('eq', 'aTab 2')
         cy.get('.umb-group-builder__group-title-input').eq(1).invoke('attr', 'title').should('eq', 'aTab 3')
         cy.get('.umb-group-builder__group-title-input').eq(2).invoke('attr', 'title').should('eq', 'aTab 1')
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
       it('Reorders groups in a tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
@@ -258,50 +250,46 @@ context('Tabs', () => {
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('.umb-group-builder__group-title-input').eq(2)
         .invoke('attr', 'title').should('eq', 'aTab 1/aTab group 2');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
-         it('Reorders properties in a tab', () => {
-          cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
-          const tabsDocType = new DocumentTypeBuilder()
-              .withName(tabsDocTypeName)
-              .withAlias(tabsDocTypeAlias)
-              .withAllowAsRoot(true)
-              .withDefaultTemplate(tabsDocTypeAlias)
-              .addTab()
-                  .withName('Tab 1')
-                  .addGroup()
-                    .withName('Tab group')
-                    .addUrlPickerProperty()
-                      .withLabel('PickerOne')
-                      .withAlias("urlPicker")
-                    .done()
-                    .addUrlPickerProperty()
-                      .withLabel('PickerTwo')
-                      .withAlias('urlPickerTwo')
-                    .done()
-                  .done()
-              .done()
-            .build();
-          cy.saveDocumentType(tabsDocType);
-          OpenDocTypeFolder();
-          //Reorder
-          cy.get('[alias="reorder"]').click();
-          cy.get('.umb-group-builder__group-sort-value').first().type('2');
-          cy.get('[alias="reorder"]').click();
-          cy.umbracoButtonByLabelKey('buttons_save').click();          
-          //Assert
-          cy.umbracoSuccessNotification().should('be.visible');
-          cy.get('.umb-locked-field__input').last().invoke('attr', 'title').should('eq', 'urlPicker');
-         });
+      it('Reorders properties in a tab', () => {
+       cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
+       const tabsDocType = new DocumentTypeBuilder()
+           .withName(tabsDocTypeName)
+           .withAlias(tabsDocTypeAlias)
+           .withAllowAsRoot(true)
+           .withDefaultTemplate(tabsDocTypeAlias)
+           .addTab()
+               .withName('Tab 1')
+               .addGroup()
+                 .withName('Tab group')
+                 .addUrlPickerProperty()
+                   .withLabel('PickerOne')
+                   .withAlias("urlPicker")
+                 .done()
+                 .addUrlPickerProperty()
+                   .withLabel('PickerTwo')
+                   .withAlias('urlPickerTwo')
+                 .done()
+               .done()
+           .done()
+         .build();
+       cy.saveDocumentType(tabsDocType);
+       OpenDocTypeFolder();
+       //Reorder
+       cy.get('[alias="reorder"]').click();
+       cy.get('.umb-group-builder__group-sort-value').first().type('2');
+       cy.get('[alias="reorder"]').click();
+       cy.umbracoButtonByLabelKey('buttons_save').click();          
+       //Assert
+       cy.umbracoSuccessNotification().should('be.visible');
+       cy.get('.umb-locked-field__input').last().invoke('attr', 'title').should('eq', 'urlPicker');
+      });
       it('Tab name cannot be empty', () => {
         CreateDocWithTabAndNavigate();
         cy.get('.umb-group-builder__group-title-input').first().clear();
         cy.umbracoButtonByLabelKey('buttons_save').click();
         //Assert
         cy.umbracoErrorNotification().should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
       it('Two tabs cannot have the same name', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
@@ -328,18 +316,16 @@ context('Tabs', () => {
         cy.umbracoButtonByLabelKey('buttons_save').click();
         //Assert
         cy.umbracoErrorNotification().should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
+
       it('Group name cannot be empty', () => {
         CreateDocWithTabAndNavigate();
         cy.get('.clearfix > .-placeholder').click();
         cy.umbracoButtonByLabelKey('buttons_save').click();
         //Assert
         cy.umbracoErrorNotification().should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
+
       it('Group name cannot have the same name', () => {
         CreateDocWithTabAndNavigate();
         cy.get('.clearfix > .-placeholder').click();
@@ -347,9 +333,8 @@ context('Tabs', () => {
         cy.umbracoButtonByLabelKey('buttons_save').click();
         //Assert
         cy.umbracoErrorNotification().should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
+
       it('Drag a group into another tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
         const tabsDocType = new DocumentTypeBuilder()
@@ -392,12 +377,10 @@ context('Tabs', () => {
         cy.get('.umb-group-builder__tab').eq(1).should('have.class', 'is-active').trigger('mouseup', {force:true});
         cy.umbracoButtonByLabelKey('buttons_save').click();
         //Assert
-
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title="aTab 1/aTab group 2"]').should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
+
       it('Drag and drop reorders a tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
         const tabsDocType = new DocumentTypeBuilder()
@@ -443,9 +426,8 @@ context('Tabs', () => {
         //Assert
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title="aTab 2"]').should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
+
       it('Drags and drops a property in a tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
         const tabsDocType = new DocumentTypeBuilder()
@@ -495,9 +477,8 @@ context('Tabs', () => {
         //Assert
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title="urlPickerTabTwo"]').should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
+
       it('Drags and drops a group and converts to tab', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
         const tabsDocType = new DocumentTypeBuilder()
@@ -543,7 +524,5 @@ context('Tabs', () => {
         //Assert
         cy.umbracoSuccessNotification().should('be.visible');
         cy.get('[title="tabGroup"]').should('be.visible');
-        //Clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(tabsDocTypeName);
       });
 });
