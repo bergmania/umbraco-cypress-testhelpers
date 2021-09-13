@@ -29,6 +29,7 @@ import UmbracoTreeItem from './umbracoTreeItem';
 import UmbracoContextMenuAction from './umbracoContextMenuAction';
 import UmbracoEnsureRelationTypeNameNotExists from './umbracoEnsureRelationTypeNameNotExists';
 import UmbracoEnsureDocumentTypeNameNotExists from './umbracoEnsureDocumentTypeNameNotExists';
+import UmbracoEnsureMultipleDocumentTypeNameNotExists from './umbracoEnsureMultipleDocumentTypeNameNotExists';
 import UmbracoEnsureMediaTypeNameNotExists from './umbracoEnsureMediaTypeNameNotExists';
 import UmbracoEnsureMemberTypeNameNotExists from './umbracoEnsureMemberTypeNameNotExists';
 import UmbracoEnsureDataTypeNameNotExists from './umbracoEnsureDataTypeNameNotExists';
@@ -72,6 +73,8 @@ import UmbracoStylesheetExists from './umbracoStylesheetExists';
 import SaveStylesheet from './saveStylesheet';
 import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
 import SaveMacroWithPartial from './saveMacroWithPartial';
+import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
+import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -124,11 +127,13 @@ export class Command {
     new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();
     new UmbracoSuccessNotification(relativeBackOfficePath).registerCommand();
     new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
+    new UmbracoCreateDocTypeWithContent(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMultipleDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberGroupNameNotExists(relativeBackOfficePath).registerCommand();
@@ -142,6 +147,7 @@ export class Command {
     new UmbracoEnsureScriptNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
     new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
+    new UmbracoRefreshContentTree(relativeBackOfficePath).registerCommand();
     new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
     new UmbracoMacroExists(relativeBackOfficePath).registerCommand();
     new SavePartialViewMacro(relativeBackOfficePath).registerCommand();

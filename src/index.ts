@@ -11,11 +11,13 @@ export { FormPickerDataTypeBuilder } from './cms/builders/dataTypes/formPickerDa
 export { LabelDataTypeBuilder } from './cms/builders/dataTypes/labelDataTypeBuilder';
 export { TextBoxDataTypeBuilder } from './cms/builders/dataTypes/textBoxDataTypeBuilder';
 export { DropDownDataTypeBuilder } from './cms/builders/dataTypes/dropDownDataTypeBuilder';
+export { CheckBoxListDataTypeBuilder } from './cms/builders/dataTypes/checkBoxListDataTypeBuilder';
 export { GridDataTypeBuilder } from './cms/builders/dataTypes/gridDataTypeBuilder';
-
+export { ApprovedColorPickerDataTypeBuilder } from './cms/builders/dataTypes/approvedColorPickerTypeDataTypeBuilder';
 /* DocumentTypes  builders */
 // export * from './cms/builders/documentTypes/';
 export { DocumentTypeBuilder } from './cms/builders/documentTypes/documentTypeBuilder';
+
 /* DocumentType Properties builders */
 export { FormPickerDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/formPickerDocumentTypePropertyBuilder';
 export { TextBoxDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/textBoxDocumentTypePropertyBuilder';
