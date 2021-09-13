@@ -69,6 +69,5 @@ context('Url Picker', () => {
         cy.umbracoEnsureDocumentTypeNameNotExists(urlPickerDocTypeName);
         cy.umbracoEnsureTemplateNameNotExists(urlPickerDocTypeName);
 
-    })
-
-})
+    });
+});

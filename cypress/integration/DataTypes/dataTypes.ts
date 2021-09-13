@@ -1,9 +1,7 @@
 /// <reference types="Cypress" />
 import {
-    DocumentTypeBuilder,
     AliasHelper,
     ApprovedColorPickerDataTypeBuilder,
-    ContentBuilder
 } from '../../../src';
 
 context('DataTypes', () => {
@@ -44,6 +42,7 @@ context('DataTypes', () => {
             '\n    Layout = null;' +
             '\n}' +
             '\n<p style="color:@Model.UmbracoTest">Lorem ipsum dolor sit amet</p>');
+
         //Assert
         const expected = `<p style="color:000000" > Lorem ipsum dolor sit amet </p>`;
         cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
@@ -61,8 +60,8 @@ context('DataTypes', () => {
         cy.umbracoEnsureDataTypeNameNotExists(name);
         cy.umbracoEnsureDocumentTypeNameNotExists(name);
         cy.umbracoEnsureTemplateNameNotExists(name);
+    });
 
-      });
     //   it('Tests Checkbox List', () => {
     //     const name = 'CheckBox List';
     //     const alias = AliasHelper.toAlias(name); 
