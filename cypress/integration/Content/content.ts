@@ -8,11 +8,14 @@ import {
 } from '../../../src';
 
 context('Content', () => {
-
+    let docNames = []
     beforeEach(() => {
-        cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
+        cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
     });
-
+    afterEach(() => {
+        //Cleanup after each test
+        cy.umbracoEnsureMultipleDocumentTypeNameNotExists(docNames)
+    })
     function refreshContentTree(){
         // Refresh to update the tree
         cy.get('li .umb-tree-root:contains("Content")').should("be.visible").rightclick();
@@ -41,6 +44,7 @@ context('Content', () => {
     it('Copy content', () => {
         const rootDocTypeName = "Test document type";
         const childDocTypeName = "Child test document type";
+        docNames = [rootDocTypeName, childDocTypeName];
         const nodeName = "1) Home";
         const childNodeName = "1) Child";
         const anotherNodeName = "2) Home";
@@ -50,9 +54,7 @@ context('Content', () => {
             .build();
 
         cy.deleteAllContent();
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(childDocTypeName);
-
+        cy.umbracoEnsureMultipleDocumentTypeNameNotExists(docNames);
         cy.saveDocumentType(childDocType).then((generatedChildDocType) => {
             let rootDocTypeAlias;
             const createdChildDocType = generatedChildDocType;
@@ -116,15 +118,12 @@ context('Content', () => {
 
         // Assert
         cy.get('.alert-success').should('exist');
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(childDocTypeName);
     });
 
     it('Move content', () => {
         const rootDocTypeName = "Test document type";
         const childDocTypeName = "Child test document type";
+        docNames = [rootDocTypeName, childDocTypeName];
         const nodeName = "1) Home";
         const childNodeName = "1) Child";
         const anotherNodeName = "2) Home";
@@ -134,8 +133,7 @@ context('Content', () => {
             .build();
 
         cy.deleteAllContent();
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(childDocTypeName);
+        cy.umbracoEnsureMultipleDocumentTypeNameNotExists(docNames)
 
         cy.saveDocumentType(childDocType).then((generatedChildDocType) => {
             let rootDocTypeAlias;
@@ -200,15 +198,12 @@ context('Content', () => {
 
         // Assert
         cy.get('.alert-success').should('exist');
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(childDocTypeName);
     });
 
     it('Sort content', () => {
         const rootDocTypeName = "Test document type";
         const childDocTypeName = "Child test document type";
+        docNames = [rootDocTypeName, childDocTypeName];
         const nodeName = "1) Home";
         const firstChildNodeName = "1) Child";
         const secondChildNodeName = "2) Child";
@@ -218,8 +213,7 @@ context('Content', () => {
             .build();
 
         cy.deleteAllContent();
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(childDocTypeName);
+        cy.umbracoEnsureMultipleDocumentTypeNameNotExists(docNames);
 
         cy.saveDocumentType(childDocType).then((generatedChildDocType) => {
             const createdChildDocType = generatedChildDocType;
@@ -294,14 +288,11 @@ context('Content', () => {
         // Assert
         cy.get('.umb-tree-item [node="child"]').eq(0).should('contain.text', secondChildNodeName);
         cy.get('.umb-tree-item [node="child"]').eq(1).should('contain.text', firstChildNodeName);
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(childDocTypeName);
     });
 
     it('Rollback content', () => {
         const rootDocTypeName = "Test document type";
+        docNames = [rootDocTypeName]
         const initialNodeName = "Home node";
         const nodeName = "Home";
 
@@ -358,13 +349,11 @@ context('Content', () => {
         cy.get('.history').find('.umb-badge').contains('Save').should('be.visible');
         cy.get('.history').find('.umb-badge').contains('Rollback').should('be.visible');
         cy.get('#headerName').should('have.value', initialNodeName);
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
     });
 
     it('View audit trail', () => {
         const rootDocTypeName = "Test document type";
+        docNames = [rootDocTypeName]
         const nodeName = "Home";
         const labelName = "Name";
 
@@ -404,13 +393,11 @@ context('Content', () => {
 
         // Assert
         cy.get('.history').should('exist');
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
     });
 
     it('Save draft', () => {
         const rootDocTypeName = "Test document type";
+        docNames [rootDocTypeName]
         const nodeName = "Home";
 
         const rootDocType = new DocumentTypeBuilder()
@@ -442,13 +429,11 @@ context('Content', () => {
 
         // Assert
         cy.get('[data-element="node-info-status"]').find('.umb-badge').should('contain.text', "Draft");
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
     });
 
     it('Preview draft', () => {
         const rootDocTypeName = "Test document type";
+        docNames = [rootDocTypeName];
         const nodeName = "Home";
 
         const rootDocType = new DocumentTypeBuilder()
@@ -483,13 +468,11 @@ context('Content', () => {
 
         // Assert
         cy.umbracoSuccessNotification({ multiple: true }).should('be.visible');
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
     });
 
     it('Publish draft', () => {
         const rootDocTypeName = "Test document type";
+        docNames = [rootDocTypeName];
         const nodeName = "Home";
 
         const rootDocType = new DocumentTypeBuilder()
@@ -520,20 +503,17 @@ context('Content', () => {
 
         // Assert
         cy.get('[data-element="node-info-status"]').find('.umb-badge').should('contain.text', "Published");
-
-        // Clean up (content is automatically deleted when document types are gone)
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
     });
 
     it('Content with contentpicker', () => {
         const pickerDocTypeName = 'Content picker doc type';
         const pickerDocTypeAlias = AliasHelper.toAlias(pickerDocTypeName);
         const pickedDocTypeName = 'Picked content document type';
+        docNames = [pickerDocTypeName, pickedDocTypeName]
 
         cy.deleteAllContent();
-        cy.umbracoEnsureDocumentTypeNameNotExists(pickerDocTypeName);
+        cy.umbracoEnsureMultipleDocumentTypeNameNotExists(docNames);
         cy.umbracoEnsureTemplateNameNotExists(pickerDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(pickedDocTypeName);
 
         // Create the content type and content we'll be picking from.
         const pickedDocType = new DocumentTypeBuilder()
@@ -616,9 +596,107 @@ context('Content', () => {
         const expectedContent = '<p>Acceptance test</p>'
         cy.umbracoVerifyRenderedViewContent('contentpickercontent', expectedContent, true).should('be.true');
         // clean
-        cy.umbracoEnsureDocumentTypeNameNotExists(pickerDocTypeName);
         cy.umbracoEnsureTemplateNameNotExists(pickerDocTypeName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(pickedDocTypeName);
+    });
+    
+    it('Content with macro in grid', () => {
+        const name = 'Content with macro in grid';
+        const macroName = 'Grid macro';
+        const macroFileName = macroName + '.cshtml';
+        docNames = [name];
+        cy.umbracoEnsureDataTypeNameNotExists(name);
+        cy.umbracoEnsureDocumentTypeNameNotExists(name);
+        cy.umbracoEnsureTemplateNameNotExists(name);
+        cy.umbracoEnsureMacroNameNotExists(macroName);
+        cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
+        cy.deleteAllContent();
+
+        createSimpleMacro(macroName);
+
+        const grid = new GridDataTypeBuilder()
+            .withName(name)
+            .withDefaultGrid()
+            .build();
+
+        const alias = AliasHelper.toAlias(name);
+        // Save grid and get the ID 
+        cy.saveDataType(grid).then((dataType) => {
+            // Create a document type using the data type
+            const docType = new DocumentTypeBuilder()
+                .withName(name)
+                .withAlias(alias)
+                .withAllowAsRoot(true)
+                .withDefaultTemplate(alias)
+                .addGroup()
+                .addCustomProperty(dataType['id'])
+                .withAlias('grid')
+                .done()
+                .done()
+                .build();
+
+            cy.saveDocumentType(docType).then((generatedDocType) => {
+                const contentNode = new ContentBuilder()
+                    .withContentTypeAlias(generatedDocType["alias"])
+                    .addVariant()
+                    .withName(name)
+                    .withSave(true)
+                    .done()
+                    .build();
+
+                cy.saveContent(contentNode);
+            });
+        });
+
+        // Edit the template to allow us to verify the rendered view
+        cy.editTemplate(name, `@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+  Layout = null;
+}
+@Html.GetGridHtml(Model, "grid")`);
+
+        // Act
+        // Enter content
+        refreshContentTree();
+        cy.umbracoTreeItem("content", [name]).click();
+        // Click add
+        cy.get(':nth-child(2) > .preview-row > .preview-col > .preview-cell').click(); // Choose 1 column layout.
+        cy.get('.umb-column > .templates-preview > :nth-child(2)').click(); // Choose headline
+        cy.get('.umb-cell-placeholder').click();
+        // Click macro
+        cy.get(':nth-child(4) > .umb-card-grid-item > :nth-child(1)').click();
+        // Select the macro
+        cy.get('.umb-card-grid-item').contains(macroName).click();
+
+        // Save and publish
+        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
+        cy.umbracoSuccessNotification().should('be.visible');
+
+        const expected = `
+    <div class="umb-grid">
+      <div class="grid-section">
+        <div>
+          <div class="container">
+            <div class="row clearfix">
+              <div class="col-md-12 column">
+                <div>
+                  <h1>Acceptance test</h1>
+                </div>
+              </div>        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`
+
+        cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
+
+        // Clean 
+        cy.umbracoEnsureDataTypeNameNotExists(name);
+        cy.umbracoEnsureDocumentTypeNameNotExists(name);
+        cy.umbracoEnsureTemplateNameNotExists(name);
+        cy.umbracoEnsureMacroNameNotExists(macroName);
+        cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
     });
 
     it('Content with macro in RTE', () => {
@@ -694,107 +772,8 @@ context('Content', () => {
         // Cleanup
         cy.umbracoEnsureMacroNameNotExists(viewMacroName);
         cy.umbracoEnsurePartialViewMacroFileNameNotExists(partialFileName);
-        cy.umbracoEnsureDocumentTypeNameNotExists(viewMacroName);
         cy.umbracoEnsureTemplateNameNotExists(viewMacroName);
     });
 
-    it('Content with macro in grid', () => {
-        const name = 'Content with macro in grid';
-        const macroName = 'Grid macro';
-        const macroFileName = macroName + '.cshtml';
 
-        cy.umbracoEnsureDataTypeNameNotExists(name);
-        cy.umbracoEnsureDocumentTypeNameNotExists(name);
-        cy.umbracoEnsureTemplateNameNotExists(name);
-        cy.umbracoEnsureMacroNameNotExists(macroName);
-        cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
-        cy.deleteAllContent();
-
-        createSimpleMacro(macroName);
-
-        const grid = new GridDataTypeBuilder()
-            .withName(name)
-            .withDefaultGrid()
-            .build();
-
-        const alias = AliasHelper.toAlias(name);
-        // Save grid and get the ID 
-        cy.saveDataType(grid).then((dataType) => {
-            // Create a document type using the data type
-            const docType = new DocumentTypeBuilder()
-                .withName(name)
-                .withAlias(alias)
-                .withAllowAsRoot(true)
-                .withDefaultTemplate(alias)
-                .addGroup()
-                .addCustomProperty(dataType['id'])
-                .withAlias('grid')
-                .done()
-                .done()
-                .build();
-
-            cy.saveDocumentType(docType).then((generatedDocType) => {
-                const contentNode = new ContentBuilder()
-                    .withContentTypeAlias(generatedDocType["alias"])
-                    .addVariant()
-                    .withName(name)
-                    .withSave(true)
-                    .done()
-                    .build();
-
-                cy.saveContent(contentNode);
-            });
-        });
-
-        // Edit the template to allow us to verify the rendered view
-        cy.editTemplate(name, `@inherits Umbraco.Web.Mvc.UmbracoViewPage
-@using ContentModels = Umbraco.Web.PublishedModels;
-@{
-  Layout = null;
-}
-@Html.GetGridHtml(Model, "grid")`);
-
-        // Act
-        // Enter content
-        refreshContentTree();
-        cy.umbracoTreeItem("content", [name]).click();
-        // Click add
-        cy.get(':nth-child(2) > .preview-row > .preview-col > .preview-cell').click(); // Choose 1 column layout.
-        cy.get('.umb-column > .templates-preview > :nth-child(2) > .ng-binding').click(); // Choose headline
-        cy.get('.umb-cell-placeholder').click();
-        // Click macro
-        cy.get(':nth-child(4) > .umb-card-grid-item > :nth-child(1)').click();
-        // Select the macro
-        cy.get('.umb-card-grid-item').contains(macroName).click();
-
-        // Save and publish
-        cy.umbracoButtonByLabelKey('buttons_saveAndPublish').click();
-        cy.umbracoSuccessNotification().should('be.visible');
-
-        const expected = `
-    <div class="umb-grid">
-      <div class="grid-section">
-        <div>
-          <div class="container">
-            <div class="row clearfix">
-              <div class="col-md-12 column">
-                <div>
-                  <h1>Acceptance test</h1>
-                </div>
-              </div>        
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`
-
-        cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
-
-        // Clean 
-        cy.umbracoEnsureDataTypeNameNotExists(name);
-        cy.umbracoEnsureDocumentTypeNameNotExists(name);
-        cy.umbracoEnsureTemplateNameNotExists(name);
-        cy.umbracoEnsureMacroNameNotExists(macroName);
-        cy.umbracoEnsurePartialViewMacroFileNameNotExists(macroFileName);
-    });
 });

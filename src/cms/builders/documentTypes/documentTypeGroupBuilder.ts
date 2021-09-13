@@ -1,19 +1,22 @@
 import faker from 'faker';
-
+import camelize from 'camelize';
 import { FormPickerDocumentTypePropertyBuilder } from './properties/formPickerDocumentTypePropertyBuilder';
 import { TextBoxDocumentTypePropertyBuilder } from './properties/textBoxDocumentTypePropertyBuilder';
 import { DropDownDocumentTypePropertyBuilder } from './properties/dropDownDocumentTypePropertyBuilder';
 import { ContentPickerPropertyBuilder } from './properties/contentPickerTypePropertyBuilder';
 import { RichTextDocumentTypePropertyEditor, CustomDocumentTypePropertyBuilder } from './properties';
+import { UrlPickerPropertyBuilder } from './properties/urlPickerTypePropertyBuilder';
+
 
 export default class DocumentTypeGroupBuilder {
   parentBuilder;
-
+  alias;
   name;
   sortOrder;
   id;
   inherited;
   documentTypeGroupPropertyBuilders;
+  
 
   constructor(parentBuilder) {
     this.parentBuilder = parentBuilder;
@@ -25,7 +28,10 @@ export default class DocumentTypeGroupBuilder {
     this.name = name;
     return this;
   }
-
+  withAlias(alias){
+    this.alias = alias;
+    return this;
+  }
   addFormPickerProperty() {
     const builder = new FormPickerDocumentTypePropertyBuilder(this);
 
@@ -56,6 +62,12 @@ export default class DocumentTypeGroupBuilder {
     return builder;
   }
 
+  addUrlPickerProperty() {
+    const builder = new UrlPickerPropertyBuilder(this);
+    this.documentTypeGroupPropertyBuilders.push(builder);
+    return builder;
+  }
+
   addRichTextProperty() {
     const builder = new RichTextDocumentTypePropertyEditor(this);
     this.documentTypeGroupPropertyBuilders.push(builder);
@@ -71,12 +83,17 @@ export default class DocumentTypeGroupBuilder {
   done() {
     return this.parentBuilder;
   }
+  getAlias(){
+    return this.alias || 'a' + camelize(this.name);
+  }
 
   build() {
+    const name = this.name || faker.random.uuid()
     return {
       id: this.id || -1,
       inherited: this.inherited || false,
-      name: this.name || faker.random.uuid(),
+      name: this.name || name,
+      alias: this.getAlias(),
       sortOrder: this.sortOrder || 0,
       properties: this.documentTypeGroupPropertyBuilders.map((builder) => {
         return builder.build();

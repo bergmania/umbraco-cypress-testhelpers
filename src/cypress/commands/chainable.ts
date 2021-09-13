@@ -1,3 +1,5 @@
+import { DataType } from "src/cms/models/dataTypes/dataType";
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
@@ -268,7 +270,13 @@ declare global {
        * @example cy.umbracoContextMenuAction("action-refreshNode").click();
        */
       umbracoContextMenuAction: (actionName: string) => Chainable<void>;
-
+      /**
+       * Creates a document type and some content for that document type
+       * @param {string} name Name of the given doc type
+       * @param {string} alias Alias of the given doc type
+       * @param {DataType} dataType of the given doc tpye
+       */
+      umbracoCreateDocTypeWithContent: (name: string, alias: string, dataType: DataType) => Chainable<void>
       /**
        * Gets the umbEditorHeader types in the name into the textbox and verifies the alias generated
        * Is in the format we expect it to be generated
@@ -277,7 +285,7 @@ declare global {
        * @example cy.umbracoEditorHeaderName('Test member type');
        */
       umbracoEditorHeaderName: (name: string) => Chainable<void>;
-      
+
       /**
        * Checks to see if DataType with specified name does not exist
        * If it does it will automatically delete it
@@ -285,7 +293,7 @@ declare global {
        * @example cy.umbracoEnsureDataTypeNameNotExists('Content with macro in grid');
        */
       umbracoEnsureDataTypeNameNotExists: (name: string) => Chainable<void>;
-      
+
       /**
        * Checks to see if DocumentType with specified name does not exist
        * If it does it will automatically delete it
@@ -293,7 +301,13 @@ declare global {
        * @example cy.umbracoEnsureDocumentTypeNameNotExists('Home');
        */
       umbracoEnsureDocumentTypeNameNotExists: (name: string) => Chainable<void>;
-
+      /**
+       * Checks to see if any document types with the specified array
+       *  of names does not exist, if it does it will automatically delete it
+       * @param {Array<string>} names Names of DocumentTypes to delete
+       * @example cy.umbracoEnsureMultipleDocumentTypeNameNotExists(['Home', 'About Us'])
+       */
+       umbracoEnsureMultipleDocumentTypeNameNotExists : (names: Array<string>) => Chainable<void>
       /**
        * Checks to see if Language with specified name does not exist
        * If it does it will automatically delete it
@@ -301,7 +315,7 @@ declare global {
        * @example cy.umbracoEnsureLanguageNameNotExists('Kyrgyz (Kyrgyzstan)');
        */
       umbracoEnsureLanguageNameNotExists: (name: string) => Chainable<void>;
-      
+
       /**
        * Checks to see if Macro with specified name does not exist
        * If it does it will automatically delete it
@@ -309,7 +323,7 @@ declare global {
        * @example cy.umbracoEnsureMacroNameNotExists('Content with macro in RTE');
        */
       umbracoEnsureMacroNameNotExists: (name: string) => Chainable<void>;
-      
+
       /**
        * Checks to see if MediaType with specified name does not exist
        * If it does it will automatically delete it
@@ -364,7 +378,7 @@ declare global {
        * @param  {string} name Name of Relation Type to delete
        * @example cy.umbracoEnsureRelationTypeNameNotExists('Test relation type');
        */
-      umbracoEnsureRelationTypeNameNotExists: (name: string) => Chainable<void>; 
+      umbracoEnsureRelationTypeNameNotExists: (name: string) => Chainable<void>;
 
       /**
        * Checks to see if Javascript file with specified name does not exist
@@ -389,7 +403,7 @@ declare global {
        * @example cy.umbracoEnsureTemplateNameNotExists('Content with macro in RTE');
        */
       umbracoEnsureTemplateNameNotExists: (name: string) => Chainable<void>;
-      
+
       /**
        * Checks to see if backoffice User with specified email address does not exist
        * If it does it will automatically delete it
@@ -405,21 +419,21 @@ declare global {
        * @example cy.umbracoEnsureUserGroupNameNotExists('Test Group');
        */
       umbracoEnsureUserGroupNameNotExists: (name: string) => Chainable<void>;
-      
+
       /**
        * This checks for the presense of Umbraco error notification banners
        * Will wait upto 6000ms as we may be waiting for a server response
        * @example cy.umbracoErrorNotification().should('be.visible');
        */
       umbracoErrorNotification: () => Chainable<any>;
-      
+
       /**
        * A handy shortcut to help select the Umbraco global help
        * @example cy.umbracoGlobalHelp().should("be.visible");
        * cy.umbracoGlobalHelp().click();
        */
       umbracoGlobalHelp: () => Chainable<void>;
-      
+
       /**
        * A handy shortcut to help select the Umbraco global user
        * @example cy.umbracoGlobalUser().click()
@@ -443,7 +457,7 @@ declare global {
        * @example cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
        */
       umbracoLogin: (username: string, password: string, skipCheckTours: boolean) => Chainable<void>;
-      
+
       /**
        * Checks to see if Macro with specified name exists
        * @param  {string} name Name of Macro to check for
@@ -457,8 +471,11 @@ declare global {
        * @example cy.umbracoPartialViewExists('TestPartialView.cshtml').should('be.true');
        */
       umbracoPartialViewExists: (filename: string) => Chainable<boolean>;
-
-       /**
+      /**
+       * 
+       */
+      umbracoRefreshContentTree: () => Chainable<void>
+      /**
        * Checks to see if Partial View with specified name exists
        * @param  {string} filename Name of Javascript to check for
        * @example cy.umbracoScriptExists('TestScript.js').should('be.true');
@@ -507,8 +524,12 @@ declare global {
        * @example const expected = `<h1>Acceptance test</h1><p> </p>`;
         cy.umbracoVerifyRenderedViewContent('/', expected, true).should('be.true');
        */
-      umbracoVerifyRenderedViewContent: (endpoint: string, expectedContent: string, removeWhiteSpace: boolean) => Chainable<boolean>;
-      
+      umbracoVerifyRenderedViewContent: (
+        endpoint: string,
+        expectedContent: string,
+        removeWhiteSpace: boolean,
+      ) => Chainable<boolean>;
+
       /**
        * This verifies a specific Umbraco JS file contents
        *
@@ -526,11 +547,11 @@ declare global {
        * @param  {string} fileName CSS Filename to request
        * @param  {string} expected Expected contents of CSS file
        * @returns {boolean} A boolean if expected CSS matches requested file
-       * @example 
+       * @example
        * cy.umbracoVerifyStylesheetContent('styles.css', expected).should('be.true');
        */
       umbracoVerifyStylesheetContent: (fileName: string, expected: string) => Chainable<boolean>;
-      
+
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
