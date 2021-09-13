@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEnsureMacroNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsureMacroNameNotExists';
@@ -18,7 +18,7 @@ export default class UmbracoEnsureMacroNameNotExists extends CommandBase {
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody.length > 0) {
           let macroId = null;
           for (const sb of searchBody) {

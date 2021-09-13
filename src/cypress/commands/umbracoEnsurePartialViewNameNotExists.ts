@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEnsurePartialViewNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsurePartialViewNameNotExists';
@@ -18,7 +18,7 @@ export default class UmbracoEnsurePartialViewNameNotExists extends CommandBase {
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody.length > 0) {
           let partialViewId = null;
           for (const sb of searchBody) {

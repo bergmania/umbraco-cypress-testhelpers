@@ -1,5 +1,5 @@
 ﻿import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
+import { JsonHelper } from '../../helpers/jsonHelper';
 
 export default class UmbracoEnsureUserGroupNameNotExists extends CommandBase {
   _commandName = 'umbracoEnsureUserGroupNameNotExists';
@@ -19,7 +19,7 @@ export default class UmbracoEnsureUserGroupNameNotExists extends CommandBase {
         },
         log: false,
       }).then((response) => {
-        const searchBody = ResponseHelper.getResponseBody(response);
+        const searchBody = JsonHelper.getBody(response);
         if (searchBody.length > 0) {
           let userGroupId = null;
           for (const sb of searchBody) {
