@@ -54,7 +54,7 @@ export class FormBuilder implements IBuilder {
     this.formPageBuilders.push(builder);
     return builder;
   }
-  addFormWorkflowType(executeOn): FormWorkflowBuilder {
+  addFormWorkflowType(executeOn : ExecuteOn): FormWorkflowBuilder {
     const builder = new FormWorkflowBuilder(this);
     executeOn === ExecuteOn.onAprrove ? this.onApprove.push(builder) : this.onSubmit.push(builder);
     return builder;
