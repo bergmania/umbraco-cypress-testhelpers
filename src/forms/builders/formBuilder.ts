@@ -2,10 +2,10 @@ import { FormPageBuilder } from './formPageBuilder';
 import { IBuilder } from './iBuilder';
 import { FormWorkflowBuilder } from './workflows/formWorkflowBuilder';
 
-enum ExecuteOn {
-  onSubmit = 0,
-  onAprrove = 1,
-}
+const ExecuteOn = {
+  onSubmit: 0,
+  onAprrove: 1,
+};
 export class FormBuilder implements IBuilder {
   created;
   cssClass;
@@ -54,7 +54,7 @@ export class FormBuilder implements IBuilder {
     this.formPageBuilders.push(builder);
     return builder;
   }
-  addFormWorkflowType(executeOn: ExecuteOn): FormWorkflowBuilder {
+  addFormWorkflowType(executeOn): FormWorkflowBuilder {
     const builder = new FormWorkflowBuilder(this);
     executeOn === ExecuteOn.onAprrove ? this.onApprove.push(builder) : this.onSubmit.push(builder);
     return builder;
