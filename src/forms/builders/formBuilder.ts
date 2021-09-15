@@ -2,10 +2,10 @@ import { FormPageBuilder } from './formPageBuilder';
 import { IBuilder } from './iBuilder';
 import { FormWorkflowBuilder } from './workflows/formWorkflowBuilder';
 
-const ExecuteOn = {
-  onSubmit: 0,
-  onAprrove: 1,
-};
+enum ExecuteOn {
+  onSubmit = 0,
+  onAprrove = 1,
+}
 export class FormBuilder implements IBuilder {
   created;
   cssClass;
