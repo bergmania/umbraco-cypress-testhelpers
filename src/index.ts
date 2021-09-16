@@ -17,6 +17,7 @@ export { ApprovedColorPickerDataTypeBuilder } from './cms/builders/dataTypes/app
 /* DocumentTypes  builders */
 // export * from './cms/builders/documentTypes/';
 export { DocumentTypeBuilder } from './cms/builders/documentTypes/documentTypeBuilder';
+export { MemberBuilder } from './cms/builders/members/memberBuilder';
 
 /* DocumentType Properties builders */
 export { FormPickerDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/formPickerDocumentTypePropertyBuilder';
@@ -59,6 +60,7 @@ export { DropDownDataType } from './cms/models/dataTypes/dropDownDataType';
 export { TextBoxProperty } from './cms/models/properties/textBoxProperty';
 export { FormPickerProperty } from './cms/models/properties/formPickerProperty';
 export { DropDownProperty } from './cms/models/properties/dropDownProperty';
+export { Member } from './cms/models/members/member'
 
 /* PartialViewMacros */
 export { PartialViewMacro } from './cms/models/partialViewMacros/partialViewMacro';

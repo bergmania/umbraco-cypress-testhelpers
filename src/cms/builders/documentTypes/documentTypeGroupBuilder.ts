@@ -6,7 +6,7 @@ import { DropDownDocumentTypePropertyBuilder } from './properties/dropDownDocume
 import { ContentPickerPropertyBuilder } from './properties/contentPickerTypePropertyBuilder';
 import { RichTextDocumentTypePropertyEditor, CustomDocumentTypePropertyBuilder } from './properties';
 import { UrlPickerPropertyBuilder } from './properties/urlPickerTypePropertyBuilder';
-
+import { DatePickerPropertyBuilder } from './properties/datePickerPropertyBuilder';
 
 export default class DocumentTypeGroupBuilder {
   parentBuilder;
@@ -16,7 +16,6 @@ export default class DocumentTypeGroupBuilder {
   id;
   inherited;
   documentTypeGroupPropertyBuilders;
-  
 
   constructor(parentBuilder) {
     this.parentBuilder = parentBuilder;
@@ -28,7 +27,7 @@ export default class DocumentTypeGroupBuilder {
     this.name = name;
     return this;
   }
-  withAlias(alias){
+  withAlias(alias) {
     this.alias = alias;
     return this;
   }
@@ -68,6 +67,12 @@ export default class DocumentTypeGroupBuilder {
     return builder;
   }
 
+  addDatePickerProperty() {
+    const builder = new DatePickerPropertyBuilder(this);
+    this.documentTypeGroupPropertyBuilders.push(builder);
+    return builder;
+  }
+
   addRichTextProperty() {
     const builder = new RichTextDocumentTypePropertyEditor(this);
     this.documentTypeGroupPropertyBuilders.push(builder);
@@ -83,12 +88,12 @@ export default class DocumentTypeGroupBuilder {
   done() {
     return this.parentBuilder;
   }
-  getAlias(){
+  getAlias() {
     return this.alias || 'a' + camelize(this.name);
   }
 
   build() {
-    const name = this.name || faker.random.uuid()
+    const name = this.name || faker.random.uuid();
     return {
       id: this.id || -1,
       inherited: this.inherited || false,

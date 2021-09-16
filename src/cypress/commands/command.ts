@@ -75,6 +75,7 @@ import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
 import SaveMacroWithPartial from './saveMacroWithPartial';
 import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
 import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
+import SaveMember from './saveMember';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -118,6 +119,7 @@ export class Command {
     new SaveDataType(relativeBackOfficePath).registerCommand();
     new SaveDocumentType(relativeBackOfficePath).registerCommand();
     new SaveForm(relativeBackOfficePath).registerCommand();
+    new SaveMember(relativeBackOfficePath).registerCommand();
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();

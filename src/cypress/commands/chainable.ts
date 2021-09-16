@@ -1,4 +1,4 @@
-import { DataType } from "src/cms/models/dataTypes/dataType";
+import { DataType } from 'src/cms/models/dataTypes/dataType';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -209,6 +209,13 @@ declare global {
       saveMacroWithPartial: (macro: any) => Chainable<any>;
 
       /**
+       * Save Umbraco DataType
+       * @param  {any} member The member object to save
+       * @see MemberBuilder
+       */
+      saveMember: (member: any) => Chainable<any>;
+
+      /**
        * Save a Partial View
        * @param  {any} view The Umbraco partial view object to save
        * @see PartialViewBuilder
@@ -276,7 +283,7 @@ declare global {
        * @param {string} alias Alias of the given doc type
        * @param {DataType} dataType of the given doc tpye
        */
-      umbracoCreateDocTypeWithContent: (name: string, alias: string, dataType: DataType) => Chainable<void>
+      umbracoCreateDocTypeWithContent: (name: string, alias: string, dataType: DataType) => Chainable<void>;
       /**
        * Gets the umbEditorHeader types in the name into the textbox and verifies the alias generated
        * Is in the format we expect it to be generated
@@ -307,7 +314,7 @@ declare global {
        * @param {Array<string>} names Names of DocumentTypes to delete
        * @example cy.umbracoEnsureMultipleDocumentTypeNameNotExists(['Home', 'About Us'])
        */
-       umbracoEnsureMultipleDocumentTypeNameNotExists : (names: Array<string>) => Chainable<void>
+      umbracoEnsureMultipleDocumentTypeNameNotExists: (names: Array<string>) => Chainable<void>;
       /**
        * Checks to see if Language with specified name does not exist
        * If it does it will automatically delete it
@@ -472,9 +479,9 @@ declare global {
        */
       umbracoPartialViewExists: (filename: string) => Chainable<boolean>;
       /**
-       * 
+       *
        */
-      umbracoRefreshContentTree: () => Chainable<void>
+      umbracoRefreshContentTree: () => Chainable<void>;
       /**
        * Checks to see if Partial View with specified name exists
        * @param  {string} filename Name of Javascript to check for

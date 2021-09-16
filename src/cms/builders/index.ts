@@ -8,5 +8,6 @@ export { TextBoxDataTypeBuilder } from './dataTypes/textBoxDataTypeBuilder';
 export { DropDownDataTypeBuilder } from './dataTypes/dropDownDataTypeBuilder';
 
 export { DocumentTypeBuilder } from './documentTypes/documentTypeBuilder';
+export { MemberBuilder} from './members/memberBuilder';
 
 export { TemplateBuilder } from './templates/templateBuilder';
