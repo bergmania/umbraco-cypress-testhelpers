@@ -25,7 +25,7 @@ import UmbracoButtonByLabelKey from './umbracoButtonByLabelKey';
 import UmbracoEditorHeaderName from './umbracoEditorHeaderName';
 import UmbracoEnsureUserEmailNotExists from './umbracoEnsureUserEmailNotExists';
 import UmbracoEnsureUserGroupNameNotExists from './umbracoEnsureUserGroupNameNotExists';
-import UmbracoSetCurrentUserLanguage from './umbracoEnsureUserLanguageIsReset';
+import UmbracoSetCurrentUserLanguage from './umbracoSetCurrentUserLanguage';
 import UmbracoTreeItem from './umbracoTreeItem';
 import UmbracoContextMenuAction from './umbracoContextMenuAction';
 import UmbracoEnsureRelationTypeNameNotExists from './umbracoEnsureRelationTypeNameNotExists';
