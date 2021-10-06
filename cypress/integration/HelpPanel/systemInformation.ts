@@ -12,7 +12,7 @@ context('System Information', () => {
     beforeEach(() => {
         //arrange
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
-        cy.umbracoEnsureUserLanguageIsReset();
+        cy.umbracoSetCurrentUserLanguage('en-US');
     });
 
     it('Check System Info Displays', () => {

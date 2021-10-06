@@ -1,12 +1,11 @@
 import CommandBase from './commandBase';
 import { JsonHelper } from '../../helpers/jsonHelper';
 
-export default class UmbracoEnsureUserLanguageIsReset extends CommandBase {
-  _commandName = 'umbracoEnsureUserLanguageIsReset';
+export default class UmbracoSetCurrentUserLanguage extends CommandBase {
+  _commandName = 'umbracoSetCurrentUserLanguage';
 
-  method() {
+  method(language) {
     const cy = this.cy;
-    cy.log('hej');
     cy.getCookie('UMB-XSRF-TOKEN', { log: false }).then((token) => {
       cy.request({
         method: 'GET',
@@ -21,7 +20,6 @@ export default class UmbracoEnsureUserLanguageIsReset extends CommandBase {
         log: false,
       }).then((response) => {
         const searchBody = JsonHelper.getBody(response);
-        cy.log(searchBody);
         return cy.umbracoApiRequest(
             this.relativeBackOfficePath + '/backoffice/umbracoapi/users/PostSaveUser',
             'POST',
@@ -30,7 +28,7 @@ export default class UmbracoEnsureUserLanguageIsReset extends CommandBase {
                 parentId: -1,
                 name: searchBody.name,
                 username: searchBody.email,
-                culture: "en-US",
+                culture: language,
                 email: searchBody.email,
                 startContentIds: [],
                 startMediaIds: [],
