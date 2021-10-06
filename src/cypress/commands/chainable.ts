@@ -492,6 +492,14 @@ declare global {
       umbracoSection: (name: string) => Chainable<void>;
 
       /**
+       *  This will set the currently logged in Users language
+       * 
+       * @param language The iso code for the language you want
+       * @returns The JSON data in the body of the response as an object
+       */
+      umbracoSetCurrentUserLanguage: (language: string) => Chainable<any>;
+      
+      /**
        * Checks to see if CSS file with specified name exists
        * @param  {string} filename Name of CSS file to check for
        * @example cy.umbracoStylesheetExists('TestStylesheet.css').should('be.true');

@@ -25,6 +25,7 @@ import UmbracoButtonByLabelKey from './umbracoButtonByLabelKey';
 import UmbracoEditorHeaderName from './umbracoEditorHeaderName';
 import UmbracoEnsureUserEmailNotExists from './umbracoEnsureUserEmailNotExists';
 import UmbracoEnsureUserGroupNameNotExists from './umbracoEnsureUserGroupNameNotExists';
+import UmbracoSetCurrentUserLanguage from './umbracoSetCurrentUserLanguage';
 import UmbracoTreeItem from './umbracoTreeItem';
 import UmbracoContextMenuAction from './umbracoContextMenuAction';
 import UmbracoEnsureRelationTypeNameNotExists from './umbracoEnsureRelationTypeNameNotExists';
@@ -131,6 +132,7 @@ export class Command {
     new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoSetCurrentUserLanguage(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMultipleDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
