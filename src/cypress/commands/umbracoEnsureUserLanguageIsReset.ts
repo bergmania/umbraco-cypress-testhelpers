@@ -1,6 +1,12 @@
 import CommandBase from './commandBase';
 import { JsonHelper } from '../../helpers/jsonHelper';
 
+ /**
+   * This will set the currently logged in Users language
+   * 
+   * @param language The iso code for the language you want
+   * @returns The JSON data in the body of the response as an object
+   */
 export default class UmbracoSetCurrentUserLanguage extends CommandBase {
   _commandName = 'umbracoSetCurrentUserLanguage';
 
