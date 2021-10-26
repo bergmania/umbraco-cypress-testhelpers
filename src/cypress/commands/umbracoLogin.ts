@@ -54,8 +54,12 @@ export default class UmbracoLogin extends CommandBase {
                     }
                   }
                 }
-                if (toursClosed || umbEmailMarketingDisabled === false) {
+                if (toursClosed) {
                   cy.get('.umb-tour-step', { timeout: 60000 }).should('be.visible'); // We now due to the api calls this will be shown, but slow computers can take a while
+                  cy.get('.underline').click();
+                }
+                else{
+                  cy.get('.umb-tour__popover', {timeout: 60000}).should('be.visible');
                   cy.get('.umb-tour-step__close').click();
                 }
               }
