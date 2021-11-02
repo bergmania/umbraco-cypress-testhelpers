@@ -23,16 +23,27 @@ export class DocumentTypeBuilder {
   isElement;
   defaultTemplate;
   lockedCompositeContentTypes: any[];
+  historyCleanupPreventCleanup;
+  historyCleanupKeepAllVersionsNewerThanDays;
+  historyCleanupKeepLatestVersionPerDayForDays;
 
   documentTypeGroupBuilders;
+  documentTypeHistoryCleanupBuilder;
 
   constructor() {
     this.isContainer = false;
     this.allowAsRoot = false;
     this.documentTypeGroupBuilders = [];
     this.allowedContentTypes = [];
+    this.documentTypeHistoryCleanupBuilder = [];
   }
 
+  withHistoryCleanup(preventCleanup, keepAllVersionsNewerThanDays, keepLatestVersionPerDayForDays) {
+    this.historyCleanupPreventCleanup = preventCleanup;
+    this.historyCleanupKeepAllVersionsNewerThanDays = keepAllVersionsNewerThanDays;
+    this.historyCleanupKeepLatestVersionPerDayForDays = keepLatestVersionPerDayForDays;
+    return this;
+  }
   withAllowAsRoot(allowAsRoot) {
     this.allowAsRoot = allowAsRoot;
     return this;
@@ -59,9 +70,9 @@ export class DocumentTypeBuilder {
   }
   addGroup(documentTypeGroupBuilder?: DocumentTypeGroupBuilder) {
     const builder =
-      documentTypeGroupBuilder === null || documentTypeGroupBuilder === undefined
-        ? new DocumentTypeGroupBuilder(this)
-        : documentTypeGroupBuilder;
+        documentTypeGroupBuilder === null || documentTypeGroupBuilder === undefined
+            ? new DocumentTypeGroupBuilder(this)
+            : documentTypeGroupBuilder;
     this.documentTypeGroupBuilders.push(builder);
     return builder;
   }
@@ -83,7 +94,7 @@ export class DocumentTypeBuilder {
     const key = this.key || faker.random.uuid();
     const name = this.name || key;
     const alias = this.alias || AliasHelper.toSafeAlias(name);
-
+    
     return {
       compositeContentTypes: this.compositeContentTypes || [],
       isContainer: this.isContainer || false,
@@ -107,6 +118,11 @@ export class DocumentTypeBuilder {
       groups: this.documentTypeGroupBuilders.map((builder) => {
         return builder.build();
       }),
+      historyCleanup: {
+        historyCleanupPreventCleanup : this.historyCleanupPreventCleanup || false,
+        historyCleanupKeepAllVersionsNewerThanDays : this.historyCleanupKeepAllVersionsNewerThanDays || 7,
+        historyCleanupKeepLatestVersionPerDayForDays : this.historyCleanupKeepLatestVersionPerDayForDays || 90,
+      }
     };
   }
 }
