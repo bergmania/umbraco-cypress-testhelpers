@@ -43,7 +43,7 @@ context('Routing', () => {
     function configureDomain(id, name, lang)
     {
         //Save domain for child node
-        let url = "/umbraco/backoffice/umbracoapi/content/PostSaveLanguageAndDomains"
+        const url = "/umbraco/backoffice/umbracoapi/content/PostSaveLanguageAndDomains"
         const body = {
             nodeId : id,
             domains : [
@@ -60,9 +60,9 @@ context('Routing', () => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
     });
 
-    afterEach(() => {
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-    })
+    // afterEach(() => {
+    //     cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
+    // })
 
     it('Root node published in language A, Child node published in language A', () => {
 
@@ -240,7 +240,7 @@ context('Routing', () => {
                 .build();
 
             cy.saveContent(grandChildContentNode);
-                });;
+                });
             });
         });
         // Refresh to update the tree
@@ -335,7 +335,7 @@ context('Routing', () => {
                 .build();
 
             cy.saveContent(grandChildContentNode);
-                });;
+                });
             });
         });
         // Refresh to update the tree
