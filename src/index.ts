@@ -32,6 +32,9 @@ export { PartialViewBuilder } from './cms/builders/partialViews/partialViewBuild
 export{ ScriptBuilder } from './cms/builders/scriptbuilder';
 export { StylesheetBuilder } from './cms/builders/stylesheetBuilder';
 
+/* UserGroupBuilders */
+export { UserGroupBuilder } from './cms/builders/userGroups/userGroupBuilder';
+
 /* Contents */
 // export * from './cms/templates/'
 export { FormPickerTemplate } from './cms/templates/formPickerTemplate';

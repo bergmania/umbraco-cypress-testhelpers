@@ -10,3 +10,5 @@ export { DropDownDataTypeBuilder } from './dataTypes/dropDownDataTypeBuilder';
 export { DocumentTypeBuilder } from './documentTypes/documentTypeBuilder';
 
 export { TemplateBuilder } from './templates/templateBuilder';
+
+export { UserGroupBuilder } from './userGroups/userGroupBuilder'
