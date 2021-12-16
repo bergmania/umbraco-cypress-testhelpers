@@ -1,10 +1,10 @@
 import faker from 'faker';
 import { AliasHelper } from '../../../helpers/aliasHelper';
+import { UserGroupPermissionsBuilder } from './userGroupPermissionsBuilder';
 
 export class UserGroupBuilder {
   alias: string;
   assignedPermissions: string[];
-  defaultPermissions: string[];
   icon: string;
   id: number;
   name: string;
@@ -15,9 +15,10 @@ export class UserGroupBuilder {
   users: string[];
   action: string;
 
+  defaultPermissionsBuilder : UserGroupPermissionsBuilder;
+
   constructor() {
     this.assignedPermissions = [];
-    this.defaultPermissions = [];
     this.sections = [];
     this.users = [];
   }
@@ -37,14 +38,14 @@ export class UserGroupBuilder {
     return this;
   }
 
-  withDefaultPermissions(defaultPermissions: string[]) {
-    this.defaultPermissions = defaultPermissions;
-    return this;
-  }
+  addDefaultPermissions(userGroupPermissionsBuilder?: UserGroupPermissionsBuilder){
+    const builder = 
+      userGroupPermissionsBuilder === null || userGroupPermissionsBuilder === undefined
+      ? new UserGroupPermissionsBuilder(this)
+      : userGroupPermissionsBuilder;
 
-  appendDefaultPermission(defaultPermission: string) {
-    this.defaultPermissions.push(defaultPermission);
-    return this;
+      this.defaultPermissionsBuilder = builder
+      return builder;
   }
 
   withIcon(icon: string) {
@@ -116,11 +117,16 @@ export class UserGroupBuilder {
     const name = this.name || faker.random.word;
     const alias = this.alias || AliasHelper.toSafeAlias(name);
 
+    let defaultpermissions = []
+    if(this.defaultPermissionsBuilder != undefined && this.defaultPermissionsBuilder != null){
+      defaultpermissions = this.defaultPermissionsBuilder.build();
+    } 
+
     return {
       action: this.action || 'saveNew',
       alias: alias,
       assignedPermissions: {},
-      defaultPermissions: this.defaultPermissions || [],
+      defaultPermissions: defaultpermissions,
       icon: this.icon || 'icon-users',
       id: this.id || 0,
       name: name,
