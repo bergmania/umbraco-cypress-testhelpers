@@ -71,6 +71,7 @@ import UmbracoVerifyRenderedViewContent from './umbracoVerifyRenderedViewContent
 import UmbracoStylesheetExists from './umbracoStylesheetExists';
 import SaveStylesheet from './saveStylesheet';
 import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
+import SaveUserGroup from './saveUserGroup';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -115,6 +116,7 @@ export class Command {
     new SaveDocumentType(relativeBackOfficePath).registerCommand();
     new SaveForm(relativeBackOfficePath).registerCommand();
     new SaveTemplate(relativeBackOfficePath).registerCommand();
+    new SaveUserGroup(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
     new UmbracoInstall(relativeBackOfficePath).registerCommand();
