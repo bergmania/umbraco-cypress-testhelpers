@@ -1,6 +1,11 @@
 import { UserGroupBuilder } from "src";
 
 context('User Groups', () => {
+  
+  function navigateToUserGroups() {
+    cy.umbracoSection('users');
+    cy.get('[data-element="sub-view-userGroups"]').click();
+  }
 
   beforeEach(() => {
     cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'));
@@ -11,9 +16,7 @@ context('User Groups', () => {
 
     cy.umbracoEnsureUserGroupNameNotExists(name);
 
-    cy.umbracoSection('users');
-    cy.get('[data-element="sub-view-userGroups"]').click();
-
+    navigateToUserGroups();
     cy.umbracoButtonByLabelKey("actions_createGroup").click();
 
     //Type name
@@ -44,9 +47,8 @@ context('User Groups', () => {
        .build();
 
      cy.saveUserGroup(userGroup);
+     navigateToUserGroups();
 
-     cy.umbracoSection('users');
-     cy.get('[data-element="sub-view-userGroups"]').click();
      // Delete the user group
      cy.get('.umb-table-body > :nth-child(2)').click();
      cy.umbracoButtonByLabelKey("general_delete").click();
@@ -59,8 +61,7 @@ context('User Groups', () => {
    });
 
    it('Cannot delete required groups', () => {
-     cy.umbracoSection('users');
-     cy.get('[data-element="sub-view-userGroups"]').click();
+     navigateToUserGroups();
 
      // There's not really a good way to be 100% sure we'll get the admin group, it should be first, but who knows
      // so double check that we actually got the correct one
