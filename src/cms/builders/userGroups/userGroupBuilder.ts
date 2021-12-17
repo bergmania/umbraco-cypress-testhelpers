@@ -71,8 +71,13 @@ export class UserGroupBuilder {
     return this;
   }
 
-  withSections(sections: string[]) {
+  withSections(sections: string[]){
     this.sections = sections;
+    return this;
+  }
+
+  appendSections(sections: string[]) {
+    sections.forEach((section) => { this.sections.push(section) });
     return this;
   }
 
@@ -93,6 +98,11 @@ export class UserGroupBuilder {
 
   withUsers(users: number[]) {
     this.users = users;
+    return this;
+  }
+
+  appendUsers(users: number[]) {
+    users.forEach((userId) => { this.users.push(userId) });
     return this;
   }
 
