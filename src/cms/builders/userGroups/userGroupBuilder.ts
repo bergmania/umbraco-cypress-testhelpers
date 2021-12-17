@@ -12,7 +12,7 @@ export class UserGroupBuilder {
   sections: string[];
   startContentId: number;
   startMediaId: number;
-  users: string[];
+  users: number[];
   action: string;
   defaultPermissionsBuilder : PermissionsBuilder;
   assignedPermissionsBuilder: NodePermissionCollectionBuilder;
@@ -81,22 +81,22 @@ export class UserGroupBuilder {
     return this;
   }
 
-  withStartContentId(startContentId: number) {
-    this.startContentId = startContentId;
+  withContentStartNode(contentStartNodeId: number) {
+    this.startContentId = contentStartNodeId;
     return this;
   }
 
-  withStartMediaId(startMediaId: number) {
-    this.startMediaId = startMediaId;
+  withMediaStartNode(mediaStartNodeId: number) {
+    this.startMediaId = mediaStartNodeId;
     return this;
   }
 
-  withUsers(users: string[]) {
+  withUsers(users: number[]) {
     this.users = users;
     return this;
   }
 
-  appendUser(user: string) {
+  appendUser(user: number) {
     this.users.push(user);
     return this;
   }
