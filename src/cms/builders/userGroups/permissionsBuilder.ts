@@ -3,9 +3,9 @@ export class PermissionsBuilder {
   permissions: string[];
   parentBuilder;
 
-  constructor(parentbuilder){
+  constructor(parentBuilder){
     this.permissions = [];
-    this.parentBuilder = parentbuilder;
+    this.parentBuilder = parentBuilder;
   }
 
   withCultureAndHostNames(){

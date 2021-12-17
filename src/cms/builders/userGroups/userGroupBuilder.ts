@@ -1,10 +1,10 @@
 import faker from 'faker';
 import { AliasHelper } from '../../../helpers/aliasHelper';
 import { PermissionsBuilder } from './permissionsBuilder';
+import {NodePermissionsBuilder} from "./nodePermissionsBuilder";
 
 export class UserGroupBuilder {
   alias: string;
-  assignedPermissions: string[];
   icon: string;
   id: number;
   name: string;
@@ -16,9 +16,9 @@ export class UserGroupBuilder {
   action: string;
 
   defaultPermissionsBuilder : PermissionsBuilder;
+  assignedPermissionsBuilder: NodePermissionsBuilder;
 
   constructor() {
-    this.assignedPermissions = [];
     this.sections = [];
     this.users = [];
   }
@@ -27,15 +27,15 @@ export class UserGroupBuilder {
     this.alias = alias;
     return this;
   }
-
-  withAssignedPermissions(assignedPermissions: string[]) {
-    this.assignedPermissions = assignedPermissions;
-    return this;
-  }
-
-  appendAssignedPermission(permission: string) {
-    this.assignedPermissions.push(permission);
-    return this;
+  
+  addNodePermissions(nodePermissionsBuilder ?: NodePermissionsBuilder){
+    const builder = 
+      nodePermissionsBuilder === null || nodePermissionsBuilder === undefined
+      ? new NodePermissionsBuilder(this)
+      : nodePermissionsBuilder;
+    
+    this.assignedPermissionsBuilder = builder;
+    return builder;
   }
 
   addDefaultPermissions(userGroupPermissionsBuilder?: PermissionsBuilder){
@@ -117,20 +117,25 @@ export class UserGroupBuilder {
     const name = this.name || faker.random.word;
     const alias = this.alias || AliasHelper.toSafeAlias(name);
 
-    let defaultpermissions = []
-    if(this.defaultPermissionsBuilder != undefined && this.defaultPermissionsBuilder != null){
-      defaultpermissions = this.defaultPermissionsBuilder.build();
-    } 
+    let defaultPermissions = []
+    if(this.defaultPermissionsBuilder != undefined){
+      defaultPermissions = this.defaultPermissionsBuilder.build();
+    }
+
+    let assignedPermissions = {}
+    if(this.assignedPermissionsBuilder != undefined){
+      assignedPermissions = this.assignedPermissionsBuilder.build();
+    }
 
     return {
       action: this.action || 'saveNew',
       alias: alias,
-      assignedPermissions: {},
-      defaultPermissions: defaultpermissions,
+      assignedPermissions: assignedPermissions,
+      defaultPermissions: defaultPermissions,
       icon: this.icon || 'icon-users',
       id: this.id || 0,
       name: name,
-      parnetId: this.parentId || -1,
+      parentId: this.parentId || -1,
       sections: this.sections || [],
       startContentId: this.startContentId || null,
       startMediaId: this.startMediaId || null,
