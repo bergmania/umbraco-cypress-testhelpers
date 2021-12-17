@@ -89,6 +89,9 @@ export class PermissionsBuilder {
   }
 
   withAllowAll() {
+    // Reset array to make sure there's no dupes
+    this.permissions = [];
+    
     this.withCultureAndHostNames()
       .withRestrictPublicAccess()
       .withRollBack()
