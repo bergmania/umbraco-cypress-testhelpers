@@ -25,10 +25,12 @@ import UmbracoButtonByLabelKey from './umbracoButtonByLabelKey';
 import UmbracoEditorHeaderName from './umbracoEditorHeaderName';
 import UmbracoEnsureUserEmailNotExists from './umbracoEnsureUserEmailNotExists';
 import UmbracoEnsureUserGroupNameNotExists from './umbracoEnsureUserGroupNameNotExists';
+import UmbracoSetCurrentUserLanguage from './umbracoSetCurrentUserLanguage';
 import UmbracoTreeItem from './umbracoTreeItem';
 import UmbracoContextMenuAction from './umbracoContextMenuAction';
 import UmbracoEnsureRelationTypeNameNotExists from './umbracoEnsureRelationTypeNameNotExists';
 import UmbracoEnsureDocumentTypeNameNotExists from './umbracoEnsureDocumentTypeNameNotExists';
+import UmbracoEnsureMultipleDocumentTypeNameNotExists from './umbracoEnsureMultipleDocumentTypeNameNotExists';
 import UmbracoEnsureMediaTypeNameNotExists from './umbracoEnsureMediaTypeNameNotExists';
 import UmbracoEnsureMemberTypeNameNotExists from './umbracoEnsureMemberTypeNameNotExists';
 import UmbracoEnsureDataTypeNameNotExists from './umbracoEnsureDataTypeNameNotExists';
@@ -71,6 +73,9 @@ import UmbracoVerifyRenderedViewContent from './umbracoVerifyRenderedViewContent
 import UmbracoStylesheetExists from './umbracoStylesheetExists';
 import SaveStylesheet from './saveStylesheet';
 import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
+import SaveMacroWithPartial from './saveMacroWithPartial';
+import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
+import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
 import SaveUserGroup from './saveUserGroup';
 
 export class Command {
@@ -125,11 +130,14 @@ export class Command {
     new UmbracoContextMenuAction(relativeBackOfficePath).registerCommand();
     new UmbracoSuccessNotification(relativeBackOfficePath).registerCommand();
     new CycleHackWorkaroundForPureLiveIssue(relativeBackOfficePath).registerCommand();
+    new UmbracoCreateDocTypeWithContent(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberEmailNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureUserGroupNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoSetCurrentUserLanguage(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureRelationTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMultipleDocumentTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMediaTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMemberGroupNameNotExists(relativeBackOfficePath).registerCommand();
@@ -143,6 +151,7 @@ export class Command {
     new UmbracoEnsureScriptNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoButtonByLabelKey(relativeBackOfficePath).registerCommand();
     new UmbracoEditorHeaderName(relativeBackOfficePath).registerCommand();
+    new UmbracoRefreshContentTree(relativeBackOfficePath).registerCommand();
     new AddTextToUsernameInput(relativeBackOfficePath).registerCommand();
     new UmbracoMacroExists(relativeBackOfficePath).registerCommand();
     new SavePartialViewMacro(relativeBackOfficePath).registerCommand();
@@ -161,5 +170,6 @@ export class Command {
     new UmbracoStylesheetExists(relativeBackOfficePath).registerCommand();
     new SaveStylesheet(relativeBackOfficePath).registerCommand();
     new UmbracoVerifyStylesheetContent(relativeBackOfficePath).registerCommand();
+    new SaveMacroWithPartial(relativeBackOfficePath).registerCommand();
   }
 }

@@ -32,7 +32,7 @@ context('Document Types', () => {
     cy.get('[data-element="editor-add"]').click();
 
     //Search for textstring
-    cy.get('.umb-search-field').type('Textstring');
+    cy.get('#datatype-search').type('Textstring');
 
     // Choose first item
     cy.get('ul.umb-card-grid li [title="Textstring"]').closest("li").click();
@@ -45,19 +45,19 @@ context('Document Types', () => {
 
     //Assert
     cy.umbracoSuccessNotification().should('be.visible');
+    cy.umbracoEnsureTemplateNameNotExists(name);
 
     //Clean up
     cy.umbracoEnsureDocumentTypeNameNotExists(name);
-    cy.umbracoEnsureTemplateNameNotExists(name);
-   });
+  });
 
   it('Delete document type', () => {
     const name = "Test document type";
     cy.umbracoEnsureDocumentTypeNameNotExists(name);
 
     const dataType = new DocumentTypeBuilder()
-      .withName(name)
-      .build();
+        .withName(name)
+        .build();
 
     cy.saveDocumentType(dataType);
 
@@ -70,7 +70,7 @@ context('Document Types', () => {
     cy.umbracoContextMenuAction("action-delete").click();
 
     cy.get('label.checkbox').click();
-    cy.umbracoButtonByLabelKey("general_ok").click();
+    cy.umbracoButtonByLabelKey("delete").click();
 
     cy.contains(name).should('not.exist');
 

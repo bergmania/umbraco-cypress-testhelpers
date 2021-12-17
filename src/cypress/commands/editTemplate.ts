@@ -1,9 +1,8 @@
-import CommandBase from './commandBase';
-import { ResponseHelper } from '../../helpers/responseHelper';
 import { JsonHelper } from '../../helpers/jsonHelper';
+import CommandBase from './commandBase';
 
 export default class UmbracoEditTemplate extends CommandBase {
-  _commandName = "editTemplate";
+  _commandName = 'editTemplate';
 
   method(name, content) {
     const cy = this.cy;
@@ -21,7 +20,7 @@ export default class UmbracoEditTemplate extends CommandBase {
         log: false,
         // Find template by name
       }).then((resonse) => {
-        const searchBody = ResponseHelper.getResponseBody(resonse);
+        const searchBody = JsonHelper.getBody(resonse);
         if (searchBody.length > 0) {
           let templateId = null;
           for (const sb of searchBody) {
@@ -30,7 +29,7 @@ export default class UmbracoEditTemplate extends CommandBase {
             }
           }
 
-          if(templateId !== null) {
+          if (templateId !== null) {
             // Template found, find details of that template
             cy.request({
               method: 'GET',
@@ -48,7 +47,7 @@ export default class UmbracoEditTemplate extends CommandBase {
             });
           }
         }
-      }); 
+      });
     });
   }
 }

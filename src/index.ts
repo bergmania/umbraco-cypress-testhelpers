@@ -11,10 +11,13 @@ export { FormPickerDataTypeBuilder } from './cms/builders/dataTypes/formPickerDa
 export { LabelDataTypeBuilder } from './cms/builders/dataTypes/labelDataTypeBuilder';
 export { TextBoxDataTypeBuilder } from './cms/builders/dataTypes/textBoxDataTypeBuilder';
 export { DropDownDataTypeBuilder } from './cms/builders/dataTypes/dropDownDataTypeBuilder';
-
+export { CheckBoxListDataTypeBuilder } from './cms/builders/dataTypes/checkBoxListDataTypeBuilder';
+export { GridDataTypeBuilder } from './cms/builders/dataTypes/gridDataTypeBuilder';
+export { ApprovedColorPickerDataTypeBuilder } from './cms/builders/dataTypes/approvedColorPickerTypeDataTypeBuilder';
 /* DocumentTypes  builders */
 // export * from './cms/builders/documentTypes/';
 export { DocumentTypeBuilder } from './cms/builders/documentTypes/documentTypeBuilder';
+
 /* DocumentType Properties builders */
 export { FormPickerDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/formPickerDocumentTypePropertyBuilder';
 export { TextBoxDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/textBoxDocumentTypePropertyBuilder';
@@ -28,8 +31,9 @@ export { TemplateBuilder } from './cms/builders/templates/templateBuilder';
 export { PartialViewMacroBuilder } from './cms/builders/partialViewMacros/partialViewMacroBuilder';
 /* PartialViewBuilders */
 export { PartialViewBuilder } from './cms/builders/partialViews/partialViewBuilder';
+export { MacroBuilder } from './cms/builders/macroBuilder';
 
-export{ ScriptBuilder } from './cms/builders/scriptbuilder';
+export { ScriptBuilder } from './cms/builders/scriptbuilder';
 export { StylesheetBuilder } from './cms/builders/stylesheetBuilder';
 
 /* UserGroupBuilders */

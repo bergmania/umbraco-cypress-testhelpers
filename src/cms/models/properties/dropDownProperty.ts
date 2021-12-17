@@ -1,5 +1,11 @@
 import { BaseProperty } from './baseProperty';
 
+/**
+ * @param  {string} name Property name
+ * @param  {string} alias Property alias
+ * @param  {boolean} multiSelect Bool if Dropdown values can be multi selected
+ * @param  {string[]} values Optional string array of values in the dropdown
+ */
 export class DropDownProperty extends BaseProperty {
   public values: string[];
   public multiSelect: boolean;

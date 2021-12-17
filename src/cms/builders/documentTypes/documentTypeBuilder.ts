@@ -1,5 +1,6 @@
 import faker from 'faker';
 import DocumentTypeGroupBuilder from './documentTypeGroupBuilder';
+import DocumentTypeTabBuilder from './documentTypeTabBuilder';
 import { AliasHelper } from '../../../helpers/aliasHelper';
 
 export class DocumentTypeBuilder {
@@ -22,16 +23,27 @@ export class DocumentTypeBuilder {
   isElement;
   defaultTemplate;
   lockedCompositeContentTypes: any[];
+  historyCleanupPreventCleanup;
+  historyCleanupKeepAllVersionsNewerThanDays;
+  historyCleanupKeepLatestVersionPerDayForDays;
 
   documentTypeGroupBuilders;
+  documentTypeHistoryCleanupBuilder;
 
   constructor() {
     this.isContainer = false;
     this.allowAsRoot = false;
     this.documentTypeGroupBuilders = [];
     this.allowedContentTypes = [];
+    this.documentTypeHistoryCleanupBuilder = [];
   }
 
+  withHistoryCleanup(preventCleanup, keepAllVersionsNewerThanDays, keepLatestVersionPerDayForDays) {
+    this.historyCleanupPreventCleanup = preventCleanup;
+    this.historyCleanupKeepAllVersionsNewerThanDays = keepAllVersionsNewerThanDays;
+    this.historyCleanupKeepLatestVersionPerDayForDays = keepLatestVersionPerDayForDays;
+    return this;
+  }
   withAllowAsRoot(allowAsRoot) {
     this.allowAsRoot = allowAsRoot;
     return this;
@@ -64,8 +76,21 @@ export class DocumentTypeBuilder {
     this.documentTypeGroupBuilders.push(builder);
     return builder;
   }
+  addTab(documentTypeTabBuilder?: DocumentTypeTabBuilder) {
+    const builder =
+      documentTypeTabBuilder === null || documentTypeTabBuilder === undefined
+        ? new DocumentTypeTabBuilder(this)
+        : documentTypeTabBuilder;
+    this.documentTypeGroupBuilders.push(builder);
+    return builder;
+  }
   withId(id: number) {
     this.id = id;
+    return this;
+  }
+
+  withAllowCultureVariation(allowCultureVariant)  {
+    this.allowCultureVariant = allowCultureVariant;
     return this;
   }
 
@@ -97,6 +122,11 @@ export class DocumentTypeBuilder {
       groups: this.documentTypeGroupBuilders.map((builder) => {
         return builder.build();
       }),
+      historyCleanup: {
+        historyCleanupPreventCleanup: this.historyCleanupPreventCleanup || false,
+        historyCleanupKeepAllVersionsNewerThanDays: this.historyCleanupKeepAllVersionsNewerThanDays || 7,
+        historyCleanupKeepLatestVersionPerDayForDays: this.historyCleanupKeepLatestVersionPerDayForDays || 90,
+      },
     };
   }
 }

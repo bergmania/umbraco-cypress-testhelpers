@@ -21,7 +21,7 @@ export default class SaveContent extends CommandBase {
           return;
         },
       });
-      cy.route(method, url).as('postLogin');
+      cy.route(method, url).as('postSave');
       cy.window()
         .then((win) => {
           const xhr = new win.XMLHttpRequest();
@@ -29,7 +29,7 @@ export default class SaveContent extends CommandBase {
           xhr.setRequestHeader('X-UMB-XSRF-TOKEN', token.value);
           xhr.send(formData);
         })
-        .wait('@postLogin')
+        .wait('@postSave')
         .then((res) => {
           return JsonHelper.getBody(res.response);
         });
