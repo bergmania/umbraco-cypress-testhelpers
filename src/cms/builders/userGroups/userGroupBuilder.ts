@@ -1,7 +1,7 @@
 import faker from 'faker';
-import { AliasHelper } from '../../../helpers/aliasHelper';
+import camelize from 'camelize';
 import { PermissionsBuilder } from './permissionsBuilder';
-import {NodePermissionsBuilder} from "./nodePermissionsBuilder";
+import {NodePermissionBuilder} from "./nodePermissionBuilder";
 
 export class UserGroupBuilder {
   alias: string;
@@ -16,7 +16,7 @@ export class UserGroupBuilder {
   action: string;
 
   defaultPermissionsBuilder : PermissionsBuilder;
-  assignedPermissionsBuilder: NodePermissionsBuilder;
+  assignedPermissionsBuilder: NodePermissionBuilder;
 
   constructor() {
     this.sections = [];
@@ -28,10 +28,14 @@ export class UserGroupBuilder {
     return this;
   }
   
-  addNodePermissions(nodePermissionsBuilder ?: NodePermissionsBuilder){
+  getAlias(){
+    return this.alias || 'a' + camelize(this.name)
+  }
+  
+  addNodePermissions(nodePermissionsBuilder ?: NodePermissionBuilder){
     const builder = 
       nodePermissionsBuilder === null || nodePermissionsBuilder === undefined
-      ? new NodePermissionsBuilder(this)
+      ? new NodePermissionBuilder(this)
       : nodePermissionsBuilder;
     
     this.assignedPermissionsBuilder = builder;
@@ -114,8 +118,9 @@ export class UserGroupBuilder {
   }
 
   build() {
-    const name = this.name || faker.random.word;
-    const alias = this.alias || AliasHelper.toSafeAlias(name);
+    if(this.name === undefined){
+      this.withName(faker.random.uuid());
+    }
 
     let defaultPermissions = []
     if(this.defaultPermissionsBuilder != undefined){
@@ -129,12 +134,12 @@ export class UserGroupBuilder {
 
     return {
       action: this.action || 'saveNew',
-      alias: alias,
+      alias: this.getAlias(),
       assignedPermissions: assignedPermissions,
       defaultPermissions: defaultPermissions,
       icon: this.icon || 'icon-users',
       id: this.id || 0,
-      name: name,
+      name: this.name,
       parentId: this.parentId || -1,
       sections: this.sections || [],
       startContentId: this.startContentId || null,

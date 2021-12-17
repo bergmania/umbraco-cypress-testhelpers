@@ -1,6 +1,6 @@
 import {PermissionsBuilder} from "./permissionsBuilder";
 
-export class NodePermissionsBuilder extends PermissionsBuilder{
+export class NodePermissionBuilder extends PermissionsBuilder{
   nodeId: number;
   
   constructor(parentBuilder) {
