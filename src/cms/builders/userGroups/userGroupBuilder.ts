@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { AliasHelper } from '../../../helpers/aliasHelper';
-import { UserGroupPermissionsBuilder } from './userGroupPermissionsBuilder';
+import { PermissionsBuilder } from './permissionsBuilder';
 
 export class UserGroupBuilder {
   alias: string;
@@ -15,7 +15,7 @@ export class UserGroupBuilder {
   users: string[];
   action: string;
 
-  defaultPermissionsBuilder : UserGroupPermissionsBuilder;
+  defaultPermissionsBuilder : PermissionsBuilder;
 
   constructor() {
     this.assignedPermissions = [];
@@ -38,10 +38,10 @@ export class UserGroupBuilder {
     return this;
   }
 
-  addDefaultPermissions(userGroupPermissionsBuilder?: UserGroupPermissionsBuilder){
+  addDefaultPermissions(userGroupPermissionsBuilder?: PermissionsBuilder){
     const builder = 
       userGroupPermissionsBuilder === null || userGroupPermissionsBuilder === undefined
-      ? new UserGroupPermissionsBuilder(this)
+      ? new PermissionsBuilder(this)
       : userGroupPermissionsBuilder;
 
       this.defaultPermissionsBuilder = builder

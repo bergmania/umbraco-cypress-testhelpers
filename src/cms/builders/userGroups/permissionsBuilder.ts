@@ -1,5 +1,5 @@
 
-export class UserGroupPermissionsBuilder{
+export class PermissionsBuilder {
   permissions: string[];
   parentBuilder;
 
