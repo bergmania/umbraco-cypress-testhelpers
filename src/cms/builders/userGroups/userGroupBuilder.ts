@@ -1,7 +1,7 @@
 import faker from 'faker';
 import camelize from 'camelize';
 import { PermissionsBuilder } from './permissionsBuilder';
-import {NodePermissionBuilder} from "./nodePermissionBuilder";
+import {NodePermissionCollectionBuilder} from "./nodePermissionCollectionBuilder";
 
 export class UserGroupBuilder {
   alias: string;
@@ -14,9 +14,8 @@ export class UserGroupBuilder {
   startMediaId: number;
   users: string[];
   action: string;
-
   defaultPermissionsBuilder : PermissionsBuilder;
-  assignedPermissionsBuilder: NodePermissionBuilder;
+  assignedPermissionsBuilder: NodePermissionCollectionBuilder;
 
   constructor() {
     this.sections = [];
@@ -32,10 +31,10 @@ export class UserGroupBuilder {
     return this.alias || 'a' + camelize(this.name)
   }
   
-  addNodePermissions(nodePermissionsBuilder ?: NodePermissionBuilder){
+  addNodePermissions(nodePermissionsBuilder ?: NodePermissionCollectionBuilder){
     const builder = 
       nodePermissionsBuilder === null || nodePermissionsBuilder === undefined
-      ? new NodePermissionBuilder(this)
+      ? new NodePermissionCollectionBuilder(this)
       : nodePermissionsBuilder;
     
     this.assignedPermissionsBuilder = builder;
