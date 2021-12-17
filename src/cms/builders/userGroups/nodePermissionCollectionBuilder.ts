@@ -9,7 +9,7 @@ export class NodePermissionCollectionBuilder{
     this.parentBuilder = parentBuilder;
   }
   
-  addNodePermission(nodePermissionBuilder ?: NodePermissionBuilder){
+  addNodePermission(nodePermissionBuilder ?: NodePermissionBuilder) {
     const builder = 
       nodePermissionBuilder === null || nodePermissionBuilder == undefined
       ? new NodePermissionBuilder(this)
@@ -19,11 +19,11 @@ export class NodePermissionCollectionBuilder{
     return builder;
   }
   
-  done(){
+  done() {
     return this.parentBuilder
   }
   
-  build(){
+  build() {
     let result = {};
     
     // Each NodePermission builder returns an object, with the node ID as property key and the permission array as value

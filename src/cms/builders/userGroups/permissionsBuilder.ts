@@ -3,92 +3,92 @@ export class PermissionsBuilder {
   permissions: string[];
   parentBuilder;
 
-  constructor(parentBuilder){
+  constructor(parentBuilder) {
     this.permissions = [];
     this.parentBuilder = parentBuilder;
   }
 
-  withCultureAndHostNames(){
+  withCultureAndHostNames() {
     this.permissions.push("I");
     return this;
   }
 
-  withRestrictPublicAccess(){
+  withRestrictPublicAccess() {
     this.permissions.push("P");
     return this;
   }
 
-  withRollBack(){
+  withRollBack() {
     this.permissions.push("K");
     return this;
   }
 
-  withBrowseNode(){
+  withBrowseNode() {
     this.permissions.push("F");
     return this;
   }
 
-  withCreateContentTemplate(){
+  withCreateContentTemplate() {
     this.permissions.push("ï");
     return this;
   }
 
-  withDelete(){
+  withDelete() {
     this.permissions.push("D");
     return this;
   }
 
-  withCreate(){
+  withCreate() {
     this.permissions.push("C");
     return this;
   }
 
-  withNotifications(){
+  withNotifications() {
     this.permissions.push("N");
     return this;
   }
 
-  withPublish(){
+  withPublish() {
     this.permissions.push("U");
     return this;
   }
 
-  withPermissions(){
+  withPermissions() {
     this.permissions.push("R");
     return this;
   }
 
-  withSendToPublish(){
+  withSendToPublish() {
     this.permissions.push("H");
     return this;
   }
 
-  withUnpublish(){
+  withUnpublish() {
     this.permissions.push("Z");
     return this;
   }
 
-  withUpdate(){
+  withUpdate() {
     this.permissions.push("A");
     return this;
   }
 
-  withCopy(){
+  withCopy() {
     this.permissions.push("O");
     return this;
   }
 
-  withMove(){
+  withMove() {
     this.permissions.push("M");
     return this;
   }
 
-  withSort(){
+  withSort() {
     this.permissions.push("S");
     return this;
   }
 
-  withAllowAll(){
+  withAllowAll() {
     this.withCultureAndHostNames()
       .withRestrictPublicAccess()
       .withRollBack()
@@ -109,11 +109,11 @@ export class PermissionsBuilder {
     return this;
   }
 
-  done(){
+  done() {
     return this.parentBuilder;
   }
 
-  build(){
+  build() {
     return this.permissions;
   }
 }

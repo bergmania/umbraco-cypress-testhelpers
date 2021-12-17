@@ -47,15 +47,14 @@ context('User Groups', () => {
 
      cy.umbracoSection('users');
      cy.get('[data-element="sub-view-userGroups"]').click();
-     
      // Delete the user group
      cy.get('.umb-table-body > :nth-child(2)').click();
      cy.umbracoButtonByLabelKey("general_delete").click();
      cy.get('umb-button[alias="overlaySubmit"]').click();
-     
+
      cy.umbracoSuccessNotification().should('be.visible');
      cy.get('.umb-table-body').contains(groupName).should('not.exist');
-     
+
      cy.umbracoEnsureUserGroupNameNotExists(groupName);
    });
 
@@ -76,8 +75,8 @@ context('User Groups', () => {
      const translators = cy.get('.umb-table-body > :nth-child(4)'); 
      translators.should('contain', 'Translators');
      translators.click({force: true});
-     
+
      // Now that we've clicked all that we shouldn't be able to delete, ensure that the delete button does not show up 
-     cy.get('.umb-editor-sub-header').should('not.contain', 'Delete')
+     cy.get('.umb-editor-sub-header').should('not.contain', 'Delete');
    });
 });

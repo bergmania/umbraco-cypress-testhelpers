@@ -27,11 +27,11 @@ export class UserGroupBuilder {
     return this;
   }
   
-  getAlias(){
+  getAlias() {
     return this.alias || 'a' + camelize(this.name)
   }
   
-  addNodePermissions(nodePermissionsBuilder ?: NodePermissionCollectionBuilder){
+  addNodePermissions(nodePermissionsBuilder ?: NodePermissionCollectionBuilder) {
     const builder = 
       nodePermissionsBuilder === null || nodePermissionsBuilder === undefined
       ? new NodePermissionCollectionBuilder(this)
@@ -41,7 +41,7 @@ export class UserGroupBuilder {
     return builder;
   }
 
-  addDefaultPermissions(userGroupPermissionsBuilder?: PermissionsBuilder){
+  addDefaultPermissions(userGroupPermissionsBuilder?: PermissionsBuilder) {
     const builder = 
       userGroupPermissionsBuilder === null || userGroupPermissionsBuilder === undefined
       ? new PermissionsBuilder(this)
@@ -71,7 +71,7 @@ export class UserGroupBuilder {
     return this;
   }
 
-  withSections(sections: string[]){
+  withSections(sections: string[]) {
     this.sections = sections;
     return this;
   }
