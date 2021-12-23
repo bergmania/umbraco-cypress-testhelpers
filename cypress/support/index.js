@@ -20,3 +20,4 @@ import {Chainable} from '../../src/cypress/commands/chainable';
 new Chainable();
 new Command().registerCypressCommands();
 import 'cypress-file-upload';
+import 'cy-verify-downloads';

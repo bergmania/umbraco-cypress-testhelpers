@@ -92,6 +92,7 @@ export class Command {
         return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
       },
     });
+    require('cy-verify-downloads').addCustomCommand();
     new DataUmb(relativeBackOfficePath).registerCommand();
     new DataUmbScope(relativeBackOfficePath).registerCommand();
     new DeleteAllContent(relativeBackOfficePath).registerCommand();

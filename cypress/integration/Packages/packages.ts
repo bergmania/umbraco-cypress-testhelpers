@@ -172,6 +172,7 @@ context('Languages', () => {
         cy.contains('TestPackage').click();
         cy.contains('Download').click();
 
+        cy.verifyDownload('package.xml');
         // Cleanup
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
