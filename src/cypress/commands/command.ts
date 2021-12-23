@@ -76,6 +76,7 @@ import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
 import SaveMacroWithPartial from './saveMacroWithPartial';
 import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
 import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
+import 'cy-verify-downloads';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -92,7 +93,7 @@ export class Command {
         return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
       },
     });
-    require('cy-verify-downloads').addCustomCommand();
+    'cy-verify-downloads'.addCustomCommand();
     new DataUmb(relativeBackOfficePath).registerCommand();
     new DataUmbScope(relativeBackOfficePath).registerCommand();
     new DeleteAllContent(relativeBackOfficePath).registerCommand();
