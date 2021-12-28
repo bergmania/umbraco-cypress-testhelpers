@@ -1,4 +1,3 @@
-const { isFileExist } = require('cy-verify-downloads');
 module.exports = (on, config) => {
   on('before:browser:launch', (browser, launchOptions) => {
     if (browser.name === 'chrome' && browser.isHeadless) {
@@ -10,4 +9,11 @@ module.exports = (on, config) => {
   on('task', {
     isFileExist
   });
+}
+
+
+const { isFileExist } = require('cy-verify-downloads');
+
+module.exports = (on, config) => {
+  on('task', { isFileExist })
 }

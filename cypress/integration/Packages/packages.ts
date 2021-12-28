@@ -4,7 +4,7 @@ import {
     DocumentTypeBuilder
   } from '../../../src';
 
-context('Languages', () => {
+context('Packages', () => {
     beforeEach(() => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
       });
