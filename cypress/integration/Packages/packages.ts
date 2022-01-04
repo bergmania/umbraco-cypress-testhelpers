@@ -13,17 +13,6 @@ context('Packages', () => {
         cy.umbracoLogin(Cypress.env('username'), Cypress.env('password'), false);
       });
 
-      
-    function DeleteAllPackages(){
-        const url = 'https://localhost:44331/umbraco/backoffice/umbracoapi/package/GetCreatedPackages'
-        cy.umbracoApiRequest(url, 'GET', null).then((response) => {
-            response.forEach(function (value){
-                const requestUrl = 'https://localhost:44331/umbraco/backoffice/umbracoapi/package/DeleteCreatedPackage?packageId=' + value.id 
-                cy.umbracoApiRequest(requestUrl, 'POST', null)
-            });
-        });
-    }
-
     function CreatePackage(contentId){
         const newPackage = {
             id: 0,
@@ -75,7 +64,7 @@ context('Packages', () => {
 
       it('Creates a simple package', () => {
 
-        DeleteAllPackages();
+        cy.umbracoEnsurePackageNameNotExists(packageName);
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
 
@@ -117,7 +106,7 @@ context('Packages', () => {
         cy.contains(packageName).should('be.visible');
 
         // Cleanup
-        DeleteAllPackages();
+        cy.umbracoEnsurePackageNameNotExists(packageName);
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
       });
@@ -127,7 +116,7 @@ context('Packages', () => {
         // Ensure cleanup before test
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        DeleteAllPackages();
+        cy.umbracoEnsurePackageNameNotExists(packageName);
     
         CreateSimplePackage();
 
@@ -143,14 +132,15 @@ context('Packages', () => {
         // Cleanup
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        DeleteAllPackages();
+        cy.umbracoEnsurePackageNameNotExists(packageName);
       });
 
       it('Download package', () => {
 
+        // Ensure cleanup before test
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        DeleteAllPackages();
+        cy.umbracoEnsurePackageNameNotExists(packageName);
         
         CreateSimplePackage();
 
@@ -166,27 +156,6 @@ context('Packages', () => {
         // Cleanup
         cy.deleteAllContent();
         cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        DeleteAllPackages();
-      });
-
-      it('Update package', () => {
-
-        cy.deleteAllContent();
-        cy.umbracoEnsureDocumentTypeNameNotExists(rootDocTypeName);
-        DeleteAllPackages();
-        
-        CreateSimplePackage();
-        
-        // Navigate to package and download
-        cy.umbracoSection('packages');
-        cy.contains('Created').click();
-        cy.contains('TestPackage').click();
-        cy.contains('Download').click();
-        cy.verifyDownload('package.xml');
-        
-        // Update package by adding media
-        
-        // Assert package is now .ZIP
-        // cy.verifyDownload('package.zip');
+        cy.umbracoEnsurePackageNameNotExists(packageName);
       });
 });

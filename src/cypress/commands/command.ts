@@ -37,6 +37,7 @@ import UmbracoEnsureDataTypeNameNotExists from './umbracoEnsureDataTypeNameNotEx
 import UmbracoSuccessNotification from './umbracoSuccessNotification';
 import UmbracoEnsureLanguageNameNotExists from './umbracoEnsureLanguageNameNotExists';
 import UmbracoEnsureMacroNameNotExists from './umbracoEnsureMacroNameNotExists';
+import UmbracoEnsurePackageNameNotExists from './umbracoEnsurePackageNameNotExists'
 import UmbracoEnsureTemplateNameNotExists from './umbracoEnsureTemplateNameNotExists';
 import UmbracoEnsurePartialViewNameNotExists from './umbracoEnsurePartialViewNameNotExists';
 import UmbracoEnsurePartialViewMacroFileNameNotExists from './umbracoEnsurePartialViewMacroFileNameNotExists';
@@ -142,6 +143,7 @@ export class Command {
     new UmbracoEnsureDataTypeNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureLanguageNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMacroNameNotExists(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsurePackageNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureTemplateNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsurePartialViewNameNotExists(relativeBackOfficePath).registerCommand();
     new UmbracoEnsurePartialViewMacroFileNameNotExists(relativeBackOfficePath).registerCommand();
