@@ -1,4 +1,4 @@
-import { DataType } from "src/cms/models/dataTypes/dataType";
+import { DataType } from 'src/cms/models/dataTypes/dataType';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -276,7 +276,7 @@ declare global {
        * @param {string} alias Alias of the given doc type
        * @param {DataType} dataType of the given doc tpye
        */
-      umbracoCreateDocTypeWithContent: (name: string, alias: string, dataType: DataType) => Chainable<void>
+      umbracoCreateDocTypeWithContent: (name: string, alias: string, dataType: DataType) => Chainable<void>;
       /**
        * Gets the umbEditorHeader types in the name into the textbox and verifies the alias generated
        * Is in the format we expect it to be generated
@@ -307,7 +307,7 @@ declare global {
        * @param {Array<string>} names Names of DocumentTypes to delete
        * @example cy.umbracoEnsureMultipleDocumentTypeNameNotExists(['Home', 'About Us'])
        */
-       umbracoEnsureMultipleDocumentTypeNameNotExists : (names: Array<string>) => Chainable<void>
+      umbracoEnsureMultipleDocumentTypeNameNotExists: (names: Array<string>) => Chainable<void>;
       /**
        * Checks to see if Language with specified name does not exist
        * If it does it will automatically delete it
@@ -355,6 +355,14 @@ declare global {
        * @example cy.umbracoEnsureMemberTypeNameNotExists('Test member type');
        */
       umbracoEnsureMemberTypeNameNotExists: (name: string) => Chainable<void>;
+
+      /**
+       * Checks to see if a package with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name name of package to delete
+       * @example cy.umbracoEnsurePartialViewMacroFileNameNotExists('Test Package');
+       */
+      umbracoEnsurePackageNameNotExists: (name: string) => Chainable<void>;
 
       /**
        * Checks to see if Partial View Macro File with specified name does not exist
@@ -472,9 +480,9 @@ declare global {
        */
       umbracoPartialViewExists: (filename: string) => Chainable<boolean>;
       /**
-       * 
+       *
        */
-      umbracoRefreshContentTree: () => Chainable<void>
+      umbracoRefreshContentTree: () => Chainable<void>;
       /**
        * Checks to see if Partial View with specified name exists
        * @param  {string} filename Name of Javascript to check for
@@ -493,12 +501,12 @@ declare global {
 
       /**
        *  This will set the currently logged in Users language
-       * 
+       *
        * @param language The iso code for the language you want
        * @returns The JSON data in the body of the response as an object
        */
       umbracoSetCurrentUserLanguage: (language: string) => Chainable<any>;
-      
+
       /**
        * Checks to see if CSS file with specified name exists
        * @param  {string} filename Name of CSS file to check for
