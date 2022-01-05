@@ -5,5 +5,15 @@ module.exports = (on, config) => {
 
       return launchOptions
     }
-  })
+  });
+  on('task', {
+    isFileExist
+  });
+}
+
+
+const { isFileExist } = require('cy-verify-downloads');
+
+module.exports = (on, config) => {
+  on('task', { isFileExist })
 }

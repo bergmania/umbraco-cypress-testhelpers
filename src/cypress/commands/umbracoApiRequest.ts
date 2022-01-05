@@ -23,7 +23,7 @@ export default class UmbracoApiRequest extends CommandBase {
           'X-UMB-XSRF-TOKEN': token.value,
         },
       }).then((response) => {
-        if (response.isOkStatusCode) {
+        if (response.isOkStatusCode && response.body != null) {
           return JsonHelper.getBody(response);
         }
         return null;
