@@ -568,6 +568,14 @@ declare global {
        */
       umbracoVerifyStylesheetContent: (fileName: string, expected: string) => Chainable<boolean>;
 
+      /**
+       * Checks to see if a Media entry with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Media entry to delete
+       * @example cy.umbracoEnsureMediaNameNotExists('Test Image');
+       */
+      umbracoEnsureMediaNameNotExists: (name: string) => Chainable<any>;
+
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
