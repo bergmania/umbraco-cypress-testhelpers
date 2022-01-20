@@ -5,6 +5,7 @@
 export { ContentBuilder } from './cms/builders/content/contentBuilder';
 export { ContentVariantBuilder } from './cms/builders/content/contentVariantBuilder';
 export { ContentVariantPropertyBuilder } from './cms/builders/content/contentVariantPropertyBuilder';
+export { MediaBuilder } from './cms/builders/media/mediaBuilder';
 /* Datatypes  builders */
 // export * from './cms/builders/dataTypes/';
 export { FormPickerDataTypeBuilder } from './cms/builders/dataTypes/formPickerDataTypeBuilder';
