@@ -53,7 +53,7 @@
     "cross-env": "^7.0.2",
     "cy-verify-downloads": "0.0.5",
     "cypress": "^8.0.0",
-    "cypress-file-upload": "^4.0.7",
+    "cypress-file-upload": "^5.0.8",
     "cypress-wait-until": "^1.7.1",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",

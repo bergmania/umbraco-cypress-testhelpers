@@ -1,7 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "types":[
-    "cypress"
+    "cypress",
+    "cy-verify-downloads",
+    "cypress-file-upload"
   ],
   "include": [
     "**/*.ts",
