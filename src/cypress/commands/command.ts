@@ -77,7 +77,8 @@ import UmbracoVerifyStylesheetContent from './umbracoVerifyStylesheetContent';
 import SaveMacroWithPartial from './saveMacroWithPartial';
 import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
 import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
-import UmbracoEnsureMediaNameNotExists from "./umbracoEnsureMediaNameNotExists";
+import UmbracoEnsureMediaNameNotExists from './umbracoEnsureMediaNameNotExists';
+import SaveMedia from './saveMedia';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -173,5 +174,6 @@ export class Command {
     new UmbracoVerifyStylesheetContent(relativeBackOfficePath).registerCommand();
     new SaveMacroWithPartial(relativeBackOfficePath).registerCommand();
     new UmbracoEnsureMediaNameNotExists(relativeBackOfficePath).registerCommand();
+    new SaveMedia(relativeBackOfficePath).registerCommand();
   }
 }

@@ -576,6 +576,12 @@ declare global {
        */
       umbracoEnsureMediaNameNotExists: (name: string) => Chainable<any>;
 
+      /**
+       * Saves media to the media section
+       * @param media Media object built with the MediaBuilder
+       */
+      saveMedia: (media: any) => Chainable<void>;
+
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
     }
   }
