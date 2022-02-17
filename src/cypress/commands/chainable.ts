@@ -569,6 +569,14 @@ declare global {
       umbracoVerifyStylesheetContent: (fileName: string, expected: string) => Chainable<boolean>;
 
       upload(fileOrArray, processingOpts?): Chainable<Subject>;
+
+      /**
+       * This saves a user group
+       *
+       * @param  {any} userGroup The user group to save
+       * @see UserGroupBuilder
+       */
+      saveUserGroup: (userGroup: any) => Chainable<any>;
     }
   }
 }
