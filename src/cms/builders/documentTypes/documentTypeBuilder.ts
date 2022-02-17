@@ -114,7 +114,7 @@ export class DocumentTypeBuilder {
       trashed: this.trashed || false,
       key,
       parentId: this.parentId || -1,
-      path: this.path || null,
+      path: this.path || "",
       allowCultureVariant: this.allowCultureVariant || false,
       isElement: this.isElement || false,
       defaultTemplate: this.defaultTemplate || null,
