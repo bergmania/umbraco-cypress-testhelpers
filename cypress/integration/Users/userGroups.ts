@@ -65,6 +65,8 @@ context('User Groups', () => {
 
      // There's not really a good way to be 100% sure we'll get the admin group, it should be first, but who knows
      // so double check that we actually got the correct one
+     // Idea right now is something like cy.get('.umb-table-body').contains('Administrators').click();
+     // but that clicks the hyperlink so no good either for now
      const administrators = cy.get('.umb-table-body > :nth-child(1)'); 
      administrators.should('contain', 'Administrators');
      administrators.click({force: true});
