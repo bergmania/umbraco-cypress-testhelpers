@@ -12,3 +12,4 @@ export { DocumentTypeBuilder } from './documentTypes/documentTypeBuilder';
 export { TemplateBuilder } from './templates/templateBuilder';
 
 export { UserGroupBuilder } from './userGroups/userGroupBuilder';
+export { UserBuilder } from './user/userBuilder';
