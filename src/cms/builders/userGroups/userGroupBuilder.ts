@@ -10,6 +10,7 @@ export class UserGroupBuilder {
   name: string;
   parentId: number;
   sections: string[];
+  languages: number[];
   startContentId: number;
   startMediaId: number;
   users: number[];
@@ -74,6 +75,15 @@ export class UserGroupBuilder {
   withSections(sections: string[]) {
     this.sections = sections;
     return this;
+  }
+  
+  withLanguages(languages: number[]){
+    this.languages = languages;
+    return this;
+  }
+  
+  appendLanguage(languageId: number){
+    this.languages.push(languageId);
   }
 
   appendSections(sections: string[]) {
@@ -151,6 +161,7 @@ export class UserGroupBuilder {
       name: this.name,
       parentId: this.parentId || -1,
       sections: this.sections || [],
+      languages: this.languages || [],
       startContentId: this.startContentId || null,
       startMediaId: this.startMediaId || null,
       users: this.users || [],

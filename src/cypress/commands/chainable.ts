@@ -244,6 +244,13 @@ declare global {
       saveTemplate: (template: any) => Chainable<any>;
 
       /**
+       * Save Umbraco User
+       * @param  {any} user The Umbraco user to save
+       * @see UserBuilder
+       */
+      saveUser: (user: any) => Chainable<any>;
+
+      /**
        * Make HTTP requests to Umbraco Backoffice APIs
        * This will remove the junk JSON data & return a nice object
        * @param  {string} url The Url to make the HTTP request for

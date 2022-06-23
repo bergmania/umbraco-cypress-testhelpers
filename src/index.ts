@@ -38,6 +38,8 @@ export { StylesheetBuilder } from './cms/builders/stylesheetBuilder';
 
 /* UserGroupBuilders */
 export { UserGroupBuilder } from './cms/builders/userGroups/userGroupBuilder';
+export { UserBuilder } from './cms/builders/user/userBuilder';
+
 
 /* Contents */
 // export * from './cms/templates/'
