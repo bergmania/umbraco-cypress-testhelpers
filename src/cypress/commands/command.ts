@@ -79,6 +79,8 @@ import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
 import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
 import SaveUserGroup from './saveUserGroup';
 import SaveUser from "./saveUser";
+import UmbracoEnsureLanguageCultureNotExists from "./umbracoEnsureLanguageCultureNotExists";
+import umbracoCreateLanguage from "./umbracoCreateLanguage";
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -125,6 +127,8 @@ export class Command {
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new SaveUserGroup(relativeBackOfficePath).registerCommand();
     new SaveUser(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureLanguageCultureNotExists(relativeBackOfficePath).registerCommand();
+    new umbracoCreateLanguage(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
     new UmbracoInstall(relativeBackOfficePath).registerCommand();
