@@ -10,7 +10,7 @@ export class UserGroupBuilder {
   name: string;
   parentId: number;
   sections: string[];
-  languages: number[];
+  allowedLanguages: number[];
   startContentId: number;
   startMediaId: number;
   users: number[];
@@ -21,6 +21,7 @@ export class UserGroupBuilder {
   constructor() {
     this.sections = [];
     this.users = [];
+    this.allowedLanguages = [];
   }
 
   withAlias(alias) {
@@ -78,12 +79,13 @@ export class UserGroupBuilder {
   }
   
   withLanguages(languages: number[]){
-    this.languages = languages;
+    this.allowedLanguages = languages;
     return this;
   }
   
   appendLanguage(languageId: number){
-    this.languages.push(languageId);
+    this.allowedLanguages.push(languageId);
+    return this;
   }
 
   appendSections(sections: string[]) {
@@ -161,7 +163,7 @@ export class UserGroupBuilder {
       name: this.name,
       parentId: this.parentId || -1,
       sections: this.sections || [],
-      languages: this.languages || [],
+      allowedLanguages: this.allowedLanguages || [],
       startContentId: this.startContentId || null,
       startMediaId: this.startMediaId || null,
       users: this.users || [],
