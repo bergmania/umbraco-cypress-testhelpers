@@ -37,7 +37,7 @@ import UmbracoEnsureDataTypeNameNotExists from './umbracoEnsureDataTypeNameNotEx
 import UmbracoSuccessNotification from './umbracoSuccessNotification';
 import UmbracoEnsureLanguageNameNotExists from './umbracoEnsureLanguageNameNotExists';
 import UmbracoEnsureMacroNameNotExists from './umbracoEnsureMacroNameNotExists';
-import UmbracoEnsurePackageNameNotExists from './umbracoEnsurePackageNameNotExists'
+import UmbracoEnsurePackageNameNotExists from './umbracoEnsurePackageNameNotExists';
 import UmbracoEnsureTemplateNameNotExists from './umbracoEnsureTemplateNameNotExists';
 import UmbracoEnsurePartialViewNameNotExists from './umbracoEnsurePartialViewNameNotExists';
 import UmbracoEnsurePartialViewMacroFileNameNotExists from './umbracoEnsurePartialViewMacroFileNameNotExists';
@@ -78,9 +78,7 @@ import SaveMacroWithPartial from './saveMacroWithPartial';
 import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
 import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
 import SaveUserGroup from './saveUserGroup';
-import SaveUser from "./saveUser";
-import UmbracoEnsureLanguageCultureNotExists from "./umbracoEnsureLanguageCultureNotExists";
-import umbracoCreateLanguage from "./umbracoCreateLanguage";
+import SaveUser from './saveUser';
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -127,8 +125,6 @@ export class Command {
     new SaveTemplate(relativeBackOfficePath).registerCommand();
     new SaveUserGroup(relativeBackOfficePath).registerCommand();
     new SaveUser(relativeBackOfficePath).registerCommand();
-    new UmbracoEnsureLanguageCultureNotExists(relativeBackOfficePath).registerCommand();
-    new umbracoCreateLanguage(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalHelp(relativeBackOfficePath).registerCommand();
     new UmbracoGlobalUser(relativeBackOfficePath).registerCommand();
     new UmbracoInstall(relativeBackOfficePath).registerCommand();
