@@ -164,8 +164,8 @@ export class UserGroupBuilder {
       parentId: this.parentId || -1,
       sections: this.sections || [],
       allowedLanguages: this.allowedLanguages || [],
-      startContentId: this.startContentId || null,
-      startMediaId: this.startMediaId || null,
+      startContentId: this.startContentId || -1,
+      startMediaId: this.startMediaId || -1,
       users: this.users || [],
     };
   }
