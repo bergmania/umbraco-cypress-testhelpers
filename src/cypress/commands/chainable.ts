@@ -584,6 +584,15 @@ declare global {
        * @see UserGroupBuilder
        */
       saveUserGroup: (userGroup: any) => Chainable<any>;
+
+      /**
+       * Checks to see if a media with specified name does not exist
+       * If it does it will automatically delete it
+       * @param  {string} name Name of Media to delete
+       * @example cy.umbracoEnsureMediaNameNotExists('Test media');
+       */
+      umbracoEnsureMediaNameNotExists: (name: string) => Chainable<void>;
+
     }
   }
 }

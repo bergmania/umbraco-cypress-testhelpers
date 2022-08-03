@@ -79,6 +79,7 @@ import UmbracoRefreshContentTree from './umbracoRefreshContentTree';
 import UmbracoCreateDocTypeWithContent from './umbracoCreateDocTypeWithContent';
 import SaveUserGroup from './saveUserGroup';
 import SaveUser from './saveUser';
+import UmbracoEnsureMediaNameNotExists from "./umbracoEnsureMediaNameNotExists";
 
 export class Command {
   public registerCypressCommands(customRelativeBackOfficePath?: string): void {
@@ -175,5 +176,6 @@ export class Command {
     new SaveStylesheet(relativeBackOfficePath).registerCommand();
     new UmbracoVerifyStylesheetContent(relativeBackOfficePath).registerCommand();
     new SaveMacroWithPartial(relativeBackOfficePath).registerCommand();
+    new UmbracoEnsureMediaNameNotExists(relativeBackOfficePath).registerCommand();
   }
 }
