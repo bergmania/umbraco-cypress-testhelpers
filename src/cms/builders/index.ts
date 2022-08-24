@@ -13,3 +13,4 @@ export { TemplateBuilder } from './templates/templateBuilder';
 
 export { UserGroupBuilder } from './userGroups/userGroupBuilder';
 export { UserBuilder } from './user/userBuilder';
+export { MediaBuilder } from './media'

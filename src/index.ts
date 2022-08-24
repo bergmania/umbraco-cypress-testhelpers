@@ -17,7 +17,9 @@ export { ApprovedColorPickerDataTypeBuilder } from './cms/builders/dataTypes/app
 /* DocumentTypes  builders */
 // export * from './cms/builders/documentTypes/';
 export { DocumentTypeBuilder } from './cms/builders/documentTypes/documentTypeBuilder';
-
+/* Media  builders */
+// export * from './cms/builders/media/';
+export { MediaBuilder } from './cms/builders/media';
 /* DocumentType Properties builders */
 export { FormPickerDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/formPickerDocumentTypePropertyBuilder';
 export { TextBoxDocumentTypePropertyBuilder } from './cms/builders/documentTypes/properties/textBoxDocumentTypePropertyBuilder';
