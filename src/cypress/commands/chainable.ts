@@ -584,6 +584,14 @@ declare global {
        * @see UserGroupBuilder
        */
       saveUserGroup: (userGroup: any) => Chainable<any>;
+      
+      /**
+       * This saves a media item
+       *
+       * @param  {any} userGroup The media item to save
+       * @see UserGroupBuilder
+       */
+      saveMedia: (media: any, file: any) => Chainable<any>;
 
       /**
        * Checks to see if a media with specified name does not exist
